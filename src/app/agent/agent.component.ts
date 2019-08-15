@@ -21,8 +21,7 @@ export class AgentComponent implements OnInit {
   }
 
   SwitchActivity() {
-    localStorage.removeItem('userToken');
-    this.router.navigate(['/']);
+    this.isActive = !this.isActive;
   }
 
 }

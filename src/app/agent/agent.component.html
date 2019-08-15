@@ -9,8 +9,13 @@
         </a>
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item px-2">
-                <a class="nav-link js-scroll-trigger cursor-pointer" (click)="SwitchActivity()"  role="button">
-                    Zmień status <i class="fas fa-toggle-off"></i>
+                <a class="nav-link js-scroll-trigger cursor-pointer" [ngClass]="{'active': isActive === true} " (click)="SwitchActivity()"  role="button">
+                    <div *ngIf="isActive; else inNotActive">
+                        Jesteś aktywny <i class="fas fa-toggle-on ml-2"></i>
+                    </div>
+                    <ng-template #inNotActive>
+                        Jesteś nieaktywny <i class="fas fa-toggle-off ml-2"></i>
+                    </ng-template>
                 </a>
             </li>
             <li class="nav-item px-2">
@@ -24,7 +29,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar py-4">
+        <nav class="col-md-2 d-none d-md-block table-active sidebar py-4">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -80,7 +85,7 @@
             </div>
         </nav>
 
-        <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main class="col-md-10 pl-0">
             <router-outlet></router-outlet>
         </main>
     </div>

@@ -38,6 +38,7 @@ section {
 }
 
 main {
+  position: relative;
   min-height: calc(100vh - 50px);
 }
 
@@ -45,5 +46,14 @@ hr {
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
   border: 0;
-  border-top: 1px solid hsl(0, 0%, 90%);
+  border-top: 1px solid hsl(0, 0%, 88%);
+}
+
+.chat-content{
+  background-color: #6610f2;
+  min-height: calc(100% - 3rem);
+}
+
+.chat-input{
+  height: 3rem;
 }
