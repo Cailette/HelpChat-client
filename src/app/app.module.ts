@@ -6,6 +6,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule, routingComponents} from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import {AuthGuard} from './auth/auth.guard';
+import {GuestService} from './services/guest.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +21,10 @@ import { AppComponent } from './app.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    GuestService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 

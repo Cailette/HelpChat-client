@@ -11,7 +11,6 @@ export class GuestComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('userToken') != null)
-    this.router.navigate(['/home']);
+      this.router.navigate(['/home']);
   }
-
 }

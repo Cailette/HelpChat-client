@@ -1,6 +1,6 @@
 
 <div class="container mt-5">
-    <div class="row justify-content-center">
+    <div *ngIf="isRegistering" class="row justify-content-center">
         <div class="col-6">
             <h2 class="text-center mb-5">Zarejestruj się</h2>
 
@@ -17,9 +17,9 @@
                     <label *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Imię to ciąg maksymalnie 20 znaków.</label>
                 </div>
                 <div class="form-group mt-3">
-                    <label for="surname" class="text-primary">Nazwisko*:</label>
-                    <input type="text" name="surname" id="surname" class="form-control validate" #surname="ngModel" [(ngModel)]="surname.surname" required [pattern]="surnamePattern">
-                    <label *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwisko to ciąg maksymalnie 20 znaków.</label>
+                    <label for="lastname" class="text-primary">Nazwisko*:</label>
+                    <input type="text" name="lastname" id="lastname" class="form-control validate" #lastname="ngModel" [(ngModel)]="lastname.lastname" required [pattern]="lastnamePattern">
+                    <label *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwisko to ciąg maksymalnie 20 znaków.</label>
                 </div>
                 <div class="form-group mt-3">
                     <label for="email" class="text-primary">Email*:</label>
@@ -41,6 +41,32 @@
                     <button [disabled]="!registerForm.valid" type="submit" class="btn btn-outline-primary">Zarejestruj się</button>
                 </div>
             </form>
+        </div>
+    </div>
+    
+    <div *ngIf="!isRegistering" class="row justify-content-center">
+        <div class="col">
+            <div class="jumbotron">
+                <h1 class="display-5">Twoje konto zostało poprawnie utworzone!</h1>
+                <p class="lead">
+                    Skupiuj i umieść poniższy skrypt na swojej stronie www, a następnie zaloguj się do apliakcji.
+                </p>
+                <hr class="my-4">
+                    <textarea class="form-control" rows="10">
+                        <script type="text/javascript">
+                            window.__helpchat = window.__helpchat || {};
+                            // window.__helpchat.license = {{licenceNumber}};
+                            (function() {
+                                var helpchat = document.createElement('script'); helpchat.type = 'text/javascript'; helpchat.async = true;
+                                helpchat.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + '???/tracking.js';
+                                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(helpchat, s);
+                            })();
+                        </script>
+                    </textarea>
+                <p class="lead mt-3">
+                    <a class="btn btn-primary" href="/login" role="button">Zaloguj się</a>
+                </p>
+            </div>
         </div>
     </div>
 </div>
