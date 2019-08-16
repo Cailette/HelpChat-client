@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 
 import {AuthGuard} from './auth/auth.guard';
 import {GuestService} from './services/guest.service';
+import {AgentService} from './services/agent.service';
+
+import { MatSnackBarModule } from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -19,10 +22,12 @@ import {GuestService} from './services/guest.service';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [
     GuestService,
+    AgentService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

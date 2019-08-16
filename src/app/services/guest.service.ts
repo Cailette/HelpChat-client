@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class GuestService {
-  readonly apiURL: string = 'http://localhost:3000';
+  readonly apiURL: string = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
   
