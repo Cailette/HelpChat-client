@@ -19,6 +19,9 @@ export class LoginPageComponent implements OnInit {
 
   OnSubmit(email, password) {
     this.guestService.authenticate(email, password).subscribe((data: any) => {
+      console.log(JSON.stringify(data.data.token));
+      console.log(JSON.stringify(data.token));
+      console.log(JSON.stringify(data));
       localStorage.setItem('userToken', data.data.token);
       this.router.navigate(['/home']);
     },

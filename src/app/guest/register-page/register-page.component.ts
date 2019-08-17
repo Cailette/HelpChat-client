@@ -25,7 +25,6 @@ export class RegisterPageComponent implements OnInit {
   constructor(private router: Router, private guestService: GuestService) { }
 
   ngOnInit() {
-    this.licenceNumber = "aaa";
     this.resetForm();
   }
 

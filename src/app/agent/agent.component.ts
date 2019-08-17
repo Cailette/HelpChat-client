@@ -24,8 +24,13 @@ export class AgentComponent implements OnInit {
   }
 
   Logout() {
-    localStorage.removeItem('userToken');
-    this.router.navigate(['/']);
+    this.agentService.switchActivity(localStorage.getItem('userToken')).subscribe((data: any) => {
+      localStorage.removeItem('userToken');
+      this.router.navigate(['/']);
+    },
+    (err: HttpErrorResponse) => {
+      // this.snackBar.open('Błąd przy zmianie statusu!'); // HALO OOOO 
+    });
   }
 
   SwitchActivity() {
