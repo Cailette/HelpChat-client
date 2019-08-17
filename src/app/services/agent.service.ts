@@ -36,4 +36,41 @@ export class AgentService {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
     return this.http.delete(this.apiURL + '/users/account', {headers: reqHeader});
   }
+
+  deleteAgent(token: string, agentId: string){
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.delete(this.apiURL + '/users/agent-account/' + agentId, {headers: reqHeader});
+  }
+
+  createAgent(token: string, user: User){
+    const userBody: User = {
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password
+    }
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.post(this.apiURL + '/users/create-agent-account/true', userBody, {headers: reqHeader});
+  }
+
+  getAgents(token: string){
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + '/users/agents-accounts', {headers: reqHeader});
+  }
+
+  updateAgent(token: string, agentId: string, user: User){
+    const userBody: User = {
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password
+    }
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.put(this.apiURL + '/users/edit-agent-account/' + agentId, userBody, {headers: reqHeader});
+  }
+
+  getAgentInformation(token: string, agentId: string) {
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + '/users/agent-account-information/' + agentId, {headers: reqHeader});
+  }
 }

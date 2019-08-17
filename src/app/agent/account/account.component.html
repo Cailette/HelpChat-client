@@ -17,7 +17,7 @@
             <hr class="my-4">
             <p><strong>Licencja:</strong> {{user.representative == null ? user._id : user.representative}}</p>
             <hr class="my-1">
-            <p *ngIf="isActive; else inNotActive"><strong>Status:</strong>Jesteś aktywny i akceptujesz czaty.</p>
+            <p *ngIf="user.isActive; else inNotActive"><strong>Status:</strong> Jesteś aktywny i akceptujesz czaty.</p>
             <ng-template #inNotActive>
                <p><strong>Status:</strong> Nie akceptujesz teraz czatów. <br> <span class="text-info">Zmień status aktywności aby udzielać konsultacji.</span></p>
             </ng-template>
@@ -39,7 +39,7 @@
             <hr class="my-4">
                 <div *ngIf="isEditError" class="row justify-content-center align-items-center">
                     <div class="alert alert-warning">
-                        Mail jest już zajęty.
+                        Email jest już zajęty.
                     </div>
                 </div>
     
@@ -60,12 +60,12 @@
                         <label *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwa firmy to maksymalnie 60 znaków i zachowywać format emaila.</label>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="password" class="text-primary">Hasło*:</label>
+                        <label for="password" class="text-primary">Hasło:</label>
                         <input type="password" name="password" id="password" class="form-control validate" #password="ngModel" [(ngModel)]="user.password" [pattern]="passwordPattern">
                         <label *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-warning mt-3 p-2" data-error="">Hasło znaków musi zawierać co najmniej jedną cyfrę, jedną małą literę oraz jedną dużą literę oraz od 6 do 30.</label>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="repassword" class="text-primary">Powtórz hasło*:</label>
+                        <label for="repassword" class="text-primary">Powtórz hasło:</label>
                         <input type="password" name="repassword" id="repassword" class="form-control validate" #repassword="ngModel" [(ngModel)]="user.repassword">
                         <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  class="alert alert-warning mt-3 p-2" data-error="">Powtórzone hasło musi być identyczne jak hasło.</label>
                     </div>
