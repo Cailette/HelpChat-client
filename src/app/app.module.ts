@@ -11,6 +11,7 @@ import {GuestService} from './services/guest.service';
 import {AgentService} from './services/agent.service';
 
 import { MatSnackBarModule } from "@angular/material";
+import { days } from 'src/app/models/days.model';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatSnackBarModule } from "@angular/material";
   providers: [
     GuestService,
     AgentService,
-    AuthGuard
+    AuthGuard,
+    { provide: 'DAYS', useValue: days }   
   ],
   bootstrap: [AppComponent]
 })

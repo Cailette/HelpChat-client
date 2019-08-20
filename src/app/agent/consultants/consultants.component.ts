@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { User } from 'src/app/models/user.model';
 import { Agent } from 'src/app/models/agent.model';
 import { AgentService } from 'src/app/services/agent.service';
+import { WorkHoursService } from 'src/app/services/work-hours.service';
 import { NgForm } from '@angular/forms';
+import { WorkDay } from 'src/app/models/workDay';
 
 @Component({
   selector: 'app-consultants',
   templateUrl: './consultants.component.html'
 })
+
 export class ConsultantsComponent implements OnInit {
   firstnamePattern = /^(?=.*[a-z]).{2,20}$/;
   lastnamePattern = /^(?=.*[a-z]).{2,20}$/;
@@ -23,20 +26,28 @@ export class ConsultantsComponent implements OnInit {
   isAddedSuccess: boolean = false;
   isEditedSuccess: boolean = false;
   isError: boolean = false;
-  
+
   user: Agent = {
-    _id: '',
-    firstname: '',
-    lastname: '',
-    email:	'',
-    password:	''
+    _id: "",
+    firstname: "",
+    lastname: "",
+    email:	"",
+    password:	"",
+  };
+
+  workDay: any = {
+    dayOfWeek: "",
+    hourFrom: "",
+    hourTo: "",
   };
 
   agents: any = '';
+  workingDays: any = '';
 
-  constructor(private agentService: AgentService, private router: Router) { }
+  constructor(private agentService: AgentService, private workHoursService: WorkHoursService, private router: Router, @Inject('DAYS') public days: any[]) { }
 
   ngOnInit() {
+    this.resetWorkDay();
     this.getAgents();
   }
   
@@ -48,6 +59,14 @@ export class ConsultantsComponent implements OnInit {
       this.edit(form);
     }
   } 
+
+  resetWorkDay() {
+    this.workDay = {
+      dayOfWeek: "",
+      hourFrom: "",
+      hourTo: "",
+    }
+  }
 
   getAgents(){
     this.agentService.getAgents(localStorage.getItem('userToken')).subscribe((data: any) => {
@@ -75,7 +94,7 @@ export class ConsultantsComponent implements OnInit {
 
   edit(form: NgForm) {
     this.agentService.updateAgent(localStorage.getItem('userToken'), this.user._id, form.value).subscribe((data: any) => {
-      console.log(JSON.stringify(this.user._id))
+      this.getAgents();
       this.isEditing = false;
       this.isEditedSuccess = true;
       setTimeout(()=>{
@@ -91,9 +110,20 @@ export class ConsultantsComponent implements OnInit {
     this.agentService.getAgentInformation(localStorage.getItem('userToken'), agentId).subscribe((data: any) => {
       this.user = data.data.user;
       this.isEditing = true;
+      this.getAgentWorkHours();
     },
     (err: HttpErrorResponse) => {
       //
+    });
+  }
+
+  getAgentWorkHours(){
+    this.workHoursService.getAgentWorkHours(localStorage.getItem('userToken'), this.user._id).subscribe((data: any) => {
+      this.workingDays = data.data;
+      this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
+    },
+    (err: HttpErrorResponse) => {
+        //
     });
   }
 
@@ -124,6 +154,28 @@ export class ConsultantsComponent implements OnInit {
   deleteAgent(agentId: string) {
     this.agentService.deleteAgent(localStorage.getItem('userToken'), agentId).subscribe((data: any) => {
       this.getAgents();
+    },
+    (err: HttpErrorResponse) => {
+      //
+    });
+
+  }
+
+  addWornikgHours() {
+    console.log("this.workDay " + JSON.stringify(this.workDay))
+    this.workHoursService.createWorkHours(localStorage.getItem('userToken'), this.workDay, this.user._id).subscribe((data: any) => {
+      this.resetWorkDay();
+      this.getAgentWorkHours();
+    },
+    (err: HttpErrorResponse) => {
+      //
+    });
+  }
+
+  deleteWorkingHours(workingHoursId: string) {
+    console.log("this.workDay " + JSON.stringify(this.workDay))
+    this.workHoursService.deleteWorkHours(localStorage.getItem('userToken'), workingHoursId).subscribe((data: any) => {
+      this.getAgentWorkHours();
     },
     (err: HttpErrorResponse) => {
       //
