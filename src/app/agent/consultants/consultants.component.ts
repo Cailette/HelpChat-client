@@ -163,7 +163,7 @@ export class ConsultantsComponent implements OnInit {
 
   addWornikgHours() {
     console.log("this.workDay " + JSON.stringify(this.workDay))
-    this.workHoursService.createWorkHours(localStorage.getItem('userToken'), this.workDay, this.user._id).subscribe((data: any) => {
+    this.workHoursService.createAgentWorkHours(localStorage.getItem('userToken'), this.workDay, this.user._id).subscribe((data: any) => {
       this.resetWorkDay();
       this.getAgentWorkHours();
     },
@@ -180,6 +180,5 @@ export class ConsultantsComponent implements OnInit {
     (err: HttpErrorResponse) => {
       //
     });
-
   }
 }

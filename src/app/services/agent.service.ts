@@ -6,6 +6,7 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AgentService {
   readonly apiURL: string = environment.baseUrl;
 
