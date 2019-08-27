@@ -35,7 +35,9 @@
                     <input type="password" name="repassword" id="repassword" class="form-control validate" #repassword="ngModel" [(ngModel)]="user.repassword" required>
                     <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  class="alert alert-warning mt-3 p-2" data-error="">Powtórzone hasło musi być identyczne jak hasło.</label>
                 </div>
-    
+                <div class="alert alert-info mt-3 p-2" data-error="">
+                    * Wszystkie pola są wymagane.
+                </div>
                 <div class="col-16 my-3 text-center">
                     <button [disabled]="!registerForm.valid" type="submit" class="btn btn-outline-primary">Zarejestruj się</button>
                 </div>

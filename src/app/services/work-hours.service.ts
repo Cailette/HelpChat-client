@@ -19,17 +19,17 @@ export class WorkHoursService {
     }
     console.log("wrokHoursBody " + JSON.stringify(wrokHoursBody))
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.post(this.apiURL + '/work-hours/create-work-hours/' + agentId, wrokHoursBody, {headers: reqHeader});
+    return this.http.post(this.apiURL + '/work-hours/' + agentId, wrokHoursBody, {headers: reqHeader});
   }
 
   getAgentWorkHours(token: string, agentId: string) {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.get(this.apiURL + '/work-hours/get-work-hours/' + agentId, {headers: reqHeader});
+    return this.http.get(this.apiURL + '/work-hours/' + agentId, {headers: reqHeader});
   }
   
   deleteWorkHours(token: string, workHoursId: string) {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.put(this.apiURL + '/work-hours/delete-work-hours/' + workHoursId, {}, {headers: reqHeader});
+    return this.http.put(this.apiURL + '/work-hours/' + workHoursId, {}, {headers: reqHeader});
   }
   
   createWorkHours(token: string, wrokHours: any){
@@ -39,11 +39,11 @@ export class WorkHoursService {
       dayOfWeek: Number(wrokHours.dayOfWeek)
     }
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.post(this.apiURL + '/work-hours/create-work-hours', wrokHoursBody, {headers: reqHeader});
+    return this.http.post(this.apiURL + '/work-hours/', wrokHoursBody, {headers: reqHeader});
   }
 
   getWorkHours(token: string) {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.get(this.apiURL + '/work-hours/get-work-hours', {headers: reqHeader});
+    return this.http.get(this.apiURL + '/work-hours/', {headers: reqHeader});
   }
 }

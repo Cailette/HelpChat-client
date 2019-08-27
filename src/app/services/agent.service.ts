@@ -9,18 +9,18 @@ import { User } from '../models/user.model';
 
 export class AgentService {
   readonly apiURL: string = environment.baseUrl;
-
-  constructor(private http: HttpClient) { }
-
+ 
+  constructor(private http: HttpClient) { } 
+ 
   getAccountInformation(token: string) {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.get(this.apiURL + '/users/account-information', {headers: reqHeader});
+    return this.http.get(this.apiURL + '/users/user', {headers: reqHeader});
   }
-
+ 
   switchActivity(token: string){
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.put(this.apiURL + '/users/switch-activity', {}, {headers: reqHeader});
-  }
+    return this.http.put(this.apiURL + '/users/activity', {}, {headers: reqHeader}); 
+  } 
 
   updateAccount(token: string, user: User){
     const userBody: User = {
@@ -30,17 +30,17 @@ export class AgentService {
       password: user.password
     }
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.put(this.apiURL + '/users/account-information', userBody, {headers: reqHeader});
+    return this.http.put(this.apiURL + '/users/user', userBody, {headers: reqHeader});
   }
 
   deleteAccount(token: string){
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.delete(this.apiURL + '/users/account', {headers: reqHeader});
+    return this.http.delete(this.apiURL + '/users/user', {headers: reqHeader});
   }
 
   deleteAgent(token: string, agentId: string){
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.delete(this.apiURL + '/users/agent-account/' + agentId, {headers: reqHeader});
+    return this.http.delete(this.apiURL + '/users/' + agentId, {headers: reqHeader});
   }
 
   createAgent(token: string, user: User){
@@ -51,12 +51,12 @@ export class AgentService {
       password: user.password
     }
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.post(this.apiURL + '/users/create-agent-account/true', userBody, {headers: reqHeader});
+    return this.http.post(this.apiURL + '/users/user/true', userBody, {headers: reqHeader});
   }
 
   getAgents(token: string){
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.get(this.apiURL + '/users/agents-accounts', {headers: reqHeader});
+    return this.http.get(this.apiURL + '/users', {headers: reqHeader});
   }
 
   updateAgent(token: string, agentId: string, user: User){
@@ -67,11 +67,11 @@ export class AgentService {
       password: user.password
     }
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.put(this.apiURL + '/users/edit-agent-account/' + agentId, userBody, {headers: reqHeader});
+    return this.http.put(this.apiURL + '/users/' + agentId, userBody, {headers: reqHeader});
   }
 
   getAgentInformation(token: string, agentId: string) {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.get(this.apiURL + '/users/agent-account-information/' + agentId, {headers: reqHeader});
+    return this.http.get(this.apiURL + '/users/' + agentId, {headers: reqHeader});
   }
 }

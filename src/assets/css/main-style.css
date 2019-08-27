@@ -16,7 +16,11 @@ body {
 }
 
 .vh-100 {
-  min-height:100vh;
+  min-height: 100vh;
+}
+
+.vh-body {
+  height: calc(100vh - 50px);
 }
 
 img {
@@ -50,10 +54,29 @@ hr {
 }
 
 .chat-content{
-  background-color: #6610f2;
-  min-height: calc(100% - 3rem);
+  height: calc(100vh - 3rem - 50px);
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.side-bar-scroll {
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .chat-input{
   height: 3rem;
+}
+
+.card{
+  overflow: hidden;
+}
+
+.card-text{
+  word-wrap: break-word;
+}
+
+.overflow-hide {
+  overflow: hidden;
 }
