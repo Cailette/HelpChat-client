@@ -51,7 +51,7 @@ export class AgentService {
       password: user.password
     }
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.post(this.apiURL + '/users/user/true', userBody, {headers: reqHeader});
+    return this.http.post(this.apiURL + '/users/registerAgent', userBody, {headers: reqHeader});
   }
 
   getAgents(token: string){
