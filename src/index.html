@@ -6,6 +6,9 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- <script src="http://localhost:5000/helpchat.js"></script> -->
+  
+
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- Bootstrap theme -->
@@ -20,8 +23,24 @@
   <!-- Google Icons -->
   <link href="assets/css/all.css" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script type="application/javascript">
+    // window.__helpchat = window.__helpchat || {};
+    // window.__helpchat.license = 11199572;
+    (function() {
+      var helpchat = document.createElement('script'); 
+      helpchat.id = 'help-chat-script';
+      helpchat.type = 'text/javascript'; 
+      helpchat.async = true;
+      helpchat.src = 'http://localhost:5000/assets/helpchat.js';
+      var s = document.getElementsByTagName('script')[0]; 
+      s.parentNode.insertBefore(helpchat, s);
+    })();
+  </script>
 </head>
 <body class="d-flex flex-column">
+
+
   <app-root></app-root>
     
   <!-- Bootstrap -->
