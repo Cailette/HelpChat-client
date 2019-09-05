@@ -40,7 +40,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this.agentService.getAccountInformation(localStorage.getItem('userToken')).subscribe((data: any) => {
-      this.user = data.data.user;
+      this.user = data.user;
       this.getAgentWorkHours();
     },
     (err: HttpErrorResponse) => {
@@ -50,7 +50,7 @@ export class AccountComponent implements OnInit {
 
   getAgentWorkHours(){
     this.workHoursService.getWorkHours(localStorage.getItem('userToken')).subscribe((data: any) => {
-      this.workingDays = data.data;
+      this.workingDays = data.workHours;
       this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
     },
     (err: HttpErrorResponse) => {

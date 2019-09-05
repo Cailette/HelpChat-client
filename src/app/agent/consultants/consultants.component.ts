@@ -70,7 +70,7 @@ export class ConsultantsComponent implements OnInit {
 
   getAgents(){
     this.agentService.getAgents(localStorage.getItem('userToken')).subscribe((data: any) => {
-      this.agents = data.data.user;
+      this.agents = data.users;
     },
     (err: HttpErrorResponse) => {
       // !!!
@@ -79,7 +79,6 @@ export class ConsultantsComponent implements OnInit {
 
   add(form: NgForm) {
     this.agentService.createAgent(localStorage.getItem('userToken'), form.value).subscribe((data: any) => {
-      console.log(JSON.stringify(data))
       this.getAgents();
       this.isAdding = false;
       this.isAddedSuccess = true;
@@ -108,7 +107,7 @@ export class ConsultantsComponent implements OnInit {
 
   editAgent(agentId: string) {
     this.agentService.getAgentInformation(localStorage.getItem('userToken'), agentId).subscribe((data: any) => {
-      this.user = data.data.user;
+      this.user = data.user.user;
       this.isEditing = true;
       this.getAgentWorkHours();
     },
@@ -119,7 +118,7 @@ export class ConsultantsComponent implements OnInit {
 
   getAgentWorkHours(){
     this.workHoursService.getAgentWorkHours(localStorage.getItem('userToken'), this.user._id).subscribe((data: any) => {
-      this.workingDays = data.data;
+      this.workingDays = data.workHours;
       this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
     },
     (err: HttpErrorResponse) => {

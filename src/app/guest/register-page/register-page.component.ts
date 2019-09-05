@@ -31,7 +31,7 @@ export class RegisterPageComponent implements OnInit {
   OnSubmit(form: NgForm) {
     this.guestService.register(form.value).subscribe((data: any) => {
       console.log(JSON.stringify(data))
-      this.licenceNumber = data.data._id;
+      this.licenceNumber = data.user._id;
       this.isRegistering = false;
     },
     (err: HttpErrorResponse) => {

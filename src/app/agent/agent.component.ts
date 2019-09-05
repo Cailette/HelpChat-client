@@ -16,10 +16,19 @@ export class AgentComponent implements OnInit {
 
   ngOnInit() {
     this.agentService.getAccountInformation(localStorage.getItem('userToken')).subscribe((data: any) => {
-      this.isActive = data.data.user.isActive;
+      this.isActive = data.user.isActive;
     },
     (err: HttpErrorResponse) => {
       //
+    });
+  }
+  
+  ngOnDestroy() {
+    this.agentService.switchActivity(localStorage.getItem('userToken')).subscribe((data: any) => {
+      //
+    },
+    (err: HttpErrorResponse) => {
+      // this.snackBar.open('Błąd przy zmianie statusu!'); // HALO OOOO 
     });
   }
 
@@ -35,7 +44,6 @@ export class AgentComponent implements OnInit {
 
   SwitchActivity() {
     this.agentService.switchActivity(localStorage.getItem('userToken')).subscribe((data: any) => {
-      console.log(JSON.stringify(data));
       this.isActive = !this.isActive;
     },
     (err: HttpErrorResponse) => {
