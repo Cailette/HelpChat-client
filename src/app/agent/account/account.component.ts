@@ -39,7 +39,7 @@ export class AccountComponent implements OnInit {
   constructor(private workHoursService: WorkHoursService, private agentService: AgentService, private router: Router, @Inject('DAYS') public days: any[]) { }
 
   ngOnInit() {
-    this.agentService.getAccountInformation(localStorage.getItem('userToken')).subscribe((data: any) => {
+    this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.user = data.user;
       this.getAgentWorkHours();
     },
@@ -49,7 +49,7 @@ export class AccountComponent implements OnInit {
   }
 
   getAgentWorkHours(){
-    this.workHoursService.getWorkHours(localStorage.getItem('userToken')).subscribe((data: any) => {
+    this.workHoursService.getWorkHours(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.workingDays = data.workHours;
       this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
     },
@@ -68,7 +68,7 @@ export class AccountComponent implements OnInit {
 
   addWornikgHours() {
     console.log("this.workDay " + JSON.stringify(this.workDay))
-    this.workHoursService.createWorkHours(localStorage.getItem('userToken'), this.workDay).subscribe((data: any) => {
+    this.workHoursService.createWorkHours(localStorage.getItem('agent-help-chat-token'), this.workDay).subscribe((data: any) => {
       this.resetWorkDay();
       this.getAgentWorkHours();
     },
@@ -79,7 +79,7 @@ export class AccountComponent implements OnInit {
 
   deleteWorkingHours(workingHoursId: string) {
     console.log("this.workDay " + JSON.stringify(this.workDay))
-    this.workHoursService.deleteWorkHours(localStorage.getItem('userToken'), workingHoursId).subscribe((data: any) => {
+    this.workHoursService.deleteWorkHours(localStorage.getItem('agent-help-chat-token'), workingHoursId).subscribe((data: any) => {
       this.getAgentWorkHours();
     },
     (err: HttpErrorResponse) => {
@@ -97,8 +97,8 @@ export class AccountComponent implements OnInit {
   }
 
   delete() {
-    this.agentService.deleteAccount(localStorage.getItem('userToken')).subscribe((data: any) => {
-      localStorage.removeItem('userToken');
+    this.agentService.deleteAccount(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
+      localStorage.removeItem('agent-help-chat-token');
       this.router.navigate(['/']);
     },
     (err: HttpErrorResponse) => {
@@ -107,7 +107,7 @@ export class AccountComponent implements OnInit {
   }
   
   OnSubmit(form: NgForm) {
-    this.agentService.updateAccount(localStorage.getItem('userToken'), form.value).subscribe((data: any) => {
+    this.agentService.updateAccount(localStorage.getItem('agent-help-chat-token'), form.value).subscribe((data: any) => {
       console.log(JSON.stringify(data))
       this.isEditing = false;
       this.isAccountSucces = true;

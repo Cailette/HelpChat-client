@@ -19,7 +19,7 @@ export class LoginPageComponent implements OnInit {
 
   OnSubmit(email, password) {
     this.guestService.authenticate(email, password).subscribe((data: any) => {
-      localStorage.setItem('userToken', data.token);
+      localStorage.setItem('agent-help-chat-token', data.token);
       this.router.navigate(['/home']);
     },
     (err: HttpErrorResponse) => {

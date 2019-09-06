@@ -15,7 +15,7 @@ export class AgentComponent implements OnInit {
   constructor(private agentService: AgentService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.agentService.getAccountInformation(localStorage.getItem('userToken')).subscribe((data: any) => {
+    this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.isActive = data.user.isActive;
     },
     (err: HttpErrorResponse) => {
@@ -24,7 +24,7 @@ export class AgentComponent implements OnInit {
   }
   
   ngOnDestroy() {
-    this.agentService.switchActivity(localStorage.getItem('userToken')).subscribe((data: any) => {
+    this.agentService.switchActivity(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       //
     },
     (err: HttpErrorResponse) => {
@@ -33,8 +33,8 @@ export class AgentComponent implements OnInit {
   }
 
   Logout() {
-    this.agentService.switchActivity(localStorage.getItem('userToken')).subscribe((data: any) => {
-      localStorage.removeItem('userToken');
+    this.agentService.switchActivity(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
+      localStorage.removeItem('agent-help-chat-token');
       this.router.navigate(['/']);
     },
     (err: HttpErrorResponse) => {
@@ -43,7 +43,7 @@ export class AgentComponent implements OnInit {
   }
 
   SwitchActivity() {
-    this.agentService.switchActivity(localStorage.getItem('userToken')).subscribe((data: any) => {
+    this.agentService.switchActivity(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.isActive = !this.isActive;
     },
     (err: HttpErrorResponse) => {

@@ -10,7 +10,7 @@ export class GuestComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    if (localStorage.getItem('userToken') != null)
+    if (localStorage.getItem('agent-help-chat-token') != null)
       this.router.navigate(['/home']);
   }
 }

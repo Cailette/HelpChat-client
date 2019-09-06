@@ -69,7 +69,7 @@ export class ConsultantsComponent implements OnInit {
   }
 
   getAgents(){
-    this.agentService.getAgents(localStorage.getItem('userToken')).subscribe((data: any) => {
+    this.agentService.getAgents(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.agents = data.users;
     },
     (err: HttpErrorResponse) => {
@@ -78,7 +78,7 @@ export class ConsultantsComponent implements OnInit {
   }
 
   add(form: NgForm) {
-    this.agentService.createAgent(localStorage.getItem('userToken'), form.value).subscribe((data: any) => {
+    this.agentService.createAgent(localStorage.getItem('agent-help-chat-token'), form.value).subscribe((data: any) => {
       this.getAgents();
       this.isAdding = false;
       this.isAddedSuccess = true;
@@ -92,7 +92,7 @@ export class ConsultantsComponent implements OnInit {
   }
 
   edit(form: NgForm) {
-    this.agentService.updateAgent(localStorage.getItem('userToken'), this.user._id, form.value).subscribe((data: any) => {
+    this.agentService.updateAgent(localStorage.getItem('agent-help-chat-token'), this.user._id, form.value).subscribe((data: any) => {
       this.getAgents();
       this.isEditing = false;
       this.isEditedSuccess = true;
@@ -106,7 +106,7 @@ export class ConsultantsComponent implements OnInit {
   }
 
   editAgent(agentId: string) {
-    this.agentService.getAgentInformation(localStorage.getItem('userToken'), agentId).subscribe((data: any) => {
+    this.agentService.getAgentInformation(localStorage.getItem('agent-help-chat-token'), agentId).subscribe((data: any) => {
       this.user = data.user.user;
       this.isEditing = true;
       this.getAgentWorkHours();
@@ -117,7 +117,7 @@ export class ConsultantsComponent implements OnInit {
   }
 
   getAgentWorkHours(){
-    this.workHoursService.getAgentWorkHours(localStorage.getItem('userToken'), this.user._id).subscribe((data: any) => {
+    this.workHoursService.getAgentWorkHours(localStorage.getItem('agent-help-chat-token'), this.user._id).subscribe((data: any) => {
       this.workingDays = data.workHours;
       this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
     },
@@ -151,7 +151,7 @@ export class ConsultantsComponent implements OnInit {
   }
 
   deleteAgent(agentId: string) {
-    this.agentService.deleteAgent(localStorage.getItem('userToken'), agentId).subscribe((data: any) => {
+    this.agentService.deleteAgent(localStorage.getItem('agent-help-chat-token'), agentId).subscribe((data: any) => {
       this.getAgents();
     },
     (err: HttpErrorResponse) => {
@@ -162,7 +162,7 @@ export class ConsultantsComponent implements OnInit {
 
   addWornikgHours() {
     console.log("this.workDay " + JSON.stringify(this.workDay))
-    this.workHoursService.createAgentWorkHours(localStorage.getItem('userToken'), this.workDay, this.user._id).subscribe((data: any) => {
+    this.workHoursService.createAgentWorkHours(localStorage.getItem('agent-help-chat-token'), this.workDay, this.user._id).subscribe((data: any) => {
       this.resetWorkDay();
       this.getAgentWorkHours();
     },
@@ -173,7 +173,7 @@ export class ConsultantsComponent implements OnInit {
 
   deleteWorkingHours(workingHoursId: string) {
     console.log("this.workDay " + JSON.stringify(this.workDay))
-    this.workHoursService.deleteWorkHours(localStorage.getItem('userToken'), workingHoursId).subscribe((data: any) => {
+    this.workHoursService.deleteWorkHours(localStorage.getItem('agent-help-chat-token'), workingHoursId).subscribe((data: any) => {
       this.getAgentWorkHours();
     },
     (err: HttpErrorResponse) => {
