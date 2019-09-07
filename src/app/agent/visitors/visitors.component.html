@@ -1,1 +1,68 @@
-<p>visitors works!</p>
+<div class="p-3">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Odwiedzający</h1>
+    </div>
+
+    <div  class="table-responsive">
+        <table class="table table-sm">
+            <thead class="thead-light">
+                <tr>
+                    <th>Identyfikator</th>
+                    <th>Lokalizacja</th>
+                    <th>Czatuje z</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="visitors.length == 0">
+                    <td colspan="4">Brak Odwiedzających</td>
+                </tr>
+                <tr *ngFor="let visitor of visitors">
+                    <td>{{visitor._id}}</td>
+                    <td>{{visitor.location}}</td>
+                    <td>{{visitor.chat ? "-" : "visitor.czat"}}</td>
+                    <td class="text-right">
+                        <button (click)="viewVisitor(visitor._id);" class="btn btn-outline-info ml-2" data-toggle="modal" data-target="#visitorInfo" >Więcej informacji</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="visitorInfo" tabindex="-1" role="dialog" aria-labelledby="visitorInfo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Info o odwiedzającym</h5>
+            </div>
+            <div class="modal-body">
+                    <h1 class="h2">{{visitor._id}}</h1>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <strong>Podstawowe informacje:</strong><br>
+                            Liczba wizyt: --<br>
+                            Liczba czatów: --<br>
+                            Ostatnio widziany: {{visitor.lastVisit}}<br>
+                        </li>
+                        <hr>
+                        <li class="nav-item" href="#">
+                            Lokalizacja: <br>
+                            lat: {{visitor.geoLocation.lat}} <br>
+                            lng: {{visitor.geoLocation.lng}}
+                        </li>
+                        <hr>
+                        <li class="nav-item" href="#">
+                            <strong>Oprogramowanie:</strong><br>
+                            System operacyjny: {{visitor.operatingSoftware}} <br>
+                            Przeglądarka: {{visitor.browserSoftware}}<br>
+                        </li>
+                        <hr>
+                    </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary text-white ml-4" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>

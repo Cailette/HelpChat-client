@@ -70,6 +70,7 @@ export class ConsultantsComponent implements OnInit {
 
   getAgents(){
     this.agentService.getAgents(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
+      console.log("AGENTS: " + JSON.stringify(data.users))
       this.agents = data.users;
     },
     (err: HttpErrorResponse) => {
@@ -107,7 +108,8 @@ export class ConsultantsComponent implements OnInit {
 
   editAgent(agentId: string) {
     this.agentService.getAgentInformation(localStorage.getItem('agent-help-chat-token'), agentId).subscribe((data: any) => {
-      this.user = data.user.user;
+      console.log("AGENT: " + JSON.stringify(data.user))
+      this.user = data.user;
       this.isEditing = true;
       this.getAgentWorkHours();
     },

@@ -7,7 +7,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):  boolean {
-      if (localStorage.getItem('userToken') != null)
+      if (localStorage.getItem('agent-help-chat-token') != null)
       return true;
       this.router.navigate(['/login']);
       return false;
