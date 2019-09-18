@@ -13,11 +13,6 @@ import {AgentService} from './services/agent.service';
 import { MatSnackBarModule } from "@angular/material";
 import { days } from 'src/app/models/days.model';
 
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { environment } from 'src/environments/environment.prod';
-
-const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,8 +24,7 @@ const config: SocketIoConfig = { url: environment.baseUrl, options: {} };
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSnackBarModule,
-    SocketIoModule.forRoot(config)
+    MatSnackBarModule
   ],
   providers: [
     GuestService,
