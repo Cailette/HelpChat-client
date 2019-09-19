@@ -12,11 +12,15 @@ import {AgentService} from './services/agent.service';
 
 import { MatSnackBarModule } from "@angular/material";
 import { days } from 'src/app/models/days.model';
+import { InformationComponent } from './agent/account/information/information.component';
+import { EditInformationComponent } from './agent/account/edit-information/edit-information.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents
+    routingComponents,
+    InformationComponent,
+    EditInformationComponent
   ],
   imports: [
     BrowserModule,

@@ -1,181 +1,28 @@
 <div *ngIf="isAccountError" class="row justify-content-center align-items-center mt-5">
     <div class="alert alert-danger">
-        Błąd pobierania danych.
+        Wystąpił błąd, spróbuj ponownie później.
     </div>
 </div>
 
-<div *ngIf="!isEditing"  class="row d-flex justify-content-center p-5">
-    <div class="col-8 ml-md-5">
-        <div class="jumbotron bg-light">
-            <h1 class="display-3">{{user.firstname}} {{user.lastname}}</h1>
-            <p class="lead">{{user.email}}</p>
-            <div *ngIf="isAccountSucces" class="row justify-content-left align-items-center">
-                <div class="alert alert-success">
-                    Zapisano zmiany.
-                </div>
-            </div>
-            <hr class="my-4">
-            <p><strong>Licencja:</strong> {{user.representative == null ? user._id : user.representative}}</p>
-            <hr class="my-1">
-            <p *ngIf="user.isActive; else inNotActive"><strong>Status:</strong> Jesteś aktywny i akceptujesz czaty.</p>
-            <ng-template #inNotActive>
-               <p><strong>Status:</strong> Nie akceptujesz teraz czatów. <br> <span class="text-info">Zmień status aktywności aby udzielać konsultacji.</span></p>
-            </ng-template>
-            <hr class="my-1">
-            <p><strong>Godziny pracy:</strong><span *ngIf="workingDays.length == 0"> Brak</span></p>
-            <div *ngIf="workingDays.length > 0">
-                <table class="table table-sm">
-                    <thead class="thead">
-                        <tr>
-                            <th>Dzień</th>
-                            <th>Od</th>
-                            <th>Do</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let day of workingDays">
-                            <td>{{day.dayOfWeek}}</td>
-                            <td>{{day.hourFrom}}</td>
-                            <td>{{day.hourTo}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p class="lead mt-5">
-                <button class="btn btn-primary" (click)="edit()" role="button">Edytuj konto</button>
-                <button class="btn btn-primary ml-3" data-toggle="modal" data-target="#deleteAlert" id="delete" role="button">Usuń konto</button>
-            </p>
-        </div>  
+<div *ngIf="isAccountEditSuccess" class="row justify-content-left align-items-center mt-5">
+    <div class="alert alert-success">
+        Zmiany zostały zapisane pomyślnie.
     </div>
 </div>
 
-<div *ngIf="isEditing"  class="row d-flex justify-content-center p-5">
-    <div class="col-8 ml-md-5">
-        <div class="jumbotron bg-light">
-            <h1 class="display-3">Edytuj konto</h1>
-            <p class="lead">Wprowadź zmiany i zatwierdź</p>
-            <hr class="my-4">
-                <div *ngIf="isEditError" class="row justify-content-center align-items-center">
-                    <div class="alert alert-warning">
-                        Email jest już zajęty.
-                    </div>
-                </div>
-    
-                <form class="form" #editForm="ngForm" (ngSubmit)="OnSubmit(editForm)">
-                    <div class="form-group mt-3">
-                        <label for="firstname" class="text-primary">Imię:</label>
-                        <input type="text" name="firstname" id="firstname" class="form-control validate" #firstname="ngModel" [(ngModel)]="user.firstname" [pattern]="firstnamePattern">
-                        <label *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Imię to ciąg maksymalnie 20 znaków.</label>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="lastname" class="text-primary">Nazwisko:</label>
-                        <input type="text" name="lastname" id="lastname" class="form-control validate" #lastname="ngModel" [(ngModel)]="user.lastname" [pattern]="lastnamePattern">
-                        <label *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwisko to ciąg maksymalnie 20 znaków.</label>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="email" class="text-primary">Email:</label>
-                        <input type="email" name="email" id="email" class="form-control validate" #email="ngModel" [(ngModel)]="user.email" [pattern]="emailPattern">
-                        <label *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwa firmy to maksymalnie 60 znaków i zachowywać format emaila.</label>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="password" class="text-primary">Hasło:</label>
-                        <input type="password" name="password" id="password" class="form-control validate" #password="ngModel" [(ngModel)]="user.password" [pattern]="passwordPattern">
-                        <label *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-warning mt-3 p-2" data-error="">Hasło znaków musi zawierać co najmniej jedną cyfrę, jedną małą literę oraz jedną dużą literę oraz od 6 do 30.</label>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="repassword" class="text-primary">Powtórz hasło:</label>
-                        <input type="password" name="repassword" id="repassword" class="form-control validate" #repassword="ngModel" [(ngModel)]="user.repassword">
-                        <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  class="alert alert-warning mt-3 p-2" data-error="">Powtórzone hasło musi być identyczne jak hasło.</label>
-                    </div>
+<app-information 
+    *ngIf="!isEditing"
+    [user]="user" 
+    [workingDays]="workingDays"
+    (editInformationClick)="onEditInformationClick($event)"
+    (accountError)="onAccountError($event)" >
+</app-information>
 
-                    <div *ngIf="workingDays.length > 0">
-                        <table class="table table-sm">
-                            <thead class="thead">
-                                <tr>
-                                    <th>Dzień</th>
-                                    <th>Od</th>
-                                    <th>Do</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let day of workingDays">
-                                    <td>{{day.dayOfWeek}}</td>
-                                    <td>{{day.hourFrom}}</td>
-                                    <td>{{day.hourTo}}</td>
-                                    <td class="text-right">
-                                        <div (click)="deleteWorkingHours(day._id);" class="btn btn-sm btn-outline-danger ml-2">Usuń</div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="col-16 my-3 text-center">
-                        <div *ngIf="isEditing" class="btn btn-outline-warning" data-toggle="modal" data-target="#addWornikgHours" role="button">Dodaj lub zmień godziny pracy</div>
-                        <button [disabled]="!editForm.valid" type="submit" class="btn btn-outline-primary ml-4">Zapisz zmiany</button>
-                        <button type="button" class="btn btn-secondary ml-4" (click)="close()">Zamknij</button>
-                    </div>
-                </form>
-        </div>  
-    </div>
-</div>
-
-<div class="modal fade" id="deleteAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Usuń konto</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <p>Jesteś pewnien, że chcesz usunąć konto?</p>
-            <p>Usuwając konto usuniesz konta konsultantów, których jesteś właścielem. Utracone zostaną również wszystkie zgormadozne informacje.</p>
-        </div>
-        <div class="modal-footer">
-            <a class="btn btn-danger text-white" (click)="delete()" id="deleteAgree">Usuń</a>
-            <a class="btn btn-primary text-white" data-dismiss="modal">Zamknij</a>
-        </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="modal fade" id="addWornikgHours" tabindex="-1" role="dialog" aria-labelledby="addWornikgHours" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Dodaj dzień pracy</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form class="form-inline" [(ngModel)]="workDayForm" class="row justify-content-center align-items-center" [ngModelOptions]="{standalone: true}">
-                <div class="form-group">
-                    <label for="dayOfWeek" class="text-primary">Dzień: </label>
-                    <select class="form-control validate" id="dayOfWeek" required [(ngModel)]="workDay.dayOfWeek" name="dayOfWeek">
-                        <option *ngFor="let day of days" [value]="day.number">{{day.day}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="hourFrom" class="text-primary">od:</label>
-                    <input type="number" name="dayOfWeek" id="hourFrom" class="form-control validate" #hourFrom="ngModel" [(ngModel)]="workDay.hourFrom" min="1" max="24" required>
-                </div> 
-                <div class="form-group">
-                    <label for="hourTo" class="text-primary mx-sm-3">do:</label>
-                    <input type="number" name="hourTo" id="hourTo" class="form-control validate" #hourTo="ngModel" [(ngModel)]="workDay.hourTo" min="1" max="24" required>
-                </div> 
-            </form>
-
-        </div>
-        <div class="modal-footer">
-            <button [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" class="btn btn-success text-white ml-4" (click)="addWornikgHours()">Dodaj</button>
-            <button type="button" class="btn btn-primary text-white ml-4" data-dismiss="modal">Zakończ</button>
-        </div>
-        </div>
-    </div>
-</div>
+<app-edit-information
+    *ngIf="isEditing"
+    [user]="user"
+    [workingDays]="workingDays"
+    (closeClick)="onCloseClick($event)" 
+    (editSubmit)="onEditSubmit($event)" 
+    (getWorkHours)="onGetWorkHours($event)">
+</app-edit-information>

@@ -1,0 +1,60 @@
+<div  class="row d-flex justify-content-center p-5">
+    <div class="col-8 ml-md-5">
+        <div class="jumbotron bg-light">
+            <h1 class="display-3">{{user.firstname}} {{user.lastname}}</h1>
+            <p class="lead">{{user.email}}</p>
+            <hr class="my-4">
+            <p><strong>Licencja:</strong> {{user.representative == null ? user._id : user.representative}}</p>
+            <hr class="my-1">
+            <p *ngIf="user.isActive; else inNotActive"><strong>Status:</strong> Jesteś aktywny i akceptujesz czaty.</p>
+            <ng-template #inNotActive>
+               <p><strong>Status:</strong> Nie akceptujesz teraz czatów. <br> <span class="text-info">Zmień status aktywności aby udzielać konsultacji.</span></p>
+            </ng-template>
+            <hr class="my-1">
+            <p><strong>Godziny pracy:</strong><span *ngIf="workingDays.length == 0"> Brak</span></p>
+            <div *ngIf="workingDays.length > 0">
+                <table class="table table-sm">
+                    <thead class="thead">
+                        <tr>
+                            <th>Dzień</th>
+                            <th>Od</th>
+                            <th>Do</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let day of workingDays">
+                            <td>{{day.dayOfWeek}}</td>
+                            <td>{{day.hourFrom}}</td>
+                            <td>{{day.hourTo}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="lead mt-5">
+                <button class="btn btn-primary" (click)="editInformation()" role="button">Edytuj konto</button>
+                <button class="btn btn-primary ml-3" data-toggle="modal" data-target="#deleteAlert" id="delete" role="button">Usuń konto</button>
+            </p>
+        </div>  
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Usuń konto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Jesteś pewnien, że chcesz usunąć konto?</p>
+            <p>Usuwając konto usuniesz konta konsultantów, których jesteś właścielem. Utracone zostaną również wszystkie zgormadozne informacje.</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-danger text-white" (click)="delete()" id="deleteAgree">Usuń</a>
+            <a class="btn btn-primary text-white" data-dismiss="modal">Zamknij</a>
+        </div>
+        </div>
+    </div>
+</div>
