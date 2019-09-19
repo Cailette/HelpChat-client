@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { User } from 'src/app/models/user.model';
+import { Agent } from 'src/app/models/agent.model';
 import { AgentService } from 'src/app/services/agent.service';
 import { NgForm } from '@angular/forms';
 import { WorkHoursService } from 'src/app/services/work-hours.service';
@@ -14,8 +14,9 @@ export class AccountComponent implements OnInit {
   isAccountError: boolean;
   isAccountEditSuccess: boolean;
   isEditing: boolean;
-  user: User;
-  workingDays: any;
+  isEmailError: boolean;
+  user: Agent;
+  action: string;
 
   constructor(private workHoursService: WorkHoursService, private agentService: AgentService, private router: Router, @Inject('DAYS') public days: any[]) { }
 
@@ -24,11 +25,10 @@ export class AccountComponent implements OnInit {
     this.isAccountError = false;
     this.isAccountEditSuccess = false;
     this.isEditing = false;
-    this.workingDays = [];
+    this.isEmailError = false;
 
     this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.user = data.user;
-      this.getAgentWorkHours();
     },
     (err: HttpErrorResponse) => {
       this.isAccountError = true;
@@ -47,31 +47,22 @@ export class AccountComponent implements OnInit {
     this.isAccountError = true;
   }
 
-  onEditSubmit(){
-    this.isEditing = false;
-    this.isAccountEditSuccess = true;
-    this.getAgentWorkHours();
-    setTimeout(()=>{
-      this.isAccountEditSuccess = false;
-    }, 3000);
-  }
-
-  onGetWorkHours(){
-    this.getAgentWorkHours();
-  }
-
-  getAgentWorkHours(){
-    this.workHoursService.getWorkHours(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      this.workingDays = data.workHours;
-      this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
+  onEditSubmit(form: NgForm){
+    this.agentService.updateAccount(localStorage.getItem('agent-help-chat-token'), form.value).subscribe((data: any) => {
+      this.isEditing = false;
+      this.isAccountEditSuccess = true;
+      setTimeout(()=>{
+        this.isAccountEditSuccess = false;
+      }, 3000);
     },
     (err: HttpErrorResponse) => {
-      this.isAccountError = true;
+        this.isEmailError = true;
     });
   }
 
   resetUser(){
     this.user = {
+      _id: '',
       firstname: '',
       lastname: '',
       email:	'',

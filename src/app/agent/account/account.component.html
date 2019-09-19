@@ -12,17 +12,17 @@
 
 <app-information 
     *ngIf="!isEditing"
-    [user]="user" 
-    [workingDays]="workingDays"
+    [user]="user"
     (editInformationClick)="onEditInformationClick($event)"
     (accountError)="onAccountError($event)" >
 </app-information>
 
-<app-edit-information
+<app-information-form
     *ngIf="isEditing"
     [user]="user"
-    [workingDays]="workingDays"
+    [isEmailError]="isEmailError"
     (closeClick)="onCloseClick($event)" 
     (editSubmit)="onEditSubmit($event)" 
-    (getWorkHours)="onGetWorkHours($event)">
-</app-edit-information>
+    (getWorkHours)="onGetWorkHours($event)"
+    (accountError)="onAccountError($event)" >
+</app-information-form>

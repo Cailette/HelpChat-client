@@ -1,0 +1,23 @@
+<div>
+    <p *ngIf="!workingDays"><strong>Brak ustalonych godzin pracy.</strong><span *ngIf="workingDays.length == 0"> Edytuj konto aby dodać.</span></p>
+    <table *ngIf="workingDays.length > 0" class="table table-sm">
+        <thead class="thead">
+            <tr>
+                <th>Dzień</th>
+                <th>Od</th>
+                <th>Do</th>
+                <th *ngIf="isEditing"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let day of workingDays">
+                <td>{{day.dayOfWeek}}</td>
+                <td>{{day.hourFrom}}</td>
+                <td>{{day.hourTo}}</td>
+                <td *ngIf="isEditing" class="text-right">
+                    <div (click)="deleteWorkingHours(day._id);" class="btn btn-sm btn-outline-danger ml-2">Usuń</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

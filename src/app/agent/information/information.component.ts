@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AgentService } from 'src/app/services/agent.service';
 
 import { User } from 'src/app/models/user.model';
+import { Agent } from 'src/app/models/agent.model';
 
 @Component({
   selector: 'app-information',
@@ -12,8 +13,7 @@ import { User } from 'src/app/models/user.model';
   styles: []
 })
 export class InformationComponent implements OnInit {
-  @Input() workingDays: any;
-  @Input() user: User;
+  @Input() user: Agent;
   @Output() editInformationClick = new EventEmitter<boolean>();
   @Output() accountError = new EventEmitter<boolean>();
   
@@ -23,7 +23,6 @@ export class InformationComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    
   }
 
   editInformation() {

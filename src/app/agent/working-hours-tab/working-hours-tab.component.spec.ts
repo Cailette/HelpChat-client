@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditInformationComponent } from './edit-information.component';
+import { WorkingHoursTabComponent } from './working-hours-tab.component';
 
-describe('EditInformationComponent', () => {
-  let component: EditInformationComponent;
-  let fixture: ComponentFixture<EditInformationComponent>;
+describe('WorkingHoursTabComponent', () => {
+  let component: WorkingHoursTabComponent;
+  let fixture: ComponentFixture<WorkingHoursTabComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditInformationComponent ]
+      declarations: [ WorkingHoursTabComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditInformationComponent);
+    fixture = TestBed.createComponent(WorkingHoursTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

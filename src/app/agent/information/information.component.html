@@ -11,25 +11,9 @@
                <p><strong>Status:</strong> Nie akceptujesz teraz czatów. <br> <span class="text-info">Zmień status aktywności aby udzielać konsultacji.</span></p>
             </ng-template>
             <hr class="my-1">
-            <p><strong>Godziny pracy:</strong><span *ngIf="workingDays.length == 0"> Brak</span></p>
-            <div *ngIf="workingDays.length > 0">
-                <table class="table table-sm">
-                    <thead class="thead">
-                        <tr>
-                            <th>Dzień</th>
-                            <th>Od</th>
-                            <th>Do</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let day of workingDays">
-                            <td>{{day.dayOfWeek}}</td>
-                            <td>{{day.hourFrom}}</td>
-                            <td>{{day.hourTo}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                        
+            <app-working-hours-tab></app-working-hours-tab>
+            
             <p class="lead mt-5">
                 <button class="btn btn-primary" (click)="editInformation()" role="button">Edytuj konto</button>
                 <button class="btn btn-primary ml-3" data-toggle="modal" data-target="#deleteAlert" id="delete" role="button">Usuń konto</button>
