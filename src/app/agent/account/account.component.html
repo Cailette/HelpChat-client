@@ -10,18 +10,24 @@
     </div>
 </div>
 
-<app-information 
-    *ngIf="!isEditing"
-    [user]="user"
-    (editInformationClick)="onEditInformationClick($event)"
-    (dataError)="onDataError($event)" >
-</app-information>
+<div *ngIf="!isEditing" class="row d-flex justify-content-center p-5">
+    <div class="col-md-10 col-ml-8">
+        <app-information 
+            [user]="user"
+            (editInformationClick)="onEditInformationClick($event)"
+            (dataError)="onDataError($event)" >
+        </app-information>
+    </div>
+</div>
 
-<app-information-form
-    *ngIf="isEditing"
-    [user]="user"
-    [isEmailError]="isEmailError"
-    (closeClick)="onCloseClick($event)" 
-    (formSubmit)="onFormSubmit($event)" 
-    (dataError)="onDataError($event)" >
-</app-information-form>
+<div *ngIf="isEditing" class="row d-flex justify-content-center p-5">
+    <div class="col-md-10 col-ml-8">
+        <app-information-form
+            [user]="user"
+            [isEmailError]="isEmailError"
+            (closeClick)="onCloseClick($event)" 
+            (formSubmit)="onFormSubmit($event)" 
+            (dataError)="onDataError($event)" >
+        </app-information-form>
+    </div>
+</div>

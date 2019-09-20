@@ -10,5 +10,4 @@ export class ChatsListComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

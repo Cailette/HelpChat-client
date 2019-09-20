@@ -16,23 +16,23 @@
         <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary" (click)="newAgent()">Dodaj</button>
-            <input *ngIf="isSearch" type="search" name="searchAgent">
+            <input *ngIf="isSearch" type="search" [(ngModel)]="searchAgent" name="searchAgent">
             <button type="button" class="btn btn-sm btn-outline-secondary" (click)="showSearch()">Szukaj</button>
             <div *ngIf="isFilter" class="d-flex align-items-center ml-2">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio3" value="all" checked>
+                    <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio3" [(ngModel)]="filterAgent" value="all" checked>
                     <label class="form-check-label" for="filterRadio3">
                         Wszyscy
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio1" value="true">
+                    <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio1" [(ngModel)]="filterAgent" value="true">
                     <label class="form-check-label" for="filterRadio1">
                         Aktywni
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio2" value="false">
+                    <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio2" [(ngModel)]="filterAgent" value="false">
                     <label class="form-check-label" for="filterRadio2">
                         Niektywni
                     </label>
@@ -54,7 +54,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let agent of agents">
+                <tr *ngFor="let agent of agents | agentSearch: searchAgent | agentFilter: filterAgent">
                     <td>{{agent.firstname}} {{agent.lastname}}</td>
                     <td>{{agent.email}}</td>
                     <td>{{agent.isActive ? "Aktywny" : "Niektywny"}}</td>
@@ -69,83 +69,17 @@
     </div>
 </div>
 
-<app-information-form
-    *ngIf="isAdding || isEditing"   
-    [user]="user"
-    [isAdding]="isAdding"
-    [isEmailError]="isEmailError"
-    (closeClick)="onCloseClick($event)" 
-    (formSubmit)="onFormSubmit($event)" 
-    (getWorkHours)="onGetWorkHours($event)"
-    (dataError)="onDataError($event)" >
-</app-information-form>
-
-<!-- <div *ngIf="isAdding || isEditing" class="p-3">
-    <div class="d-flex justify-content-left flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">{{ isAdding? "Dodaj konsultanta" : "Edytuj konsultanta"}}</h1>
+<div  class="row d-flex justify-content-center p-5">
+    <div class="col-md-10 col-ml-8">
+        <app-information-form
+            *ngIf="isAdding || isEditing"   
+            [user]="user"
+            [isAdding]="isAdding"
+            [isEmailError]="isEmailError"
+            (closeClick)="onCloseClick($event)" 
+            (formSubmit)="onFormSubmit($event)" 
+            (getWorkHours)="onGetWorkHours($event)"
+            (dataError)="onDataError($event)" >
+        </app-information-form>
     </div>
-    <div class="row  d-flex justify-content-center"><div class="col-6 jumbotron bg-light">
-            <div *ngIf="isError" class="row justify-content-center align-items-center">
-                <div class="alert alert-warning">
-                    Email jest już zajęty.
-                </div>
-            </div>
-            <form class="form" #addForm="ngForm" (ngSubmit)="OnSubmit(addForm)">
-                <div class="form-group mt-3">
-                    <label for="firstname" class="text-primary">Imię{{ isAdding? "*" : ""}}:</label>
-                    <input type="text" name="firstname" id="firstname" class="form-control validate" #firstname="ngModel" [attr.required]="isAdding" [(ngModel)]="user.firstname" [pattern]="firstnamePattern">
-                    <label *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Imię to ciąg maksymalnie 20 znaków.</label>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="lastname" class="text-primary">Nazwisko{{ isAdding? "*" : ""}}:</label>
-                    <input type="text" name="lastname" id="lastname" class="form-control validate" #lastname="ngModel" [attr.required]="isAdding" [(ngModel)]="user.lastname" [pattern]="lastnamePattern">
-                    <label *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwisko to ciąg maksymalnie 20 znaków.</label>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="email" class="text-primary">Email{{ isAdding? "*" : ""}}:</label>
-                    <input type="email" name="email" id="email" class="form-control validate" #email="ngModel" [attr.required]="isAdding" [(ngModel)]="user.email" [pattern]="emailPattern">
-                    <label *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwa firmy to maksymalnie 60 znaków i zachowywać format emaila.</label>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="password" class="text-primary">Hasło{{ isAdding? "*" : ""}}:</label>
-                    <input type="password" name="password" id="password" class="form-control validate" #password="ngModel" [attr.required]="isAdding" [(ngModel)]="user.password" [pattern]="passwordPattern">
-                    <label *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-warning mt-3 p-2" data-error="">Hasło znaków musi zawierać co najmniej jedną cyfrę, jedną małą literę oraz jedną dużą literę oraz od 6 do 30.</label>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="repassword" class="text-primary">Powtórz hasło{{ isAdding? "*" : ""}}:</label>
-                    <input type="password" name="repassword" id="repassword" class="form-control validate" #repassword="ngModel" [attr.required]="isAdding" [(ngModel)]="user.repassword">
-                    <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  class="alert alert-warning mt-3 p-2" data-error="">Powtórzone hasło musi być identyczne jak hasło.</label>
-                </div>
-
-                <div *ngIf="workingDays.length > 0">
-                    <table class="table table-sm">
-                        <thead class="thead">
-                            <tr>
-                                <th>Dzień</th>
-                                <th>Od</th>
-                                <th>Do</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let day of workingDays">
-                                <td>{{day.dayOfWeek}}</td>
-                                <td>{{day.hourFrom}}</td>
-                                <td>{{day.hourTo}}</td>
-                                <td class="text-right">
-                                    <div (click)="deleteWorkingHours(day._id);" class="btn btn-sm btn-outline-danger ml-2">Usuń</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="col-16 my-3 text-center">
-                    <div *ngIf="isEditing" class="btn btn-outline-warning" data-toggle="modal" data-target="#addWornikgHours" role="button">Nowe godziny pracy</div>
-                    <button [disabled]="!addForm.valid" type="submit" class="btn btn-outline-primary ml-4">{{ isAdding? "Dodaj" : "Zapisz"}}</button>
-                    <button type="button" class="btn btn-outline-secondary ml-4" (click)="close()">Zamknij</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> -->
+</div>

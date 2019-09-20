@@ -16,6 +16,9 @@ import { WorkingHoursFromComponent } from './agent/working-hours-from/working-ho
 import { InformationComponent } from './agent/information/information.component';
 import { InformationFormComponent } from './agent/information-form/information-form.component';
 import { WorkingHoursTabComponent } from './agent/working-hours-tab/working-hours-tab.component';
+import { ChatsListComponent } from './agent/chats-list/chats-list.component';
+import { ChatContentComponent } from './agent/chat-content/chat-content.component';
+import { ChatVisitorInfoComponent } from './agent/chat-visitor-info/chat-visitor-info.component';
 
 import { AuthGuard } from './auth/auth.guard';
 
@@ -67,5 +70,8 @@ export const routingComponents =
     WorkingHoursFromComponent,
     InformationComponent,
     InformationFormComponent,
-    WorkingHoursTabComponent
+    WorkingHoursTabComponent,
+    ChatsListComponent,
+    ChatContentComponent,
+    ChatVisitorInfoComponent,
   ]

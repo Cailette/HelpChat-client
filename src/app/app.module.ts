@@ -12,17 +12,16 @@ import {AgentService} from './services/agent.service';
 
 import { MatSnackBarModule } from "@angular/material";
 import { days } from 'src/app/models/days.model';
-import { ChatsListComponent } from './agent/chats-list/chats-list.component';
-import { ChatContentComponent } from './agent/chat-content/chat-content.component';
-import { ChatVisitorInfoComponent } from './agent/chat-visitor-info/chat-visitor-info.component';
+
+import { AgentSearch }from './Pipes/agent-search.pipe';
+import { AgentFilter }from './Pipes/agent-filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    ChatsListComponent,
-    ChatContentComponent,
-    ChatVisitorInfoComponent,
+    AgentSearch,
+    AgentFilter
   ],
   imports: [
     BrowserModule,

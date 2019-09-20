@@ -1,1 +1,17 @@
-<p>archive works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
+            <app-chats-list></app-chats-list>
+        </nav>
+
+        <main class="col-md-7 ml-sm-auto col-lg-7 px-4">
+            <app-chat-content
+             [isArchive]="true">
+            </app-chat-content>
+        </main>
+
+        <div class="col-md-3 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
+            <app-chat-visitor-info></app-chat-visitor-info>
+        </div>
+    </div>
+</div>

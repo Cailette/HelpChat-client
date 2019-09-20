@@ -1,9 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Agent } from 'src/app/models/agent.model';
 import { AgentService } from 'src/app/services/agent.service';
-import { WorkHoursService } from 'src/app/services/work-hours.service';
 import { NgForm } from '@angular/forms';
 
 @Component({

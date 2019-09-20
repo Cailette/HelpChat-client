@@ -1,27 +1,23 @@
-<div  class="row d-flex justify-content-center p-5">
-    <div class="col-8 ml-md-5">
-        <div class="jumbotron bg-light">
-            <h1 class="display-3">{{user.firstname}} {{user.lastname}}</h1>
-            <p class="lead">{{user.email}}</p>
-            <hr class="my-4">
-            <p><strong>Licencja:</strong> {{user.representative == null ? user._id : user.representative}}</p>
-            <hr class="my-1">
-            <p *ngIf="user.isActive; else inNotActive"><strong>Status:</strong> Jesteś aktywny i akceptujesz czaty.</p>
-            <ng-template #inNotActive>
-               <p><strong>Status:</strong> Nie akceptujesz teraz czatów. <br> <span class="text-info">Zmień status aktywności aby udzielać konsultacji.</span></p>
-            </ng-template>
-            <hr class="my-1">
-                        
-            <app-working-hours-tab></app-working-hours-tab>
+<div class="jumbotron bg-light">
+    <h1 class="display-3">{{user.firstname}} {{user.lastname}}</h1>
+    <p class="lead">{{user.email}}</p>
+    <hr class="my-4">
+    <p><strong>Licencja:</strong> {{user.representative == null ? user._id : user.representative}}</p>
+    <hr class="my-1">
+    <p *ngIf="user.isActive; else inNotActive"><strong>Status:</strong> Jesteś aktywny i akceptujesz czaty.</p>
+    <ng-template #inNotActive>
+        <p><strong>Status:</strong> Nie akceptujesz teraz czatów. <br> <span class="text-info">Zmień status aktywności aby udzielać konsultacji.</span></p>
+    </ng-template>
+    <hr class="my-1">
+                
+    <app-working-hours-tab></app-working-hours-tab>
 
-            <p class="lead mt-5">
-                <button class="btn btn-primary" (click)="editInformation()" role="button">Edytuj konto</button>
-                <button class="btn btn-primary ml-3 mr-3" data-toggle="modal" data-target="#deleteAlert" id="delete" role="button">Usuń konto</button>
-                <button class="btn btn-warning" [routerLink]="['/home/workingHours/', user._id, user.firstname, user.lastname]"  role="button">Dodaj lub zmień godziny pracy</button>
-            </p>
-        </div>  
-    </div>
-</div>
+    <p class="lead mt-5">
+        <button class="btn btn-outline-primary" (click)="editInformation()" role="button">Edytuj konto</button>
+        <button class="btn btn-outline-primary ml-3 mr-3" data-toggle="modal" data-target="#deleteAlert" id="delete" role="button">Usuń konto</button>
+        <button class="btn btn-outline-warning" [routerLink]="['/home/workingHours/', user._id, user.firstname, user.lastname]"  role="button">Godziny pracy</button>
+    </p>
+</div>  
 
 <div class="modal fade" id="deleteAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
