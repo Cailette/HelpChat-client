@@ -1,8 +1,8 @@
 <div class="row d-flex justify-content-center p-5">
     <div class="col-8 ml-md-5">
         <div class="jumbotron bg-light">
-            <h1 class="display-3">Edytuj konto</h1>
-            <p class="lead">Wprowadź zmiany i zatwierdź</p>
+            <h1 class="h2">{{ isAdding? "Dodaj" : "Edytuj"}}</h1>
+            <p class="lead">{{ isAdding? "Wprowadź dane i zatwierdź" : "Wprowadź zmiany i zatwierdź"}}</p>
             <hr class="my-4">
                 <div *ngIf="isEmailError" class="row justify-content-center align-items-center">
                     <div class="alert alert-warning">
@@ -12,33 +12,37 @@
     
                 <form class="form" #editForm="ngForm" (ngSubmit)="OnSubmit(editForm)">
                     <div class="form-group mt-3">
-                        <label for="firstname" class="text-primary">Imię:</label>
-                        <input type="text" name="firstname" id="firstname" class="form-control validate" #firstname="ngModel" [(ngModel)]="user.firstname" [pattern]="firstnamePattern">
+                        <label for="firstname" class="text-primary">Imię{{ isAdding? "*" : ""}}:</label>
+                        <input type="text" name="firstname" id="firstname" class="form-control validate" #firstname="ngModel" [attr.required]="isAdding" [(ngModel)]="user.firstname" [pattern]="firstnamePattern">
                         <label *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Imię to ciąg maksymalnie 20 znaków.</label>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="lastname" class="text-primary">Nazwisko:</label>
-                        <input type="text" name="lastname" id="lastname" class="form-control validate" #lastname="ngModel" [(ngModel)]="user.lastname" [pattern]="lastnamePattern">
+                        <label for="lastname" class="text-primary">Nazwisko{{ isAdding? "*" : ""}}:</label>
+                        <input type="text" name="lastname" id="lastname" class="form-control validate" #lastname="ngModel" [attr.required]="isAdding" [(ngModel)]="user.lastname" [pattern]="lastnamePattern">
                         <label *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwisko to ciąg maksymalnie 20 znaków.</label>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="email" class="text-primary">Email:</label>
-                        <input type="email" name="email" id="email" class="form-control validate" #email="ngModel" [(ngModel)]="user.email" [pattern]="emailPattern">
-                        <label *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-warning mt-3 p-2" data-error="">Nazwa firmy to maksymalnie 60 znaków i zachowywać format emaila.</label>
+                        <label for="email" class="text-primary">Email{{ isAdding? "*" : ""}}:</label>
+                        <input type="email" name="email" id="email" class="form-control validate" #email="ngModel" [attr.required]="isAdding" [(ngModel)]="user.email" [pattern]="emailPattern">
+                        <label *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-warning mt-3 p-2" data-error="">Email to maksymalnie 60 znaków i zachowywać format emaila.</label>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="password" class="text-primary">Hasło:</label>
-                        <input type="password" name="password" id="password" class="form-control validate" #password="ngModel" [(ngModel)]="user.password" [pattern]="passwordPattern">
+                        <label for="password" class="text-primary">Hasło{{ isAdding? "*" : ""}}:</label>
+                        <input type="password" name="password" id="password" class="form-control validate" #password="ngModel" [attr.required]="isAdding" [(ngModel)]="user.password" [pattern]="passwordPattern">
                         <label *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-warning mt-3 p-2" data-error="">Hasło znaków musi zawierać co najmniej jedną cyfrę, jedną małą literę oraz jedną dużą literę oraz od 6 do 30.</label>
                     </div>
                     <div class="form-group mt-3">
-                        <label for="repassword" class="text-primary">Powtórz hasło:</label>
-                        <input type="password" name="repassword" id="repassword" class="form-control validate" #repassword="ngModel" [(ngModel)]="user.repassword">
+                        <label for="repassword" class="text-primary">Powtórz hasło{{ isAdding? "*" : ""}}:</label>
+                        <input type="password" name="repassword" id="repassword" class="form-control validate" #repassword="ngModel" [attr.required]="isAdding" [(ngModel)]="user.repassword">
                         <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  class="alert alert-warning mt-3 p-2" data-error="">Powtórzone hasło musi być identyczne jak hasło.</label>
+                    </div>
+                    
+                    <div *ngIf="isAdding"  class="alert alert-info mt-3 p-2">
+                        * Wszystkie pola są wymagane.
                     </div>
 
                     <div class="col-16 my-3 text-center">
-                        <button [disabled]="!editForm.valid" type="submit" class="btn btn-outline-primary ml-4">Zapisz zmiany</button>
+                        <button [disabled]="!editForm.valid" type="submit" class="btn btn-outline-primary ml-4">{{ isAdding? "Dodaj" : "Zapisz" }}</button>
                         <button type="button" class="btn btn-secondary ml-4" (click)="close()">Zamknij</button>
                     </div>
                 </form>

@@ -15,7 +15,7 @@
         <h1 class="h2">Konsultanci</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="showAddAgentForm()">Dodaj</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="newAgent()">Dodaj</button>
             <input *ngIf="isSearch" type="search" name="searchAgent">
             <button type="button" class="btn btn-sm btn-outline-secondary" (click)="showSearch()">Szukaj</button>
             <div *ngIf="isFilter" class="d-flex align-items-center ml-2">
@@ -59,9 +59,9 @@
                     <td>{{agent.email}}</td>
                     <td>{{agent.isActive ? "Aktywny" : "Niektywny"}}</td>
                     <td class="text-right">
-                        <button (click)="editAgent(agent._id);" class="btn btn-outline-info ml-2">Edytuj</button>
-                        <button (click)="deleteAgent(agent._id);" class="btn btn-outline-danger ml-2">Usuń</button>
-                        <button class="btn btn-outline-warning ml-2" routerLink="/home/workingHours" role="button">Godziny pracy</button>
+                        <button (click)="editSelectedAgent(agent._id);" class="btn btn-outline-info ml-2">Edytuj</button>
+                        <button (click)="deleteSelectedAgent(agent._id);" class="btn btn-outline-danger ml-2">Usuń</button>
+                        <button class="btn btn-outline-warning ml-2" [routerLink]="['/home/workingHours/', agent._id, agent.firstname, agent.lastname]" routerLink="/home/workingHours" role="button">Godziny pracy</button>
                     </td>
                 </tr>
             </tbody>
@@ -72,6 +72,7 @@
 <app-information-form
     *ngIf="isAdding || isEditing"   
     [user]="user"
+    [isAdding]="isAdding"
     [isEmailError]="isEmailError"
     (closeClick)="onCloseClick($event)" 
     (formSubmit)="onFormSubmit($event)" 

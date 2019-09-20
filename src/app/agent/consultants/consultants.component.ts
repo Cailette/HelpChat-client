@@ -22,7 +22,7 @@ export class ConsultantsComponent implements OnInit {
   isAccountEditSuccess: boolean;
 
   isEditing: boolean;
-  isAdding: boolean = false;
+  isAdding: boolean;
 
   user: Agent;
   agents: any;
@@ -42,6 +42,7 @@ export class ConsultantsComponent implements OnInit {
 
   onCloseClick() {
     this.isEditing = false;
+    this.isAdding = false;
   }
 
   onDataError(){
@@ -57,14 +58,17 @@ export class ConsultantsComponent implements OnInit {
     }
   }
 
-  getAgents(){
-    this.agentService.getAgents(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      console.log("AGENTS: " + JSON.stringify(data.users))
-      this.agents = data.users;
-    },
-    (err: HttpErrorResponse) => {
-      this.isDataError = true;
-    });
+  showFilter() {
+    this.isFilter = !this.isFilter;
+  }
+
+  showSearch() {
+    this.isSearch = !this.isSearch;
+  }
+
+  newAgent() {
+    this.resetUser();
+    this.isAdding = true;
   }
 
   add(form: NgForm) {
@@ -95,49 +99,32 @@ export class ConsultantsComponent implements OnInit {
     });
   }
 
-  editAgent(agentId: string) {
+  getAgents(){
+    this.agentService.getAgents(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
+      this.agents = data.users;
+    },
+    (err: HttpErrorResponse) => {
+      this.isDataError = true;
+    });
+  }
+
+  editSelectedAgent(agentId: string) {
     this.agentService.getAgentInformation(localStorage.getItem('agent-help-chat-token'), agentId).subscribe((data: any) => {
-      console.log("AGENT: " + JSON.stringify(data.user))
       this.user = data.user;
       this.isEditing = true;
     },
     (err: HttpErrorResponse) => {
-      //
+      this.isDataError = true;
     });
   }
 
-  showFilter() {
-    this.isFilter = !this.isFilter;
-  }
-
-  showSearch() {
-    this.isSearch = !this.isSearch;
-  }
-
-  showAddAgentForm() {
-    this.user = {
-      _id: '',
-      firstname: '',
-      lastname: '',
-      email:	'',
-      password:	''
-    };
-    this.isAdding = true;
-  }
-
-  close() {
-    this.isAdding = false;
-    this.isEditing = false;
-  }
-
-  deleteAgent(agentId: string) {
+  deleteSelectedAgent(agentId: string) {
     this.agentService.deleteAgent(localStorage.getItem('agent-help-chat-token'), agentId).subscribe((data: any) => {
       this.getAgents();
     },
     (err: HttpErrorResponse) => {
-      //
+      this.isDataError = true;
     });
-
   }
 
   resetUser(){

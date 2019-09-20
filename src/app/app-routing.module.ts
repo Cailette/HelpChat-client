@@ -38,7 +38,8 @@ const routes: Routes = [
       { path: 'consultants', component: ConsultantsComponent },
       { path: 'statistics', component: StatisticsComponent },
       { path: 'account', component: AccountComponent },
-      { path: 'workingHours', component: WorkingHoursFromComponent }
+      { path: 'workingHours', component: WorkingHoursFromComponent },
+      { path: 'workingHours/:agentId/:agentFirstname/:agentLastname', component: WorkingHoursFromComponent }
     ]
   }
 ];

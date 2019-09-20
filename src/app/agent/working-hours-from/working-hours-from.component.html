@@ -8,12 +8,13 @@
 <div class="row d-flex justify-content-center p-5">
     <div class="col-8 ml-md-5">
         <div class="jumbotron bg-light">
-            <h1 class="display-3">Imie i nazwisko</h1>
+            <h1 class="display-5">{{agentFirstname}} {{agentLastname}}</h1>
             <p class="lead">Dodaj godziny pracy</p>
 
             <hr class="my-4">
                
             <app-working-hours-tab
+                [agentId]="agentId"
                 [isEditing]="isEditing"
                 (dataError)="onDataError($event)" >
             </app-working-hours-tab>
@@ -38,7 +39,7 @@
 
                 <div class="col-16 my-3 text-center">
                     <button type="submit" [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" class="btn btn-success text-white ml-4">Dodaj</button>
-                    <button type="button" class="btn btn-secondary ml-4" routerLink="/home/account">Zamknij</button>
+                    <button type="button" class="btn btn-secondary ml-4" (click)="back()">Zamknij</button>
                 </div>
             </form>
         </div>
