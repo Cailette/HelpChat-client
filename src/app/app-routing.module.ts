@@ -12,6 +12,11 @@ import { ConsultantsComponent } from './agent/consultants/consultants.component'
 import { ArchiveComponent } from './agent/archive/archive.component';
 import { StatisticsComponent } from './agent/statistics/statistics.component';
 import { AccountComponent } from './agent/account/account.component';
+import { WorkingHoursFromComponent } from './agent/working-hours-from/working-hours-from.component';
+import { InformationComponent } from './agent/information/information.component';
+import { InformationFormComponent } from './agent/information-form/information-form.component';
+import { WorkingHoursTabComponent } from './agent/working-hours-tab/working-hours-tab.component';
+
 import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
@@ -32,7 +37,8 @@ const routes: Routes = [
       { path: 'archive', component: ArchiveComponent },
       { path: 'consultants', component: ConsultantsComponent },
       { path: 'statistics', component: StatisticsComponent },
-      { path: 'account', component: AccountComponent }
+      { path: 'account', component: AccountComponent },
+      { path: 'workingHours', component: WorkingHoursFromComponent }
     ]
   }
 ];
@@ -56,5 +62,9 @@ export const routingComponents =
     ConsultantsComponent,
     ArchiveComponent,
     StatisticsComponent,
-    AccountComponent
+    AccountComponent,
+    WorkingHoursFromComponent,
+    InformationComponent,
+    InformationFormComponent,
+    WorkingHoursTabComponent
   ]

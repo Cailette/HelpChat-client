@@ -1,3 +1,15 @@
+<div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+    <div class="alert alert-danger">
+        Wystąpił błąd, spróbuj ponownie później.
+    </div>
+</div>
+  
+<div *ngIf="isAddedSuccess || isEditedSuccess" class="row justify-content-center align-items-center mt-5">
+    <div class="alert alert-success">
+        {{ isAddedSuccess? "Dodano konsultanta." : "Zapisano zmiany"}}
+    </div>
+</div>
+
 <div *ngIf="!isAdding && !isEditing" class="p-3">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Konsultanci</h1>
@@ -30,12 +42,6 @@
         </div>
         </div>
     </div>
-  
-    <div *ngIf="isAddedSuccess || isEditedSuccess" class="row justify-content-center align-items-center">
-        <div class="alert alert-success">
-            {{ isAddedSuccess? "Dodano konsultanta." : "Zapisano zmiany"}}
-        </div>
-    </div>
 
     <div  class="table-responsive">
         <table class="table table-sm">
@@ -55,6 +61,7 @@
                     <td class="text-right">
                         <button (click)="editAgent(agent._id);" class="btn btn-outline-info ml-2">Edytuj</button>
                         <button (click)="deleteAgent(agent._id);" class="btn btn-outline-danger ml-2">Usuń</button>
+                        <button class="btn btn-outline-warning ml-2" routerLink="/home/workingHours" role="button">Godziny pracy</button>
                     </td>
                 </tr>
             </tbody>
@@ -62,7 +69,17 @@
     </div>
 </div>
 
-<div *ngIf="isAdding || isEditing" class="p-3">
+<app-information-form
+    *ngIf="isAdding || isEditing"   
+    [user]="user"
+    [isEmailError]="isEmailError"
+    (closeClick)="onCloseClick($event)" 
+    (formSubmit)="onFormSubmit($event)" 
+    (getWorkHours)="onGetWorkHours($event)"
+    (dataError)="onDataError($event)" >
+</app-information-form>
+
+<!-- <div *ngIf="isAdding || isEditing" class="p-3">
     <div class="d-flex justify-content-left flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">{{ isAdding? "Dodaj konsultanta" : "Edytuj konsultanta"}}</h1>
     </div>
@@ -130,37 +147,4 @@
             </form>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="addWornikgHours" tabindex="-1" role="dialog" aria-labelledby="addWornikgHours" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Dodaj dzień pracy</h5>
-        </div>
-        <div class="modal-body">
-            <form class="form-inline" [(ngModel)]="workDayForm" class="row justify-content-center align-items-center" [ngModelOptions]="{standalone: true}">
-                <div class="form-group">
-                    <label for="dayOfWeek" class="text-primary">Dzień: </label>
-                    <select class="form-control validate" id="dayOfWeek" required [(ngModel)]="workDay.dayOfWeek" name="dayOfWeek">
-                        <option *ngFor="let day of days" [value]="day.number">{{day.day}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="hourFrom" class="text-primary">od:</label>
-                    <input type="number" name="dayOfWeek" id="hourFrom" class="form-control validate" #hourFrom="ngModel" [(ngModel)]="workDay.hourFrom" min="1" max="24" required>
-                </div> 
-                <div class="form-group">
-                    <label for="hourTo" class="text-primary mx-sm-3">do:</label>
-                    <input type="number" name="hourTo" id="hourTo" class="form-control validate" #hourTo="ngModel" [(ngModel)]="workDay.hourTo" min="1" max="24" required>
-                </div> 
-            </form>
-
-        </div>
-        <div class="modal-footer">
-            <button [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" class="btn btn-success text-white ml-4" (click)="addWornikgHours()">Dodaj</button>
-            <button type="button" class="btn btn-primary text-white ml-4" data-dismiss="modal">Zakończ</button>
-        </div>
-        </div>
-    </div>
-</div>
+</div> -->

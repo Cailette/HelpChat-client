@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styles: []
 })
 export class WorkingHoursTabComponent implements OnInit {
-  @Output() accountError = new EventEmitter<boolean>();
+  @Output() dataError = new EventEmitter<boolean>();
   @Output() getWorkHours = new EventEmitter<boolean>();
   @Input() isEditing: boolean;
   workingDays: any;
@@ -27,7 +27,7 @@ export class WorkingHoursTabComponent implements OnInit {
       this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
     },
     (err: HttpErrorResponse) => {
-      this.accountError.emit();
+      this.dataError.emit();
     });
   }
 
@@ -36,7 +36,7 @@ export class WorkingHoursTabComponent implements OnInit {
       this.workingDays.splice(this.workingDays.findIndex(day => day.dayOfWeek === data.workHours.dayOfWeek), 1)
     },
     (err: HttpErrorResponse) => {
-      this.accountError.emit();
+      this.dataError.emit();
     });
   }
 }

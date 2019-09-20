@@ -15,7 +15,7 @@ import { Agent } from 'src/app/models/agent.model';
 export class InformationComponent implements OnInit {
   @Input() user: Agent;
   @Output() editInformationClick = new EventEmitter<boolean>();
-  @Output() accountError = new EventEmitter<boolean>();
+  @Output() dataError = new EventEmitter<boolean>();
   
   constructor(
     private agentService: AgentService, 
@@ -36,7 +36,7 @@ export class InformationComponent implements OnInit {
       this.router.navigate(['/']);
     },
     (err: HttpErrorResponse) => {
-      this.accountError.emit();
+      this.dataError.emit();
     });
   }
 }

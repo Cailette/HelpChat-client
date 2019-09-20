@@ -12,19 +12,11 @@ import {AgentService} from './services/agent.service';
 
 import { MatSnackBarModule } from "@angular/material";
 import { days } from 'src/app/models/days.model';
-import { InformationComponent } from './agent/information/information.component';
-import { InformationFormComponent } from './agent/information-form/information-form.component';
-import { WorkingHoursFromComponent } from './agent/working-hours-from/working-hours-from.component';
-import { WorkingHoursTabComponent } from './agent/working-hours-tab/working-hours-tab.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    InformationComponent,
-    InformationFormComponent,
-    WorkingHoursFromComponent,
-    WorkingHoursTabComponent
   ],
   imports: [
     BrowserModule,

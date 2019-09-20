@@ -1,15 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewChild } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-
-import { User } from 'src/app/models/user.model';
-
-import { WorkHoursService } from 'src/app/services/work-hours.service';
-import { AgentService } from 'src/app/services/agent.service';
 import { NgForm } from '@angular/forms';
-import { WorkDay } from 'src/app/models/workDay';
 import { Agent } from 'src/app/models/agent.model';
-import { WorkingHoursTabComponent } from '../working-hours-tab/working-hours-tab.component';
 
 @Component({
   selector: 'app-information-form',
@@ -18,15 +9,12 @@ import { WorkingHoursTabComponent } from '../working-hours-tab/working-hours-tab
 })
 
 export class InformationFormComponent implements OnInit {
-  @ViewChild(WorkingHoursTabComponent, {static: false}) childWorkingHoursTab: WorkingHoursTabComponent;
-  
   @Input() user: Agent;
   @Output() closeClick = new EventEmitter<boolean>();
-  @Output() accountError = new EventEmitter<boolean>();
-  @Output() editSubmit = new EventEmitter<NgForm>();
+  @Output() dataError = new EventEmitter<boolean>();
+  @Output() formSubmit = new EventEmitter<NgForm>();
   @Input() isAdding: boolean;
   @Input() isEmailError: boolean;
-  isEditing: boolean;
 
   firstnamePattern = /^(?=.*[a-z]).{2,20}$/;
   lastnamePattern = /^(?=.*[a-z]).{2,20}$/;
@@ -36,16 +24,11 @@ export class InformationFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.isEditing = true;
     this.isEmailError = false;
   }
 
-  onAccountError(){
-    this.accountError.emit()
-  }
-
-  onGetWorkHours(){
-    this.childWorkingHoursTab.getAgentWorkHours();
+  onDataError(){
+    this.dataError.emit()
   }
 
   close(){
@@ -53,10 +36,7 @@ export class InformationFormComponent implements OnInit {
   }
   
   OnSubmit(form: NgForm) {
-      this.editSubmit.emit(form)
-  }
-
-  onShareWorkingHours(){
-    
+    console.log("OnSubmit " + JSON.stringify(form.value))
+    this.formSubmit.emit(form)
   }
 }

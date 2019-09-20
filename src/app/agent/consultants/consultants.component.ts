@@ -1,12 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { User } from 'src/app/models/user.model';
 import { Agent } from 'src/app/models/agent.model';
 import { AgentService } from 'src/app/services/agent.service';
 import { WorkHoursService } from 'src/app/services/work-hours.service';
 import { NgForm } from '@angular/forms';
-import { WorkDay } from 'src/app/models/workDay';
 
 @Component({
   selector: 'app-consultants',
@@ -14,57 +12,48 @@ import { WorkDay } from 'src/app/models/workDay';
 })
 
 export class ConsultantsComponent implements OnInit {
-  firstnamePattern = /^(?=.*[a-z]).{2,20}$/;
-  lastnamePattern = /^(?=.*[a-z]).{2,20}$/;
-  emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-  passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,20}$/;
-
   isFilter: boolean = false;
   isSearch: boolean = false;
-  isAdding: boolean = false;
-  isEditing: boolean = false;
+
+  isDataError: boolean;
+  isEmailError: boolean;
   isAddedSuccess: boolean = false;
   isEditedSuccess: boolean = false;
-  isError: boolean = false;
+  isAccountEditSuccess: boolean;
 
-  user: Agent = {
-    _id: "",
-    firstname: "",
-    lastname: "",
-    email:	"",
-    password:	"",
-  };
+  isEditing: boolean;
+  isAdding: boolean = false;
 
-  workDay: any = {
-    dayOfWeek: "",
-    hourFrom: "",
-    hourTo: "",
-  };
+  user: Agent;
+  agents: any;
 
-  agents: any = '';
-  workingDays: any = '';
-
-  constructor(private agentService: AgentService, private workHoursService: WorkHoursService, private router: Router, @Inject('DAYS') public days: any[]) { }
+  constructor(private agentService: AgentService) { }
 
   ngOnInit() {
-    this.resetWorkDay();
+    this.isDataError = false;
+    this.isEmailError = false;
+    this.isAccountEditSuccess = false;
+    this.isEditing = false;
+    this.isAdding = false;
+    this.agents = [];
     this.getAgents();
+    this.resetUser();
   }
-  
-  OnSubmit(form: NgForm) {
+
+  onCloseClick() {
+    this.isEditing = false;
+  }
+
+  onDataError(){
+    this.isDataError = true;
+  }
+
+  onFormSubmit(form: NgForm){
     if(this.isAdding){
       this.add(form);
     }
     if(this.isEditing){
       this.edit(form);
-    }
-  } 
-
-  resetWorkDay() {
-    this.workDay = {
-      dayOfWeek: "",
-      hourFrom: "",
-      hourTo: "",
     }
   }
 
@@ -74,7 +63,7 @@ export class ConsultantsComponent implements OnInit {
       this.agents = data.users;
     },
     (err: HttpErrorResponse) => {
-      // !!!
+      this.isDataError = true;
     });
   }
 
@@ -88,7 +77,7 @@ export class ConsultantsComponent implements OnInit {
       }, 3000);
     },
     (err: HttpErrorResponse) => {
-        this.isError = true;
+        this.isEmailError = true;
     });
   }
 
@@ -102,7 +91,7 @@ export class ConsultantsComponent implements OnInit {
       }, 3000);
     },
     (err: HttpErrorResponse) => {
-        this.isError = true;
+      this.isEmailError = true;
     });
   }
 
@@ -111,20 +100,9 @@ export class ConsultantsComponent implements OnInit {
       console.log("AGENT: " + JSON.stringify(data.user))
       this.user = data.user;
       this.isEditing = true;
-      this.getAgentWorkHours();
     },
     (err: HttpErrorResponse) => {
       //
-    });
-  }
-
-  getAgentWorkHours(){
-    this.workHoursService.getAgentWorkHours(localStorage.getItem('agent-help-chat-token'), this.user._id).subscribe((data: any) => {
-      this.workingDays = data.workHours;
-      this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
-    },
-    (err: HttpErrorResponse) => {
-        //
     });
   }
 
@@ -162,24 +140,13 @@ export class ConsultantsComponent implements OnInit {
 
   }
 
-  addWornikgHours() {
-    console.log("this.workDay " + JSON.stringify(this.workDay))
-    this.workHoursService.createAgentWorkHours(localStorage.getItem('agent-help-chat-token'), this.workDay, this.user._id).subscribe((data: any) => {
-      this.resetWorkDay();
-      this.getAgentWorkHours();
-    },
-    (err: HttpErrorResponse) => {
-      //
-    });
-  }
-
-  deleteWorkingHours(workingHoursId: string) {
-    console.log("this.workDay " + JSON.stringify(this.workDay))
-    this.workHoursService.deleteWorkHours(localStorage.getItem('agent-help-chat-token'), workingHoursId).subscribe((data: any) => {
-      this.getAgentWorkHours();
-    },
-    (err: HttpErrorResponse) => {
-      //
-    });
+  resetUser(){
+    this.user = {
+      _id: '',
+      firstname: '',
+      lastname: '',
+      email:	'',
+      password:	''
+    };
   }
 }

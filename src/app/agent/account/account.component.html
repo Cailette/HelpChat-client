@@ -1,10 +1,10 @@
-<div *ngIf="isAccountError" class="row justify-content-center align-items-center mt-5">
+<div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
     <div class="alert alert-danger">
         Wystąpił błąd, spróbuj ponownie później.
     </div>
 </div>
 
-<div *ngIf="isAccountEditSuccess" class="row justify-content-left align-items-center mt-5">
+<div *ngIf="isAccountEditSuccess" class="row justify-content-center align-items-center mt-5">
     <div class="alert alert-success">
         Zmiany zostały zapisane pomyślnie.
     </div>
@@ -14,7 +14,7 @@
     *ngIf="!isEditing"
     [user]="user"
     (editInformationClick)="onEditInformationClick($event)"
-    (accountError)="onAccountError($event)" >
+    (dataError)="onDataError($event)" >
 </app-information>
 
 <app-information-form
@@ -22,7 +22,6 @@
     [user]="user"
     [isEmailError]="isEmailError"
     (closeClick)="onCloseClick($event)" 
-    (editSubmit)="onEditSubmit($event)" 
-    (getWorkHours)="onGetWorkHours($event)"
-    (accountError)="onAccountError($event)" >
+    (formSubmit)="onFormSubmit($event)" 
+    (dataError)="onDataError($event)" >
 </app-information-form>

@@ -36,16 +36,6 @@
                         <input type="password" name="repassword" id="repassword" class="form-control validate" #repassword="ngModel" [(ngModel)]="user.repassword">
                         <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  class="alert alert-warning mt-3 p-2" data-error="">Powtórzone hasło musi być identyczne jak hasło.</label>
                     </div>
-                        
-                    <app-working-hours-tab
-                        [isEditing]="isEditing"
-                        (accountError)="onAccountError($event)" >
-                    </app-working-hours-tab>
-
-                    <app-working-hours-from
-                        (accountError)="onAccountError($event)"
-                        (getWorkHours)=onGetWorkHours($event)>
-                    </app-working-hours-from>
 
                     <div class="col-16 my-3 text-center">
                         <button [disabled]="!editForm.valid" type="submit" class="btn btn-outline-primary ml-4">Zapisz zmiany</button>

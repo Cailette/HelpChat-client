@@ -11,18 +11,17 @@ import { WorkHoursService } from 'src/app/services/work-hours.service';
   templateUrl: './account.component.html'
 })
 export class AccountComponent implements OnInit {
-  isAccountError: boolean;
+  isDataError: boolean;
   isAccountEditSuccess: boolean;
   isEditing: boolean;
   isEmailError: boolean;
   user: Agent;
-  action: string;
 
   constructor(private workHoursService: WorkHoursService, private agentService: AgentService, private router: Router, @Inject('DAYS') public days: any[]) { }
 
   ngOnInit() {
     this.resetUser();
-    this.isAccountError = false;
+    this.isDataError = false;
     this.isAccountEditSuccess = false;
     this.isEditing = false;
     this.isEmailError = false;
@@ -31,7 +30,7 @@ export class AccountComponent implements OnInit {
       this.user = data.user;
     },
     (err: HttpErrorResponse) => {
-      this.isAccountError = true;
+      this.isDataError = true;
     });
   }
   
@@ -43,11 +42,11 @@ export class AccountComponent implements OnInit {
     this.isEditing = false;
   }
 
-  onAccountError(){
-    this.isAccountError = true;
+  onDataError(){
+    this.isDataError = true;
   }
 
-  onEditSubmit(form: NgForm){
+  onFormSubmit(form: NgForm){
     this.agentService.updateAccount(localStorage.getItem('agent-help-chat-token'), form.value).subscribe((data: any) => {
       this.isEditing = false;
       this.isAccountEditSuccess = true;

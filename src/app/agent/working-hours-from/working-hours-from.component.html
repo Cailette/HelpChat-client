@@ -1,20 +1,26 @@
 
-
-<div class="col-16 my-3 text-center">
-    <div class="btn btn-outline-warning" data-toggle="modal" data-target="#addWornikgHours" role="button">Dodaj lub zmień godziny pracy</div>
+<div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+    <div class="alert alert-danger">
+        Wystąpił błąd, spróbuj ponownie później.
+    </div>
 </div>
 
-<div class="modal fade" id="addWornikgHours" tabindex="-1" role="dialog" aria-labelledby="addWornikgHours" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title">Dodaj dzień pracy</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form class="row form-inline justify-content-center align-items-center" #addForm="ngForm" (ngSubmit)="OnSubmit(addForm)">
+<div class="row d-flex justify-content-center p-5">
+    <div class="col-8 ml-md-5">
+        <div class="jumbotron bg-light">
+            <h1 class="display-3">Imie i nazwisko</h1>
+            <p class="lead">Dodaj godziny pracy</p>
+
+            <hr class="my-4">
+               
+            <app-working-hours-tab
+                [isEditing]="isEditing"
+                (dataError)="onDataError($event)" >
+            </app-working-hours-tab>
+
+            <hr class="my-4">
+            
+            <form class="form" #addForm="ngForm" (ngSubmit)="OnSubmit(addForm)">
                 <div class="form-group">
                     <label for="dayOfWeek" class="text-primary">Dzień: </label>
                     <select class="form-control validate" id="dayOfWeek" #dayOfWeek="ngModel" [(ngModel)]="workDay.dayOfWeek" name="dayOfWeek" required>
@@ -22,20 +28,19 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="hourFrom" class="text-primary">od:</label>
-                    <input type="number" name="dayOfWeek" id="hourFrom" class="form-control validate" #hourFrom="ngModel" [(ngModel)]="workDay.hourFrom" min="1" max="24" required>
+                    <label for="hourFrom" class="text-primary">Godziny od:</label>
+                    <input type="number" name="hourFrom" id="hourFrom" class="form-control validate" #hourFrom="ngModel" [(ngModel)]="workDay.hourFrom" min="1" max="24" required>
                 </div> 
                 <div class="form-group">
-                    <label for="hourTo" class="text-primary mx-sm-3">do:</label>
+                    <label for="hourTo" class="text-primary">Godziny do:</label>
                     <input type="number" name="hourTo" id="hourTo" class="form-control validate" #hourTo="ngModel" [(ngModel)]="workDay.hourTo" min="1" max="24" required>
                 </div> 
-            </form>
 
-        </div>
-        <div class="modal-footer">
-            <button type="submit" [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" class="btn btn-success text-white ml-4">Dodaj</button>
-            <button type="button" class="btn btn-primary text-white ml-4" data-dismiss="modal">Zakończ</button>
-        </div>
+                <div class="col-16 my-3 text-center">
+                    <button type="submit" [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" class="btn btn-success text-white ml-4">Dodaj</button>
+                    <button type="button" class="btn btn-secondary ml-4" routerLink="/home/account">Zamknij</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
