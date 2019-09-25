@@ -8,8 +8,7 @@ import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-working-hours-from',
-  templateUrl: './working-hours-from.component.html',
-  styles: []
+  templateUrl: './working-hours-from.component.html'
 })
 export class WorkingHoursFromComponent implements OnInit {
   @ViewChild(WorkingHoursTabComponent, {static: false}) childWorkingHoursTab: WorkingHoursTabComponent;

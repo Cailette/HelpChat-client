@@ -1,0 +1,15 @@
+<div *ngIf="isClose" id="chat-header" class="row chat-header bg-primary px-4 d-flex align-items-center cursor-pointer" (click)="openChat()">
+    <p class="h5 text-white">Potrzebujesz pomocy?</p>
+</div>
+
+<div *ngIf="!isClose && isAgent" class="row chat-header bg-primary px-4 d-flex align-items-center justify-content-between">
+    <p class="h5 text-white">{{agent.firstname}} {{agent.lastname}}</p>
+    <i class="fas fa-times fa-2x text-white cursor-pointer" (click)="closeChat()"></i>
+</div>
+
+<div *ngIf="!isClose && !isAgent" class="row chat-header bg-primary px-4 d-flex align-items-center justify-content-between">
+    <p class="h5 text-white">Napisz do nas maila!</p>
+    <i class="fas fa-times fa-2x text-white cursor-pointer" (click)="closeMailForm()"></i>
+</div>
+
+<router-outlet></router-outlet>

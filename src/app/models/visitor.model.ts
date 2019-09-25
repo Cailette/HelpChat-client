@@ -5,5 +5,6 @@ export class Visitor {
     };
     lastVisit: Date;
     browserSoftware: String;
-    operatingSoftware: String
+    operatingSoftware: String;
+    representative: String;
 }

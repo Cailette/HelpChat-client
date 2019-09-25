@@ -21,7 +21,7 @@ import { AgentFilter }from './Pipes/agent-filter.pipe';
     AppComponent,
     routingComponents,
     AgentSearch,
-    AgentFilter
+    AgentFilter,
   ],
   imports: [
     BrowserModule,

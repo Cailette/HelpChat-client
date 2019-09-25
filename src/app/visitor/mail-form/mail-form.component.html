@@ -1,0 +1,45 @@
+<div class="row p-3 side-bar-scroll d-flex flex-column flex-nowrap">
+
+    <div class="alert alert-info mt-2 p-2 text-center" data-error="">
+        Aktualnie nie ma aktywnych konsultantów. Prześlij nam maila.
+    </div>
+
+    <form class="form" #mailForm="ngForm" (ngSubmit)="OnSubmit(mailForm)">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="md-form mt-2">
+                    <label for="email" class="">Twój mail*</label>
+                    <input type="text" id="email" name="email" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="md-form mt-4">
+                    <label for="subject" class="">Temat*</label>
+                    <input type="text" id="subject" name="subject" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="md-form mt-2">
+                    <label for="message">Wiadomość*</label>
+                    <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea" required></textarea>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="alert alert-info mt-3 p-2 text-center" data-error="">
+            * Wszystkie pola są wymagane.
+        </div>
+    
+        <div class="col-16 my-3 text-center">
+            <button [disabled]="!mailForm.valid" type="submit" class="btn btn-outline-primary">Wyślij</button>
+        </div>
+                
+    </form>
+</div>

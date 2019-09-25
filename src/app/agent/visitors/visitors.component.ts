@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Visitor } from 'src/app/models/visitor.model';
 import { VisitorService } from 'src/app/services/visitor.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChatService } from 'src/app/services/chat.service';
+import { AgentSocketService } from 'src/app/services/agent-socket.service';
 import { AgentService } from 'src/app/services/agent.service';
 
 @Component({
@@ -14,8 +14,8 @@ export class VisitorsComponent implements OnInit {
   visitor: Visitor;
   connection;
 
-  constructor(private visitorService: VisitorService, private chatService: ChatService, private agentService: AgentService) {
-    this.chatService.onLocationChange().subscribe(data => {
+  constructor(private visitorService: VisitorService, private agentSocketService: AgentSocketService, private agentService: AgentService) {
+    this.agentSocketService.onLocationChange().subscribe(data => {
       console.log(JSON.stringify(data))
     });
   }
@@ -25,7 +25,7 @@ export class VisitorsComponent implements OnInit {
     this.getVisitors();
 
     this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {      
-      this.chatService.joinRoom(data.user._id);
+      this.agentSocketService.joinRoom(data.user._id);
     },
     (err: HttpErrorResponse) => {
       // !!!
@@ -51,7 +51,8 @@ export class VisitorsComponent implements OnInit {
         },
         lastVisit: data.visitor.lastVisit,
         browserSoftware: data.visitor.browserSoftware,
-        operatingSoftware: data.visitor.operatingSoftware
+        operatingSoftware: data.visitor.operatingSoftware,
+        representative: data.visitor.representative
       };
     },
     (err: HttpErrorResponse) => {
@@ -67,7 +68,8 @@ export class VisitorsComponent implements OnInit {
       },
       lastVisit: new Date,
       browserSoftware: "",
-      operatingSoftware: ""
+      operatingSoftware: "",
+      representative: "",
     };
   }
 

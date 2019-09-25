@@ -4,8 +4,7 @@ import { Agent } from 'src/app/models/agent.model';
 
 @Component({
   selector: 'app-information-form',
-  templateUrl: './information-form.component.html',
-  styles: [],
+  templateUrl: './information-form.component.html'
 })
 
 export class InformationFormComponent implements OnInit {

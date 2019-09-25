@@ -1,16 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-
 import { AgentService } from 'src/app/services/agent.service';
-
-import { User } from 'src/app/models/user.model';
 import { Agent } from 'src/app/models/agent.model';
 
 @Component({
   selector: 'app-information',
-  templateUrl: './information.component.html',
-  styles: []
+  templateUrl: './information.component.html'
 })
 export class InformationComponent implements OnInit {
   @Input() user: Agent;

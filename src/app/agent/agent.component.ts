@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AgentService } from 'src/app/services/agent.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import 'src/assets/css/app-main-style.css';
 
 @Component({
   selector: 'app-agent',

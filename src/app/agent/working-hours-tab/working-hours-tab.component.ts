@@ -4,8 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-working-hours-tab',
-  templateUrl: './working-hours-tab.component.html',
-  styles: []
+  templateUrl: './working-hours-tab.component.html'
 })
 export class WorkingHoursTabComponent implements OnInit {
   @Output() dataError = new EventEmitter<boolean>();
