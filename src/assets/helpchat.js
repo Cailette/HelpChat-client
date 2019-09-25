@@ -21,7 +21,7 @@ function initWidget() {
 
     const chatIframe = document.createElement('iframe');
     chatIframe.id = 'chat-iframe';
-    chatIframe.src = helpChatBaseLocation + "/chat-widget";
+    chatIframe.src = helpChatBaseLocation + "/chat";
     document.body.appendChild(chatIframe);
 
     appendJs(helpChatBaseLocation + '/assets/iframe-style.js');

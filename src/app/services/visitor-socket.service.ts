@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { Socket } from 'ngx-socket-io';
 import io from 'socket.io-client';
 import { environment } from '../../environments/environment.prod';
 import { Visitor } from '../models/visitor.model';
@@ -29,7 +28,7 @@ export class VisitorSocketService {
  
   getWorkingAgent(token: string) {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.get(this.apiURL + '/users/working-agent', {headers: reqHeader});
+    return this.http.get(this.apiURL + '/visitors/found-agent', {headers: reqHeader});
   }
 
   newVisitor(visitorData: Visitor) {

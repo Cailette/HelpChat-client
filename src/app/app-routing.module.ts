@@ -50,7 +50,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'chat-widget', component: VisitorComponent,
+    path: 'chat', component: VisitorComponent,
     children: [
       { path: 'chat-content', component: WidgetChatContentComponent},
       { path: 'mail-form', component: MailFormComponent},

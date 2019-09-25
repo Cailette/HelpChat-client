@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Agent } from 'src/app/models/agent.model';
 
@@ -35,7 +35,6 @@ export class InformationFormComponent implements OnInit {
   }
   
   OnSubmit(form: NgForm) {
-    console.log("OnSubmit " + JSON.stringify(form.value))
     this.formSubmit.emit(form)
   }
 }

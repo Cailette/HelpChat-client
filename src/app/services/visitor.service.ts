@@ -20,4 +20,6 @@ export class VisitorService {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
     return this.http.get(this.apiURL + '/visitors/' + visitorId, {headers: reqHeader});
   }
+
+  
 }

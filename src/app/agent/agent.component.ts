@@ -12,10 +12,12 @@ import 'src/assets/css/app-main-style.css';
 
 export class AgentComponent implements OnInit {
   isActive: boolean;
+  isDataError: boolean;
 
   constructor(private agentService: AgentService, private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    this.isDataError = false;
     this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.isActive = data.user.isActive;
     },
@@ -25,22 +27,17 @@ export class AgentComponent implements OnInit {
   }
   
   ngOnDestroy() {
-    this.agentService.switchActivity(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      //
-    },
-    (err: HttpErrorResponse) => {
-      // this.snackBar.open('Błąd przy zmianie statusu!'); // HALO OOOO 
-    });
+    if(this.isActive){
+      this.SwitchActivity();
+    }
   }
 
   Logout() {
-    this.agentService.switchActivity(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      localStorage.removeItem('agent-help-chat-token');
-      this.router.navigate(['/']);
-    },
-    (err: HttpErrorResponse) => {
-      // this.snackBar.open('Błąd przy zmianie statusu!'); // HALO OOOO 
-    });
+    if(this.isActive){
+      this.SwitchActivity();
+    }
+    localStorage.removeItem('agent-help-chat-token');
+    this.router.navigate(['/']);
   }
 
   SwitchActivity() {
@@ -48,7 +45,7 @@ export class AgentComponent implements OnInit {
       this.isActive = !this.isActive;
     },
     (err: HttpErrorResponse) => {
-      // this.snackBar.open('Błąd przy zmianie statusu!'); // HALO OOOO 
+      this.isDataError = true;
     });
   }
 }

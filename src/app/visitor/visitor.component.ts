@@ -43,7 +43,7 @@ export class VisitorComponent implements OnInit {
       window.parent.postMessage("getLocation", "*");
       this.isClose = false;
       this.isAgent = true;
-      this.router.navigate(['/chat-widget/chat-contnet']);
+      this.router.navigate(['/chat/chat-contnet']);
       // pobranie wiadomości itd...
     } else {
       if(!localStorage.getItem("openpages")){
@@ -69,7 +69,7 @@ export class VisitorComponent implements OnInit {
 
   openChat() {
     localStorage.setItem("openchat", "1") // set true so it's open
-    console.log("STORAGE ON OPEN CHAT" + localStorage.getItem('visitor-help-chat-token'));
+    console.log("STORAGE ON OPEN CHAT " + localStorage.getItem('visitor-help-chat-token'));
     this.visitorSocketService.getWorkingAgent(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
       console.log("AGETN DATA" + JSON.stringify(data));
       this.agent = {
@@ -83,33 +83,33 @@ export class VisitorComponent implements OnInit {
       this.isClose = false;
       this.isAgent = true;
       window.parent.postMessage("show", "*");
-      this.router.navigate(['/chat-widget/chat-content']);
+      this.router.navigate(['/chat/chat-content']);
     },
     (err: HttpErrorResponse) => {
       this.isClose = false;
       this.isAgent = false;
       window.parent.postMessage("show", "*");
-      this.router.navigate(['/chat-widget/mail-form']);
+      this.router.navigate(['/chat/mail-form']);
     });
   }
 
   closeChat() {
     if (!this.isRating) {
       this.isRating = true;
-      this.router.navigate(['/chat-widget/chat-rating']);
+      this.router.navigate(['/chat/chat-rating']);
     } else {
       localStorage.removeItem("openchat"); // false as I close chat
       this.isClose = true;
       this.isRating = false;
       window.parent.postMessage("hide", "*");
-      this.router.navigate(['/chat-widget']);
+      this.router.navigate(['/chat']);
     }
   }
 
   closeMailForm() {
       this.isClose = true;
       window.parent.postMessage("hide", "*");
-      this.router.navigate(['/chat-widget']);
+      this.router.navigate(['/chat']);
   }
 
   @HostListener('window:beforeunload', ['$event'])

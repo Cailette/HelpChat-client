@@ -86,6 +86,11 @@
             </nav>
 
             <main class="col-md-10 pl-0">
+                <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+                    <div class="alert alert-danger">
+                        Wystąpił błąd, spróbuj ponownie później.
+                    </div>
+                </div>
                 <router-outlet></router-outlet>
             </main>
         </div>

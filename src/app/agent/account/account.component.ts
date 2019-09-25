@@ -4,7 +4,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Agent } from 'src/app/models/agent.model';
 import { AgentService } from 'src/app/services/agent.service';
 import { NgForm } from '@angular/forms';
-import { WorkHoursService } from 'src/app/services/work-hours.service';
 
 @Component({
   selector: 'app-account',
@@ -17,7 +16,7 @@ export class AccountComponent implements OnInit {
   isEmailError: boolean;
   user: Agent;
 
-  constructor(private workHoursService: WorkHoursService, private agentService: AgentService, private router: Router, @Inject('DAYS') public days: any[]) { }
+  constructor(private agentService: AgentService, private router: Router, @Inject('DAYS') public days: any[]) { }
 
   ngOnInit() {
     this.resetUser();

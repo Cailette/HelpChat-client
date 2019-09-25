@@ -10,18 +10,22 @@ export class WorkingHoursTabComponent implements OnInit {
   @Output() dataError = new EventEmitter<boolean>();
   @Output() getWorkHours = new EventEmitter<boolean>();
   @Input() isEditing: boolean;
-  @Input() agentId: string;
   workingDays: any;
+
+  _agentId: string;
+  @Input() set agentId(value: string) {
+    this._agentId = value;
+    this.getAgentWorkHours();
+  }
 
   constructor(private workHoursService: WorkHoursService, @Inject('DAYS') public days: any[]) { }
 
   ngOnInit() {
     this.workingDays = [];
-    this.getAgentWorkHours();
   }
 
   getAgentWorkHours(){
-    this.workHoursService.getAgentWorkHours(localStorage.getItem('agent-help-chat-token'), this.agentId).subscribe((data: any) => {
+    this.workHoursService.getAgentWorkHours(localStorage.getItem('agent-help-chat-token'), this._agentId).subscribe((data: any) => {
       this.workingDays = data.workHours;
       this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
     },
