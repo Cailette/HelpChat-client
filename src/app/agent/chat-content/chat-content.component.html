@@ -1,5 +1,5 @@
 
-<div class="p-3 chat-content d-flex flex-column-reverse flex-nowrap">
+<div class="p-3 chat-content d-flex flex-column-reverse flex-nowrap" [ngStyle]="{'height': isArchive ? 'calc(100vh - 50px)' : ''}">
     <div class="container-fluid my-2">
         <div class="row d-flex justify-content-start">
             <div class="card w-75">

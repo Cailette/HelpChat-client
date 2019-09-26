@@ -20,7 +20,7 @@ import { ChatsListComponent } from './agent/chats-list/chats-list.component';
 import { ChatContentComponent } from './agent/chat-content/chat-content.component';
 import { ChatVisitorInfoComponent } from './agent/chat-visitor-info/chat-visitor-info.component';
 import { VisitorComponent } from './visitor/visitor.component';
-import { WidgetChatContentComponent } from './visitor/widget-chat-content/widget-chat-content.component';
+import { ChattingWindowComponent } from './visitor/chatting-window/chatting-window.component';
 import { ChatRateComponent } from './visitor/chat-rate/chat-rate.component';
 import { MailFormComponent } from './visitor/mail-form/mail-form.component';
 
@@ -52,9 +52,9 @@ const routes: Routes = [
   {
     path: 'chat', component: VisitorComponent,
     children: [
-      { path: 'chat-content', component: WidgetChatContentComponent},
-      { path: 'mail-form', component: MailFormComponent},
-      { path: 'chat-rating', component: ChatRateComponent},
+      { path: 'content', component: ChattingWindowComponent},
+      { path: 'mail', component: MailFormComponent},
+      { path: 'rating', component: ChatRateComponent},
     ]
   }
 ];
@@ -87,7 +87,7 @@ export const routingComponents =
     ChatContentComponent,
     ChatVisitorInfoComponent,
     VisitorComponent,
-    WidgetChatContentComponent,
+    ChattingWindowComponent,
     ChatRateComponent,
     MailFormComponent
   ]

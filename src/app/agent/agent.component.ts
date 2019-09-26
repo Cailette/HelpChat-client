@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AgentService } from 'src/app/services/agent.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import 'src/assets/css/app-main-style.css';
 
 @Component({
   selector: 'app-agent',
@@ -18,11 +17,12 @@ export class AgentComponent implements OnInit {
 
   ngOnInit() {
     this.isDataError = false;
+    this.isActive = false;
     this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.isActive = data.user.isActive;
     },
     (err: HttpErrorResponse) => {
-      //
+      this.isDataError = true;
     });
   }
   

@@ -74,4 +74,9 @@ export class AgentService {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
     return this.http.get(this.apiURL + '/users/' + agentId, {headers: reqHeader});
   }
+  
+  getWorkingAgent(token: string) {
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + '/users/working-agent', {headers: reqHeader});
+  }
 }

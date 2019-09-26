@@ -21,5 +21,23 @@ export class VisitorService {
     return this.http.get(this.apiURL + '/visitors/' + visitorId, {headers: reqHeader});
   }
 
-  
+  newVisitor(visitorData: Visitor) {
+    const visitor = {
+      geoLocation: { 
+        lat: visitorData.geoLocation.lat, 
+        lng: visitorData.geoLocation.lng,
+      },
+      browserSoftware: visitorData.browserSoftware,
+      operatingSoftware: visitorData.operatingSoftware,
+      representative: visitorData.representative
+    }
+
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post(this.apiURL + '/visitors', visitor, {headers: reqHeader});
+  }
+ 
+  updateVisitor(token: string) {
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.put(this.apiURL + '/visitors', {}, {headers: reqHeader});
+  }
 }
