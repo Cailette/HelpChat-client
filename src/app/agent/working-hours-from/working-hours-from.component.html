@@ -21,21 +21,24 @@
 
             <hr class="my-4">
             
-            <form class="form" #addForm="ngForm" (ngSubmit)="OnSubmit(addForm)">
-                <div class="form-group">
-                    <label for="dayOfWeek" class="text-primary">Dzień: </label>
-                    <select class="form-control validate" id="dayOfWeek" #dayOfWeek="ngModel" [(ngModel)]="workDay.dayOfWeek" name="dayOfWeek" required>
+            <form class="form-inline d-flex align-items-center justify-content-around" #addForm="ngForm" (ngSubmit)="OnSubmit(addForm)">
+                <div class="form-group w-50">
+                    <select class="form-control validate w-100" id="dayOfWeek" #dayOfWeek="ngModel" [(ngModel)]="workDay.dayOfWeek" name="dayOfWeek" required>
                         <option *ngFor="let day of days" [value]="day.number">{{day.day}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="hourFrom" class="text-primary">Godziny od:</label>
+                <div class="form-group ">
+                    <label for="hourFrom" class="text-primary mx-2">Od:</label>
                     <input type="number" name="hourFrom" id="hourFrom" class="form-control validate" #hourFrom="ngModel" [(ngModel)]="workDay.hourFrom" min="1" max="24" required>
                 </div> 
                 <div class="form-group">
-                    <label for="hourTo" class="text-primary">Godziny do:</label>
+                    <label for="hourTo" class="text-primary mx-2">Do:</label>
                     <input type="number" name="hourTo" id="hourTo" class="form-control validate" #hourTo="ngModel" [(ngModel)]="workDay.hourTo" min="1" max="24" required>
                 </div> 
+                <label *ngIf="dayOfWeek.invalid && (dayOfWeek.dirty || dayOfWeek.touched) && workDay.dayOfWeek == ''" class="alert alert-warning mt-3 p-2" data-error="">Dzień tygodnia jest wymagany.</label>
+                <label *ngIf="((hourTo.dirty || hourTo.touched) || (hourFrom.dirty || hourFrom.touched)) && workDay.hourTo <= workDay.hourFrom" class="alert alert-warning mt-3 p-2" data-error="">Wartości zakresu godzin muszą mieścić się w przedziale od 0 do 24 oraz ‘godziny od’ muszą być mniejsze od ‘godziny do’.”</label>
+
+                <div class="w-100"></div>
 
                 <div class="col-16 my-3 text-center">
                     <button type="submit" [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" class="btn btn-success text-white ml-4">Dodaj</button>

@@ -35,7 +35,9 @@ export class RegisterPageComponent implements OnInit {
       this.isRegistering = false;
     },
     (err: HttpErrorResponse) => {
-        this.isRegisterError = true;
+      console.log(JSON.stringify(err))
+
+      this.isRegisterError = true;
     });
   }
 

@@ -75,27 +75,27 @@ export class VisitorComponent implements OnInit {
   openChat() {
     localStorage.setItem("openchat", "1") // set true so it's open
     console.log("STORAGE ON OPEN CHAT " + localStorage.getItem('visitor-help-chat-token'));
-    this.agentService.getWorkingAgent(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
-      console.log("AGETN DATA" + JSON.stringify(data));
-      this.agent = {
-        _id: data.user._id,
-        firstname: data.user.firstname,
-        lastname: data.user.lastname,
-        email: data.user.emal,
-        password: "",
-      }
+    // this.agentService.getWorkingAgent(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
+    //   console.log("AGETN DATA" + JSON.stringify(data));
+    //   this.agent = {
+    //     _id: data.user._id,
+    //     firstname: data.user.firstname,
+    //     lastname: data.user.lastname,
+    //     email: data.user.emal,
+    //     password: "",
+    //   }
 
-      this.isClose = false;
-      this.isAgent = true;
-      window.parent.postMessage("show", "*");
-      this.router.navigate(['/chat/content']);
-    },
-    (err: HttpErrorResponse) => {
+    //   this.isClose = false;
+    //   this.isAgent = true;
+    //   window.parent.postMessage("show", "*");
+    //   this.router.navigate(['/chat/content']);
+    // },
+    // (err: HttpErrorResponse) => {
       this.isClose = false;
       this.isAgent = false;
       window.parent.postMessage("show", "*");
       this.router.navigate(['/chat/mail']);
-    });
+    // });
   }
 
   closeChat() {
