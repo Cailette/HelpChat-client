@@ -75,8 +75,13 @@ export class AgentService {
     return this.http.get(this.apiURL + '/users/' + agentId, {headers: reqHeader});
   }
   
-  getWorkingAgent(token: string) {
+  getWorkingAgents(token: string) {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.get(this.apiURL + '/users/working-agent', {headers: reqHeader});
+    return this.http.get(this.apiURL + '/users/working-now', {headers: reqHeader});
+  }
+  
+  getRandomWorkingAgent(token: string) {
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + '/users/working-random', {headers: reqHeader});
   }
 }
