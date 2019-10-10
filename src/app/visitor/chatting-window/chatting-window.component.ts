@@ -15,11 +15,18 @@ export class ChattingWindowComponent implements OnInit {
   constructor(
     private agentService: AgentService, 
     private visitorSocketService: VisitorSocketService, 
-    private router: Router) { }
+    private router: Router) { 
+      this.visitorSocketService.connect(localStorage.getItem('visitor-help-chat-token'));
+      this.visitorSocketService.onConnectionWithAgent().subscribe(data => {
+        console.log(JSON.stringify(data))
+      });
+      this.visitorSocketService.onError().subscribe(error => {
+        console.log(JSON.stringify(error))
+      });
+    }
 
   ngOnInit() {
     this.resetAgent();
-    this.getAgent();
   }
 
   resetAgent(){
