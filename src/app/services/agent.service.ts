@@ -84,4 +84,9 @@ export class AgentService {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
     return this.http.get(this.apiURL + '/users/working-random', {headers: reqHeader});
   }
+  
+  getRandomAgentEmail(token: string) {
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + '/users/email-random', {headers: reqHeader});
+  }
 }

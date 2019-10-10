@@ -21,7 +21,6 @@ export class VisitorComponent implements OnInit {
 
   constructor(
     private router: Router, 
-    private visitorSocketService: VisitorSocketService, 
     private agentService: AgentService,
     private visitorService: VisitorService) { }
 
@@ -39,7 +38,6 @@ export class VisitorComponent implements OnInit {
     }
   }
   
-
   resetVisitor(){
     this.visitor = {
       geoLocation: { lat: "", lng: "" },
@@ -96,7 +94,7 @@ export class VisitorComponent implements OnInit {
     this.isAgent = true;
     window.parent.postMessage("show", "*");
     this.router.navigate(['/chat/content']); // chat is open so I open conwersation
-    // donwload messagess
+    // connect and donwload messagess for this chat
   }
 
   closeChat() {
@@ -114,6 +112,7 @@ export class VisitorComponent implements OnInit {
 
   closeMailForm() {
       this.isClose = true;
+      localStorage.removeItem("openchat"); // false as I close chat
       window.parent.postMessage("hide", "*");
       this.router.navigate(['/chat']);
   }
@@ -149,19 +148,18 @@ export class VisitorComponent implements OnInit {
         }
         
         this.visitorService.newVisitor(this.visitor).subscribe((data: any) => {
-          console.log(JSON.stringify(data.message));
           localStorage.setItem('visitor-help-chat-token', data.token);
-          this.visitorSocketService.joinRoom(data.visitor.representative);
+          // this.visitorSocketService.joinRoom(data.visitor.representative);
         },
         (err: HttpErrorResponse) => {
           console.log(JSON.stringify(err));
         });
       }
 
-      if (event.data.res == "locationChange") {
-        console.log(JSON.stringify(event.data));
-        this.visitorSocketService.emitLocationChange(JSON.stringify(event.data.data));
-      }
+      // if (event.data.res == "locationChange") {
+      //   console.log(JSON.stringify(event.data));
+      //   this.visitorSocketService.emitLocationChange(JSON.stringify(event.data.data));
+      // }
       
       if (event.data == "closePages") {
         localStorage.removeItem("openpages");
