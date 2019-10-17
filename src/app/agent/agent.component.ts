@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AgentService } from 'src/app/services/agent.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { AgentSocketService } from '../services/agent-socket.service';
 
 @Component({
   selector: 'app-agent',
@@ -13,7 +13,23 @@ export class AgentComponent implements OnInit {
   isActive: boolean;
   isDataError: boolean;
 
-  constructor(private agentService: AgentService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private agentService: AgentService, private router: Router, private agentSocketService: AgentSocketService) { 
+    this.agentSocketService.connect(localStorage.getItem('agent-help-chat-token'));
+    this.agentSocketService.onNewChat().subscribe(data => {
+      console.log(JSON.stringify(data))
+    });
+    this.agentSocketService.onNewMessage().subscribe(data => {
+      console.log(JSON.stringify(data))
+    });
+
+    this.agentSocketService.onError().subscribe(error => {
+      console.log(JSON.stringify(error))
+      this.isDataError = true;
+      setTimeout(()=>{
+        this.isDataError = false;
+      }, 3000);
+    });
+  }
 
   ngOnInit() {
     this.isDataError = false;
@@ -30,6 +46,7 @@ export class AgentComponent implements OnInit {
     if(this.isActive){
       this.SwitchActivity();
     }
+    this.agentSocketService.disconnect();
   }
 
   Logout() {

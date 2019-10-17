@@ -29,7 +29,7 @@ export class VisitorService {
       },
       browserSoftware: visitorData.browserSoftware,
       operatingSoftware: visitorData.operatingSoftware,
-      representative: visitorData.representative
+      representative: visitorData.representative 
     }
 
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'});

@@ -12,29 +12,19 @@ import { AgentService } from 'src/app/services/agent.service';
 export class VisitorsComponent implements OnInit {
   visitors: any = '';
   visitor: Visitor;
-  connection;
 
-  constructor(private visitorService: VisitorService, private agentSocketService: AgentSocketService, private agentService: AgentService) {
-    this.agentSocketService.onLocationChange().subscribe(data => {
-      console.log(JSON.stringify(data))
-    });
-  }
+  constructor(private visitorService: VisitorService, private agentService: AgentService) { }
 
   async ngOnInit() {
     this.resetVisitor()
     this.getVisitors();
-
-    this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {      
-      this.agentSocketService.joinRoom(data.user._id);
-    },
-    (err: HttpErrorResponse) => {
-      // !!!
-    });
   }
 
   getVisitors(){
+    console.log("data.visitors")
     this.visitorService.getVisitors(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.visitors = data.visitors;
+      console.log(data.visitors)
     },
     (err: HttpErrorResponse) => {
       // !!!
@@ -72,11 +62,4 @@ export class VisitorsComponent implements OnInit {
       representative: "",
     };
   }
-
-
-
-  // ngOnDestroy() {
-  //   this.connection.unsubscribe();
-  // }
-
 }

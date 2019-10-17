@@ -27,6 +27,7 @@ export class ChattingWindowComponent implements OnInit {
 
   ngOnInit() {
     this.resetAgent();
+    this.visitorSocketService.emitConnectWithAgent();
   }
 
   resetAgent(){
@@ -56,7 +57,4 @@ export class ChattingWindowComponent implements OnInit {
       this.router.navigate(['/chat/mail']);
     });
   }
-
-
-  
 }
