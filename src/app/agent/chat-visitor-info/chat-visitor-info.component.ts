@@ -3,6 +3,7 @@ import { Visitor } from 'src/app/models/visitor.model';
 import { VisitorService } from 'src/app/services/visitor.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { AgentSocketService } from 'src/app/services/agent-socket.service';
 
 @Component({
   selector: 'app-chat-visitor-info',
@@ -16,13 +17,16 @@ export class ChatVisitorInfoComponent implements OnInit {
     if(value){
     this.getVisitor();
     this.getCountedChats();
+    // this.getLocation();
     }
   }
   visitor: Visitor;
   countedChats: number;
   isDataError: boolean;
+  location: string;
 
-  constructor(private visitorService: VisitorService) { }
+  constructor(private agentSocketService: AgentSocketService, private visitorService: VisitorService) {
+  }
 
   ngOnInit() {
     this.resetVisitor()
@@ -60,6 +64,10 @@ export class ChatVisitorInfoComponent implements OnInit {
       this.countedChats = 0;
     });
   }
+
+  // getLocation(){
+  //   this.agentSocketService.emitGetLocation();
+  // }
 
   resetVisitor() {
     this.visitor = {

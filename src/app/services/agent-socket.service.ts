@@ -49,6 +49,23 @@ export class AgentSocketService {
     return observable;
   }
  
+  emitGetLocation(){
+    console.log("getLocation...");
+    this.socket.emit("getLocation");
+  }
+  
+  onLocationChange() {
+    const observable = new Observable<{location: String}>(observer => {
+      this.socket.on('receiveMessage', (location) => {
+        observer.next(location);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
+ 
   // emitGetChats(){
   //   this.socket.emit("getChats");
   // }
@@ -67,18 +84,6 @@ export class AgentSocketService {
     const observable = new Observable<{receiveMessage: String}>(observer => {
       this.socket.on('receiveMessage', (receiveMessage) => {
         observer.next(receiveMessage);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    });
-    return observable;
-  }
-
-  onVisitorLocationChange() {
-    const observable = new Observable<{location: String}>(observer => {
-      this.socket.on('locationChange', (location) => {
-        observer.next(location);
       });
       return () => {
         this.socket.disconnect();

@@ -1,11 +1,10 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { VisitorSocketService } from '../services/visitor-socket.service';
 import { VisitorService } from '../services/visitor.service';
-import { AgentService } from '../services/agent.service';
-import { Agent } from '../models/agent.model';
+import { AgentService } from '../services/agent.service'
 import { Visitor } from '../models/visitor.model';
+import { VisitorSocketService } from '../services/visitor-socket.service';
 
 @Component({
   selector: 'app-visitor',
@@ -22,7 +21,8 @@ export class VisitorComponent implements OnInit {
   constructor(
     private router: Router, 
     private agentService: AgentService,
-    private visitorService: VisitorService) { }
+    private visitorService: VisitorService) { 
+    }
 
   ngOnInit(){
     this.isClose = true;
@@ -35,16 +35,6 @@ export class VisitorComponent implements OnInit {
       this.nextChat();
     } else {
       this.openPage();
-    }
-  }
-  
-  resetVisitor(){
-    this.visitor = {
-      geoLocation: { lat: "", lng: "" },
-      browserSoftware: "",
-      lastVisit: "",
-      operatingSoftware: "",
-      representative: ""
     }
   }
 
@@ -149,17 +139,11 @@ export class VisitorComponent implements OnInit {
         
         this.visitorService.newVisitor(this.visitor).subscribe((data: any) => {
           localStorage.setItem('visitor-help-chat-token', data.token);
-          // this.visitorSocketService.joinRoom(data.visitor.representative);
         },
         (err: HttpErrorResponse) => {
           console.log(JSON.stringify(err));
         });
       }
-
-      // if (event.data.res == "locationChange") {
-      //   console.log(JSON.stringify(event.data));
-      //   this.visitorSocketService.emitLocationChange(JSON.stringify(event.data.data));
-      // }
       
       if (event.data == "closePages") {
         localStorage.removeItem("openpages");
@@ -171,5 +155,15 @@ export class VisitorComponent implements OnInit {
           console.log(JSON.stringify(err));
         });
       }
+  }
+  
+  resetVisitor(){
+    this.visitor = {
+      geoLocation: { lat: "", lng: "" },
+      browserSoftware: "",
+      lastVisit: "",
+      operatingSoftware: "",
+      representative: ""
+    }
   }
 }

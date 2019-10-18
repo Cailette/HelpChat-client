@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { noUndefined } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-chats-list',
@@ -10,7 +9,8 @@ export class ChatsListComponent implements OnInit {
   @Output() switchRoomClick = new EventEmitter<string>();
   isDataError: boolean;
 
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit() {
     this.isDataError = false;

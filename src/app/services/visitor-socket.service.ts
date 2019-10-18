@@ -41,6 +41,19 @@ export class VisitorSocketService {
     });
     return observable;
   }
+
+  onGetLocation() {
+    console.log("onConnectionWithAgent");
+    const observable = new Observable<{}>(observer => {
+      this.socket.on('getLocation', () => {
+        observer.next();
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
  
   emitLocationChange(location: string){
     console.log("locationChange: " + location);
