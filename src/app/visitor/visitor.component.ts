@@ -42,7 +42,7 @@ export class VisitorComponent implements OnInit {
     this.visitor = {
       geoLocation: { lat: "", lng: "" },
       browserSoftware: "",
-      lastVisit: new Date,
+      lastVisit: "",
       operatingSoftware: "",
       representative: ""
     }
@@ -141,7 +141,7 @@ export class VisitorComponent implements OnInit {
             lat: event.data.visitor.geoLocation.lat, 
             lng: event.data.visitor.geoLocation.lng,
           },
-          lastVisit: new Date,
+          lastVisit: String(new Date),
           browserSoftware: event.data.visitor.browserSoftware,
           operatingSoftware: event.data.visitor.operatingSoftware,
           representative: event.data.licence

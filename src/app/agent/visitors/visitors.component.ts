@@ -4,6 +4,7 @@ import { VisitorService } from 'src/app/services/visitor.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AgentSocketService } from 'src/app/services/agent-socket.service';
 import { AgentService } from 'src/app/services/agent.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-visitors',
@@ -12,6 +13,7 @@ import { AgentService } from 'src/app/services/agent.service';
 export class VisitorsComponent implements OnInit {
   visitors: any = '';
   visitor: Visitor;
+  isDataError: boolean;
 
   constructor(private visitorService: VisitorService, private agentService: AgentService) { }
 
@@ -27,7 +29,10 @@ export class VisitorsComponent implements OnInit {
       console.log(data.visitors)
     },
     (err: HttpErrorResponse) => {
-      // !!!
+      this.isDataError = true;
+      setTimeout(()=>{
+        this.isDataError = false;
+      }, 5000);
     });
   }
 
@@ -39,14 +44,17 @@ export class VisitorsComponent implements OnInit {
           lat: data.visitor.geoLocation.lat,
           lng: data.visitor.geoLocation.lng
         },
-        lastVisit: data.visitor.lastVisit,
+        lastVisit: moment(data.visitor.lastVisit).format('DD.MM.YYYY, HH:mm'),
         browserSoftware: data.visitor.browserSoftware,
         operatingSoftware: data.visitor.operatingSoftware,
         representative: data.visitor.representative
       };
     },
     (err: HttpErrorResponse) => {
-      // !!!
+      this.isDataError = true;
+      setTimeout(()=>{
+        this.isDataError = false;
+      }, 5000);
     });
   }
 
@@ -56,7 +64,7 @@ export class VisitorsComponent implements OnInit {
         lat: "",
         lng: ""
       },
-      lastVisit: new Date,
+      lastVisit: "",
       browserSoftware: "",
       operatingSoftware: "",
       representative: "",

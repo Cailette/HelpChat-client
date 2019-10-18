@@ -1,38 +1,52 @@
 
 <div class="sidebar-sticky">
-    <h1 class="h2">Info o odwiedzającym</h1>
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <strong>Podstawowe informacje:</strong><br>
-            Liczba wizyt: 80<br>
-            Liczba czatów: 5<br>
-            Ostatnio widziany: wczoraj<br>
-        </li>
-        <hr>
-        <li class="nav-item" href="#">
-            Lokalizacja: <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-        </li>
-        <hr>
-        <li class="nav-item" href="#">
-            <strong>Oprogramowanie:</strong><br>
-            System operacyjny: 
-            Windows 10 <br>
-            Przeglądarka:
-            Opera 62.0.3331.99<br>
-        </li>
-        <hr>
-        <li class="nav-item" href="#">
-            <strong>Połączenie:</strong><br>
-            Publiczne IP: XX.XX.XXX.XXX<br>
-            Dostawca: Lorem ipsum<br>
-        </li>
-        <hr>
-    </ul>
+    <h1 class="h2">Informacje o odzwiedzającym:</h1>
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+        <div class="alert alert-danger">
+            Wystąpił błąd, spróbuj ponownie później.
+        </div>
+    </div>
+    <div *ngIf="_visitorId, else visitorNotChoosen">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <strong>Identyfikator:</strong><br>
+                {{_visitorId}} <br>
+            </li>
+            <li class="nav-item">
+                <strong>Podstawowe informacje:</strong><br>
+                Liczba czatów: {{countedChats}}<br>
+                Ostatnio widziany: {{visitor.lastVisit}}<br>
+            </li>
+            <hr>
+            <li class="nav-item" href="#">
+                <strong>Obecnie przegląda:</strong><br>
+                <a class="nav-link text-break" href="#" target="_blank">http://www.LOCATIOON.pl</a><br>
+            </li>
+            <hr>
+            <li class="nav-item" href="#">
+                <strong>Lokalizacja:</strong><br>
+                {{visitor.geoLocation.lat}}<br>
+                {{visitor.geoLocation.lng}}<br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </li>
+            <hr>
+            <li class="nav-item" href="#">
+                <strong>Oprogramowanie:</strong><br>
+                System operacyjny: 
+                {{visitor.operatingSoftware}} <br>
+                Przeglądarka:
+                {{visitor.browserSoftware}}<br>
+            </li>
+            <hr>
+        </ul>
+    </div>
+    
+
+    <ng-template #visitorNotChoosen>
+        Wybierz czat.
+    </ng-template>
 </div>

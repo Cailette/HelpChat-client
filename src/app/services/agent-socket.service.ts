@@ -21,6 +21,10 @@ export class AgentSocketService {
       });
   }
 
+  disconnect(){
+    this.socket.disconnect();
+  }
+  
   onNewChat() {
     const observable = new Observable<{newChat: String}>(observer => {
       this.socket.on('newChat', (newChat) => {

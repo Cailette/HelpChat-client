@@ -3,7 +3,7 @@ export class Visitor {
         lat: String;
         lng: String;
     };
-    lastVisit: Date;
+    lastVisit: String;
     browserSoftware: String;
     operatingSoftware: String;
     representative: String;

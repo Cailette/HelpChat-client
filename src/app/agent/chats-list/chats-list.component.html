@@ -1,23 +1,21 @@
 
 <div class="sidebar-sticky">
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                visitor-1
-            </a>
-        </li>
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+        <div class="alert alert-danger">
+            Wystąpił błąd, spróbuj ponownie później.
+        </div>
+    </div>
+
+    <ul *ngIf="chatList.length > 0; else chatListEmpty" class="nav flex-column">
+        <li *ngFor="let chat of chatList" class="nav-item">
+            <div class="nav-link p-2 text-break" (click)="switchRoom(chat._id)">
+                Identyfikator: {{ chat.visitor }}
+            </div>
         <hr>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                visitor-2
-            </a>
         </li>
-        <hr>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                visitor-3
-            </a>
-        </li>
-        <hr>
     </ul>
+
+    <ng-template #chatListEmpty>
+        Brak czatów.
+    </ng-template>
 </div>

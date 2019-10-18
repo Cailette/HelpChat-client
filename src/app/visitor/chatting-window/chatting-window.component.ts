@@ -57,4 +57,8 @@ export class ChattingWindowComponent implements OnInit {
       this.router.navigate(['/chat/mail']);
     });
   }
+  
+  ngOnDestroy() {
+    this.visitorSocketService.disconnect();
+  }
 }

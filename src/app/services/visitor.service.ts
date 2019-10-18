@@ -21,6 +21,11 @@ export class VisitorService {
     return this.http.get(this.apiURL + '/visitors/' + visitorId, {headers: reqHeader});
   }
 
+  getCountedChats(visitorId: string, token: string){
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + '/visitors/countChats/' + visitorId, {headers: reqHeader});
+  }
+
   newVisitor(visitorData: Visitor) {
     const visitor = {
       geoLocation: { 

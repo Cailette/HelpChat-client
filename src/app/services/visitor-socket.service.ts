@@ -20,6 +20,10 @@ export class VisitorSocketService {
         }
       });
   }
+
+  disconnect(){
+      this.socket.disconnect();
+  }
   
   emitConnectWithAgent() {
     this.socket.emit('connectWithAgent');
