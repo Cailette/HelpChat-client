@@ -43,7 +43,7 @@ export class VisitorSocketService {
   }
 
   onGetLocation() {
-    console.log("onConnectionWithAgent");
+    console.log("onConnectionWithAgent ");
     const observable = new Observable<{}>(observer => {
       this.socket.on('getLocation', () => {
         observer.next();

@@ -23,6 +23,7 @@ import { VisitorComponent } from './visitor/visitor.component';
 import { ChattingWindowComponent } from './visitor/chatting-window/chatting-window.component';
 import { ChatRateComponent } from './visitor/chat-rate/chat-rate.component';
 import { MailFormComponent } from './visitor/mail-form/mail-form.component';
+import { MapComponent } from './agent/map/map.component';
 
 import { AuthGuard } from './auth/auth.guard';
 
@@ -89,5 +90,6 @@ export const routingComponents =
     VisitorComponent,
     ChattingWindowComponent,
     ChatRateComponent,
-    MailFormComponent
+    MailFormComponent,
+    MapComponent,
   ]

@@ -13,12 +13,13 @@ export class ChatsComponent implements OnInit {
   visitorId: string;
   chat: any;
   isDataError: boolean;
+  location: String = "";
 
   constructor(private chatService: ChatService, private agentSocketService: AgentSocketService) { 
-    this.agentSocketService.onLocationChange().subscribe(data => {
-      console.log("...agent locationChange");
-      console.log("location " + JSON.stringify(data.location));
-    }); 
+    // this.agentSocketService.onVisitorLocationChange().subscribe(data => {
+    //   console.log("location " + JSON.stringify(data.location));
+    //   this.location = data.location;
+    // }); 
   }
 
   ngOnInit() {
@@ -27,7 +28,6 @@ export class ChatsComponent implements OnInit {
     this.visitorId = "";
     this.chat = "";
     this.chatService.getChats(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      console.log(data.chats)
       this.chatList = data.chats;  
     },
     (err: HttpErrorResponse) => {

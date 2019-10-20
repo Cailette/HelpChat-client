@@ -3,7 +3,6 @@ import { Visitor } from 'src/app/models/visitor.model';
 import { VisitorService } from 'src/app/services/visitor.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
-import { AgentSocketService } from 'src/app/services/agent-socket.service';
 
 @Component({
   selector: 'app-chat-visitor-info',
@@ -11,6 +10,7 @@ import { AgentSocketService } from 'src/app/services/agent-socket.service';
 })
 
 export class ChatVisitorInfoComponent implements OnInit {
+
   _visitorId: string;
   @Input() set visitorId(value: string) {
     this._visitorId = value;
@@ -20,12 +20,14 @@ export class ChatVisitorInfoComponent implements OnInit {
     // this.getLocation();
     }
   }
+
+  @Input() location: string = "";
   visitor: Visitor;
   countedChats: number;
   isDataError: boolean;
-  location: string;
-
-  constructor(private agentSocketService: AgentSocketService, private visitorService: VisitorService) {
+  geoLocation: string;
+  
+  constructor(private visitorService: VisitorService) {
   }
 
   ngOnInit() {
@@ -35,7 +37,8 @@ export class ChatVisitorInfoComponent implements OnInit {
 
   getVisitor(){
     this.visitorService.getVisitor(this._visitorId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      console.log(JSON.stringify(data.visitor));
+      this.geoLocation = JSON.stringify(data.visitor.geoLocation);
+      console.log("geoLocation 1" + this.geoLocation)
       this.visitor = {
         geoLocation: {
           lat: data.visitor.geoLocation.lat,
@@ -57,7 +60,6 @@ export class ChatVisitorInfoComponent implements OnInit {
 
   getCountedChats(){
     this.visitorService.getCountedChats(this._visitorId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      console.log("data.countedChats " + data.countedChats)
       this.countedChats = parseInt(data.countedChats);
     },
     (err: HttpErrorResponse) => {
