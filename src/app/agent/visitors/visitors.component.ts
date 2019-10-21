@@ -13,11 +13,14 @@ import * as moment from 'moment';
 export class VisitorsComponent implements OnInit {
   visitors: any = '';
   visitor: Visitor;
+  countedChats: number;
+  geoLocation: string;
   isDataError: boolean;
 
   constructor(private visitorService: VisitorService, private agentService: AgentService) { }
 
   async ngOnInit() {
+    this.geoLocation = "";
     this.resetVisitor()
     this.getVisitors();
   }
@@ -38,8 +41,10 @@ export class VisitorsComponent implements OnInit {
 
   viewVisitor(visitorId: string){
     this.resetVisitor();
+    this.getCountedChats(visitorId);
     this.visitorService.getVisitor(visitorId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.visitor = {
+        _id: data.visitor._id,
         geoLocation: {
           lat: data.visitor.geoLocation.lat,
           lng: data.visitor.geoLocation.lng
@@ -49,6 +54,7 @@ export class VisitorsComponent implements OnInit {
         operatingSoftware: data.visitor.operatingSoftware,
         representative: data.visitor.representative
       };
+      this.geoLocation = this.visitor.geoLocation.lat === 'Brak danych' || this.visitor.geoLocation.lng === 'Brak danych' ? "" : JSON.stringify(this.visitor.geoLocation);
     },
     (err: HttpErrorResponse) => {
       this.isDataError = true;
@@ -56,10 +62,21 @@ export class VisitorsComponent implements OnInit {
         this.isDataError = false;
       }, 5000);
     });
+    
+  }
+
+  getCountedChats(visitorId: string){
+    this.visitorService.getCountedChats(visitorId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
+      this.countedChats = parseInt(data.countedChats);
+    },
+    (err: HttpErrorResponse) => {
+      this.countedChats = 0;
+    });
   }
 
   resetVisitor() {
     this.visitor = {
+      _id: "",
       geoLocation: {
         lat: "",
         lng: ""
@@ -69,5 +86,7 @@ export class VisitorsComponent implements OnInit {
       operatingSoftware: "",
       representative: "",
     };
+    this.countedChats = 0;
+    this.geoLocation = "";
   }
 }

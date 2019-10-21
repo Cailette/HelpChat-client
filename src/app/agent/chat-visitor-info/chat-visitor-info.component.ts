@@ -15,9 +15,9 @@ export class ChatVisitorInfoComponent implements OnInit {
   @Input() set visitorId(value: string) {
     this._visitorId = value;
     if(value){
-    this.getVisitor();
-    this.getCountedChats();
-    // this.getLocation();
+      this.getVisitor();
+      this.getCountedChats();
+      // this.getLocation();
     }
   }
 
@@ -37,9 +37,9 @@ export class ChatVisitorInfoComponent implements OnInit {
 
   getVisitor(){
     this.visitorService.getVisitor(this._visitorId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      this.geoLocation = JSON.stringify(data.visitor.geoLocation);
-      console.log("geoLocation 1" + this.geoLocation)
+      this.geoLocation = data.visitor.geoLocation.lat === 'Brak danych' || data.visitor.geoLocation.lng === 'Brak danych' ? "" : JSON.stringify(data.visitor.geoLocation);
       this.visitor = {
+        _id: data.visitor._id,
         geoLocation: {
           lat: data.visitor.geoLocation.lat,
           lng: data.visitor.geoLocation.lng
@@ -73,6 +73,7 @@ export class ChatVisitorInfoComponent implements OnInit {
 
   resetVisitor() {
     this.visitor = {
+      _id: "",
       geoLocation: {
         lat: "",
         lng: ""

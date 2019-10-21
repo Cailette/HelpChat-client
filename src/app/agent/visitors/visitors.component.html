@@ -43,28 +43,29 @@
                 <h5 class="modal-title">Info o odwiedzającym</h5>
             </div>
             <div class="modal-body">
-                    <h1 class="h2">{{visitor._id}}</h1>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <strong>Podstawowe informacje:</strong><br>
-                            Liczba wizyt: --<br>
-                            Liczba czatów: --<br>
-                            Ostatnio widziany: {{visitor.lastVisit}}<br>
-                        </li>
-                        <hr>
-                        <li class="nav-item" href="#">
-                            Lokalizacja: <br>
-                            lat: {{visitor.geoLocation.lat}} <br>
-                            lng: {{visitor.geoLocation.lng}}
-                        </li>
-                        <hr>
-                        <li class="nav-item" href="#">
-                            <strong>Oprogramowanie:</strong><br>
-                            System operacyjny: {{visitor.operatingSoftware}} <br>
-                            Przeglądarka: {{visitor.browserSoftware}}<br>
-                        </li>
-                        <hr>
-                    </ul>
+                <h1 class="h2">{{visitor._id}}</h1>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <strong>Podstawowe informacje:</strong><br>
+                        Liczba czatów: {{countedChats}}<br>
+                        Ostatnio widziany: {{visitor.lastVisit}}<br>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                        <strong>Lokalizacja:</strong><br>
+                        <div class="w-100 p-2">
+                            <map geoLocation="{{geoLocation}}"></map>
+                        </div>
+                        <br>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                        <strong>Oprogramowanie:</strong><br>
+                        System operacyjny: {{visitor.operatingSoftware}} <br>
+                        Przeglądarka: {{visitor.browserSoftware}}<br>
+                    </li>
+                    <hr>
+                </ul>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary text-white ml-4" data-dismiss="modal">Zamknij</button>

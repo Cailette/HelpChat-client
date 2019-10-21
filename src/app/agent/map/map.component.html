@@ -1,1 +1,4 @@
-<div #map style="width: 500px; height: 500px"></div>
+<div *ngIf="!dataExist">
+    Brak danych!
+</div>
+<div #map style="width: 100%; height: 200px"></div>

@@ -127,6 +127,7 @@ export class VisitorComponent implements OnInit {
     onMessage(event) {
       if (event.data.res == "visitorInfo") {
         this.visitor = {
+          _id: "",
           geoLocation: { 
             lat: event.data.visitor.geoLocation.lat, 
             lng: event.data.visitor.geoLocation.lng,
@@ -159,6 +160,7 @@ export class VisitorComponent implements OnInit {
   
   resetVisitor(){
     this.visitor = {
+      _id: "",
       geoLocation: { lat: "", lng: "" },
       browserSoftware: "",
       lastVisit: "",
