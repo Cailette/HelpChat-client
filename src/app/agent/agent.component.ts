@@ -17,15 +17,15 @@ export class AgentComponent implements OnInit {
     this.agentSocketService.connect(localStorage.getItem('agent-help-chat-token'));
 
     this.agentSocketService.onNewChat().subscribe(data => {
-      console.log(".NEWCHAT." + JSON.stringify(data.newChat))
+      console.log(".NEWCHAT.")// + JSON.stringify(data.newChat))
     });
 
     this.agentSocketService.onNewMessage().subscribe(data => {
-      console.log(".NEWMESSAGE." + JSON.stringify(data.newMessage))
+      console.log(".NEWMESSAGE." + JSON.stringify(data))
     });
 
     this.agentSocketService.onError().subscribe(error => {
-      console.log(JSON.stringify(error.error))
+      console.log(JSON.stringify(error))
       this.isDataError = true;
       setTimeout(()=>{
         this.isDataError = false;

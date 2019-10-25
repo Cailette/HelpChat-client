@@ -3,6 +3,7 @@ import { Visitor } from 'src/app/models/visitor.model';
 import { VisitorService } from 'src/app/services/visitor.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { AgentSocketService } from 'src/app/services/agent-socket.service';
 
 @Component({
   selector: 'app-chat-visitor-info',

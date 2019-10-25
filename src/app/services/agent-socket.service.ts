@@ -26,9 +26,9 @@ export class AgentSocketService {
   }
   
   onNewChat() {
-    const observable = new Observable<{newChat: string}>(observer => {
-      this.socket.on('newChat', (newChat) => {
-        observer.next(newChat);
+    const observable = new Observable(observer => {
+      this.socket.on('newChat', () => {
+        observer.next();
       });
       return () => {
         this.socket.disconnect();
@@ -38,7 +38,7 @@ export class AgentSocketService {
   }
   
   onNewMessage() {
-    const observable = new Observable<{newMessage: string}>(observer => {
+    const observable = new Observable(observer => {
       this.socket.on('newMessage', (newMessage) => {
         observer.next(newMessage);
       });
@@ -57,7 +57,7 @@ export class AgentSocketService {
   
   onVisitorLocationChange() {
     console.log("onVisitorLocationChange");
-    const observable = new Observable<{location: string}>(observer => {
+    const observable = new Observable(observer => {
       this.socket.on('locationChange', (location) => {
         console.log("...agent locationChange");
         observer.next(location);
@@ -84,7 +84,7 @@ export class AgentSocketService {
   }
 
   onReceiveMessage() {
-    const observable = new Observable<{receiveMessage: String}>(observer => {
+    const observable = new Observable(observer => {
       this.socket.on('receiveMessage', (receiveMessage) => {
         observer.next(receiveMessage);
       });
@@ -96,7 +96,7 @@ export class AgentSocketService {
   }
 
   onError() {
-    const observable = new Observable<{error: String}>(observer => {
+    const observable = new Observable(observer => {
       this.socket.on('error', (error) => {
         observer.next(error);
       });

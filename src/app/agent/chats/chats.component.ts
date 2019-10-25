@@ -16,10 +16,9 @@ export class ChatsComponent implements OnInit {
   location: String = "";
 
   constructor(private chatService: ChatService, private agentSocketService: AgentSocketService) { 
-    // this.agentSocketService.onVisitorLocationChange().subscribe(data => {
-    //   console.log("location " + JSON.stringify(data.location));
-    //   this.location = data.location;
-    // }); 
+    this.agentSocketService.onVisitorLocationChange().subscribe(data => {
+      console.log("...onVisitorLocationChange");
+    });
   }
 
   ngOnInit() {
@@ -41,8 +40,12 @@ export class ChatsComponent implements OnInit {
     this.chat = this.chatList.find(chat => {
       return chat._id === chatId
     })
+    
+    console.log("1 ")
     this.agentSocketService.emitSwitchRoom(this.chat.visitor);
+    console.log("2 ")
     this.agentSocketService.emitGetLocation();
+    console.log("3 ")
     this.visitorId = this.chat.visitor;
   }
   

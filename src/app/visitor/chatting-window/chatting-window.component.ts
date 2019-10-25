@@ -13,22 +13,31 @@ export class ChattingWindowComponent implements OnInit {
       this.visitorSocketService.connect(localStorage.getItem('visitor-help-chat-token'));
       this.visitorSocketService.onConnectionWithAgent().subscribe(data => {
         console.log(JSON.stringify(data))
+        window.parent.postMessage("getLocation", "*");
       });
 
       this.visitorSocketService.onError().subscribe(error => {
         console.log(JSON.stringify(error))
       });
       
-      this.visitorSocketService.onGetLocation().subscribe(res => {
+      this.visitorSocketService.onGetLocation().subscribe(() => {
         console.log("visitor...getLocation");
         window.parent.postMessage("getLocation", "*");
       });
+      
+      this.visitorSocketService.onNextChat().subscribe((data) => {
+        console.log("onNextChat" + JSON.stringify(data));
+      });
+      
+      // this.visitorSocketService.onSwitchRoom().subscribe(res => {
+      //   console.log("agent join");
+      //   window.parent.postMessage("getLocation", "*");
+      // });
     }
 
   ngOnInit() {
     this.resetAgent();
     this.visitorSocketService.emitConnectWithAgent();
-    window.parent.postMessage("getLocation", "*");
   }
 
   resetAgent(){
