@@ -55,7 +55,7 @@ const routes: Routes = [
     children: [
       { path: 'content', component: ChattingWindowComponent},
       { path: 'mail', component: MailFormComponent},
-      { path: 'rating', component: ChatRateComponent},
+      { path: 'rating/:chatId', component: ChatRateComponent},
     ]
   }
 ];

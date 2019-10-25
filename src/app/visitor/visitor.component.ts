@@ -90,7 +90,7 @@ export class VisitorComponent implements OnInit {
   closeChat() {
     if (!this.isRating) {
       this.isRating = true;
-      this.router.navigate(['/chat/rating']);
+      this.router.navigate(['/chat']);
     } else {
       this.isClose = true;
       this.isRating = false;

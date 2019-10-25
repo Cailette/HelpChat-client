@@ -24,7 +24,6 @@ export class VisitorSocketService {
   disconnect(){
       this.socket.disconnect();
   }
-  
 
   onSwitchRoom() {
     const observable = new Observable(observer => {
@@ -44,8 +43,8 @@ export class VisitorSocketService {
 
   onConnectionWithAgent() {
     let observable = new Observable(observer => {
-      this.socket.on('connectionWithAgent', (agent) => {
-        observer.next(agent);    
+      this.socket.on('connectionWithAgent', (agent, chat) => {
+        observer.next({agent, chat});    
       });
       return () => {
         this.socket.disconnect();

@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Agent } from 'src/app/models/agent.model';
 import { VisitorSocketService } from 'src/app/services/visitor-socket.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chatting-window',
@@ -8,11 +9,13 @@ import { VisitorSocketService } from 'src/app/services/visitor-socket.service';
 })
 export class ChattingWindowComponent implements OnInit {
   agent: Agent;
+  chatId: string;
 
-  constructor(private visitorSocketService: VisitorSocketService) { 
+  constructor(private router: Router, private visitorSocketService: VisitorSocketService) { 
       this.visitorSocketService.connect(localStorage.getItem('visitor-help-chat-token'));
       this.visitorSocketService.onConnectionWithAgent().subscribe(data => {
-        console.log(JSON.stringify(data))
+        console.log(data["agent"])
+        this.chatId = data["chat"]["_id"];
         window.parent.postMessage("getLocation", "*");
       });
 
@@ -51,6 +54,7 @@ export class ChattingWindowComponent implements OnInit {
   }
   
   ngOnDestroy() {
+    this.router.navigate(['/chat/rating', this.chatId]);
     this.visitorSocketService.disconnect();
   }
   
