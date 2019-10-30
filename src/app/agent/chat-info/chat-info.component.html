@@ -28,11 +28,34 @@
                 {{_chat.rating ? _chat.rating : 'Brak'}}<br>
             </li>
             <hr>
-            <br>
         </ul>
+        <div class="d-flex justify-content-center align-items-center p-2">
+            <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat">Usuń czat</button>
+        </div>
+        <br>
     </div>
     
     <ng-template #chatNotChoosen>
         Wybierz czat.
     </ng-template>
+</div>
+
+<div class="modal fade" id="deleteChat" role="dialog" aria-labelledby="deleteChat" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Usuń czat</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <p>Czy na pewno chcesz usunąć czat?</p>
+        </div>
+        <div class="modal-footer">
+        <button (click)="delete();"  type="button" class="btn btn-danger"  data-dismiss="modal">Usuń</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+        </div>
+    </div>
+    </div>
 </div>

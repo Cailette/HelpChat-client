@@ -60,7 +60,7 @@
                     <td>{{agent.isActive ? "Aktywny" : "Niektywny"}}</td>
                     <td class="text-right">
                         <button (click)="editSelectedAgent(agent._id);" class="btn btn-outline-info ml-2">Edytuj</button>
-                        <button (click)="deleteSelectedAgent(agent._id);" class="btn btn-outline-danger ml-2">Usuń</button>
+                        <button (click)="deleteSelectedAgent(agent._id);" class="btn btn-outline-danger ml-2" data-toggle="modal" data-target="#deleteAgent">Usuń</button>
                         <button class="btn btn-outline-warning ml-2" [routerLink]="['/home/workingHours/', agent._id, agent.firstname, agent.lastname]" routerLink="/home/workingHours" role="button">Godziny pracy</button>
                     </td>
                 </tr>
@@ -83,3 +83,25 @@
         </app-information-form>
     </div>
 </div>
+
+
+
+<div class="modal fade" id="deleteAgent" role="dialog" aria-labelledby="deleteAgent" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Usuń konsultanta</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <p>Czy na pewno chcesz usunąć konsultanta?</p>
+            </div>
+            <div class="modal-footer">
+            <button (click)="delete();"  type="button" class="btn btn-danger"  data-dismiss="modal">Usuń</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+        </div>
+    </div>

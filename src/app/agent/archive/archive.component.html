@@ -16,7 +16,8 @@
         <div class="col-md-3 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
             <app-chat-info
                 [agent]="agent"
-                [chat]="chat" >
+                [chat]="chat" 
+                (clickDeleteChat)="onDeleteChat($event)" >
             </app-chat-info>
             <app-chat-visitor-info
                 [visitor]="visitor"

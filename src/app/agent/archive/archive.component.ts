@@ -17,6 +17,10 @@ export class ArchiveComponent implements OnInit {
   constructor(private chatService: ChatService) { }
 
   ngOnInit() {
+    this.resetViewData();
+  }
+
+  resetViewData(){
     this.isDataError = false;
     this.chat = "";
     this.messages = "";
@@ -36,5 +40,9 @@ export class ArchiveComponent implements OnInit {
     })
     this.visitor = this.chat.visitor;
     this.agent = this.chat.agent;
+  }
+
+  onDeleteChat(){
+    this.resetViewData();
   }
 }

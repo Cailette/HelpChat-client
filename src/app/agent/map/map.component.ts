@@ -20,16 +20,12 @@ export class MapComponent implements OnInit {
   _lng: number;
   @Input() set geoLocation(value: string) {
     if(value !== ""){
-      console.log("this.geoLocation 2 " + value)
       this.dataExist = true;
       let geoLocation = JSON.parse(value);
       this._lat = Number(geoLocation.lat);
       this._lng = Number(geoLocation.lng);
-      console.log("_lat " + this._lat)
-      console.log("_lng " + this._lng)
       this.moveMap()
     }else {
-      console.log("data not Exist")
       this.dataExist = false;
       if(this.map){
         this.moveMapDefault();
@@ -45,6 +41,22 @@ export class MapComponent implements OnInit {
 
   ngAfterViewInit(){
     console.log("ngAfterViewInit")
+    this.initMap();
+  }
+
+  moveMap() {
+    console.log("moveMap")
+    this.map.setCenter({lat: this._lat, lng: this._lng});
+    this.map.setZoom(10);
+  }
+
+  moveMapDefault(){
+    console.log("moveMapDefault")
+    this.map.setCenter({lat: 0, lng: 0});
+    this.map.setZoom(0);
+  }
+
+  initMap(){
     let platform = new H.service.Platform({
       "app_id": this.appId,
       "app_code": this.appCode
@@ -58,17 +70,5 @@ export class MapComponent implements OnInit {
         center: { lat: 0, lng: 0 }
       }
     );
-  }
-
-  moveMap() {
-    console.log("moveMap")
-    this.map.setCenter({lat: this._lat, lng: this._lng});
-    this.map.setZoom(10);
-  }
-
-  moveMapDefault(){
-    console.log("moveMapDefault")
-    this.map.setCenter({lat: 0, lng: 0});
-    this.map.setZoom(0);
   }
 }

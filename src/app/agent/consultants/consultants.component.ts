@@ -25,6 +25,8 @@ export class ConsultantsComponent implements OnInit {
   user: Agent;
   agents: any;
 
+  deleteAgent: string;
+
   constructor(private agentService: AgentService) { }
 
   ngOnInit() {
@@ -117,12 +119,7 @@ export class ConsultantsComponent implements OnInit {
   }
 
   deleteSelectedAgent(agentId: string) {
-    this.agentService.deleteAgent(localStorage.getItem('agent-help-chat-token'), agentId).subscribe((data: any) => {
-      this.getAgents();
-    },
-    (err: HttpErrorResponse) => {
-      this.isDataError = true;
-    });
+    this.deleteAgent = agentId;
   }
 
   resetUser(){
@@ -133,5 +130,14 @@ export class ConsultantsComponent implements OnInit {
       email:	'',
       password:	''
     };
+  }
+
+  delete(){
+    this.agentService.deleteAgent(localStorage.getItem('agent-help-chat-token'), this.deleteAgent).subscribe((data: any) => {
+      this.getAgents();
+    },
+    (err: HttpErrorResponse) => {
+      this.isDataError = true;
+    });
   }
 }
