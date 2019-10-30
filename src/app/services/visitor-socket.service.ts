@@ -8,18 +8,22 @@ import { Observable } from 'rxjs';
 })
 
 export class VisitorSocketService {
-  readonly apiURL: string = environment.baseUrl;
-  private socket: any; 
-
+  readonly apiURL: string = environment.baseUrl; 
+  private socket = io(this.apiURL + "/visitor");
+  
   constructor() { }
 
-  connect(token){
-    this.socket = io(this.apiURL + "/visitor", {
-        query: {
-          token: token
-        }
-      });
+  init(token) {
+    this.socket.emit('init', token);
   }
+
+  // connect(token){
+  //   this.socket = io(this.apiURL + "/visitor", {
+  //       query: {
+  //         token: token
+  //       }
+  //     });
+  // }
 
   disconnect(){
       this.socket.disconnect();
@@ -56,7 +60,6 @@ export class VisitorSocketService {
   onGetLocation() {
     const observable = new Observable(observer => {
       this.socket.on('getLocation', () => {
-        console.log("getLocation");
         observer.next();
       });
       return () => {
@@ -67,10 +70,9 @@ export class VisitorSocketService {
   }
 
   onNextChat() {
-    const observable = new Observable<{messages: any, agent: any}>(observer => {
-      this.socket.on('nextChat', (nextChat) => {
-        console.log("nextChat");
-        observer.next(nextChat);
+    const observable = new Observable(observer => {
+      this.socket.on('nextChat', (messages, agent) => {
+        observer.next({messages, agent});
       });
       return () => {
         this.socket.disconnect();
@@ -80,12 +82,10 @@ export class VisitorSocketService {
   }
  
   emitLocationChange(location: string){
-    console.log("locationChange: " + location);
     this.socket.emit("locationChange", location);
   }
  
   emitSendMessage(message: string){
-    console.log("sendMessage: " + message);
     this.socket.emit("sendMessage", message);
   }
 

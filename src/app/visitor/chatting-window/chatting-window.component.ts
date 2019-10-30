@@ -12,7 +12,7 @@ export class ChattingWindowComponent implements OnInit {
   chatId: string;
 
   constructor(private router: Router, private visitorSocketService: VisitorSocketService) { 
-      this.visitorSocketService.connect(localStorage.getItem('visitor-help-chat-token'));
+      this.visitorSocketService.init(localStorage.getItem('visitor-help-chat-token'));
       this.visitorSocketService.onConnectionWithAgent().subscribe(data => {
         console.log(data["agent"])
         this.chatId = data["chat"]["_id"];
@@ -29,13 +29,10 @@ export class ChattingWindowComponent implements OnInit {
       });
       
       this.visitorSocketService.onNextChat().subscribe((data) => {
-        console.log("onNextChat" + JSON.stringify(data));
+        console.log("onNextChat");
+        // display messages
+        window.parent.postMessage("getLocation", "*");
       });
-      
-      // this.visitorSocketService.onSwitchRoom().subscribe(res => {
-      //   console.log("agent join");
-      //   window.parent.postMessage("getLocation", "*");
-      // });
     }
 
   ngOnInit() {

@@ -9,23 +9,25 @@ import { AgentSocketService } from '../../services/agent-socket.service';
 })
 export class ChatsComponent implements OnInit {
   chatList: any = [];
-  chatId: string;
-  visitorId: string;
-  chat: any;
   isDataError: boolean;
-  location: String = "";
+  chat: any;
+  messages: any;
+  visitor: any;
+  location: any = "";
 
   constructor(private chatService: ChatService, private agentSocketService: AgentSocketService) { 
+    this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
     this.agentSocketService.onVisitorLocationChange().subscribe(data => {
-      console.log("...onVisitorLocationChange");
+      console.log("...visitorLocation " + data)
+      this.location = data;
     });
   }
 
   ngOnInit() {
     this.isDataError = false;
-    this.chatId = "";
-    this.visitorId = "";
     this.chat = "";
+    this.messages = "";
+    this.visitor = "";
     this.chatService.getChats(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.chatList = data.chats;  
     },
@@ -36,17 +38,13 @@ export class ChatsComponent implements OnInit {
 
   onSwitchRoom(chatId: string){
     console.log("CHAT " + chatId)
-    this.chatId = chatId;
     this.chat = this.chatList.find(chat => {
       return chat._id === chatId
     })
-    
-    console.log("1 ")
+    this.visitor = this.chat.visitor;
     this.agentSocketService.emitSwitchRoom(this.chat.visitor);
-    console.log("2 ")
     this.agentSocketService.emitGetLocation();
-    console.log("3 ")
-    this.visitorId = this.chat.visitor;
+    console.log("getLocation...");
   }
   
   ngOnDestroy() {

@@ -15,6 +15,7 @@ import { days } from 'src/app/models/days.model';
 
 import { AgentSearch }from './Pipes/agent-search.pipe';
 import { AgentFilter }from './Pipes/agent-filter.pipe';
+import { ChatInfoComponent } from './agent/chat-info/chat-info.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AgentFilter }from './Pipes/agent-filter.pipe';
     routingComponents,
     AgentSearch,
     AgentFilter,
+    ChatInfoComponent,
   ],
   imports: [
     BrowserModule,

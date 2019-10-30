@@ -13,14 +13,13 @@
         </nav>
 
         <main class="col-md-7 col-lg-7 p-0">
-            <app-chat-content
-                [chat]="chat" >
+            <app-chat-content >
             </app-chat-content>
         </main>
 
         <div class="col-md-3 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
             <app-chat-visitor-info
-                [visitorId]="visitorId" 
+                [visitor]="visitor"
                 [location]="location">
             </app-chat-visitor-info>
         </div>

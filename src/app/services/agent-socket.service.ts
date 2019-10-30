@@ -9,17 +9,21 @@ import { Observable } from 'rxjs';
 
 export class AgentSocketService {
   readonly apiURL: string = environment.baseUrl;
-  private socket: any; 
- 
+  private socket = io(this.apiURL + "/agent");
+  
   constructor() { }
 
-  connect(token){
-    this.socket = io(this.apiURL + "/agent", {
-        query: {
-          token: token
-        }
-      });
+  init(token) {
+    this.socket.emit('init', token);
   }
+
+  // connect(token){
+  //   this.socket = io(this.apiURL + "/agent", {
+  //       query: {
+  //         token: token
+  //       }
+  //     });
+  // }
 
   disconnect(){
     this.socket.disconnect();
@@ -50,16 +54,12 @@ export class AgentSocketService {
   }
  
   emitGetLocation(){
-    console.log("emitGetLocation");
-    console.log("getLocation...");
     this.socket.emit("getLocation");
   }
   
   onVisitorLocationChange() {
-    console.log("onVisitorLocationChange");
     const observable = new Observable(observer => {
       this.socket.on('locationChange', (location) => {
-        console.log("...agent locationChange");
         observer.next(location);
       });
       return () => {
@@ -79,7 +79,6 @@ export class AgentSocketService {
   }
  
   emitSendMessage(message: string){
-    console.log("sendMessage: " + message);
     this.socket.emit("sendMessage", message);
   }
 

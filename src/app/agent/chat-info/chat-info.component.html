@@ -1,0 +1,38 @@
+
+<div class="sidebar-sticky">
+    <h1 class="h2">Informacje o czacie:</h1>
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+        <div class="alert alert-danger">
+            Wystąpił błąd, spróbuj ponownie później.
+        </div>
+    </div>
+    <div *ngIf="_chat._id, else chatNotChoosen">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <strong>Identyfikator:</strong><br>
+                {{_chat._id}} <br>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <strong>Czas utworzenia:</strong><br>
+                {{date}}<br>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <strong>Konsultant:</strong><br>
+                {{_agent}}<br>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <strong>Ocena:</strong><br>
+                {{_chat.rating ? _chat.rating : 'Brak'}}<br>
+            </li>
+            <hr>
+            <br>
+        </ul>
+    </div>
+    
+    <ng-template #chatNotChoosen>
+        Wybierz czat.
+    </ng-template>
+</div>

@@ -6,23 +6,25 @@
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
-    <div *ngIf="_visitorId, else visitorNotChoosen">
+    <div *ngIf="_visitor._id, else visitorNotChoosen">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <strong>Identyfikator:</strong><br>
-                {{_visitorId}} <br>
+                {{_visitor._id}} <br>
             </li>
             <li class="nav-item">
                 <strong>Podstawowe informacje:</strong><br>
                 Liczba czatów: {{countedChats}}<br>
-                Ostatnio widziany: {{visitor.lastVisit}}<br>
+                Ostatnio widziany: {{lastVisit}}<br>
             </li>
             <hr>
-            <li class="nav-item">
-                <strong>Obecnie przegląda:</strong><br>
-                <a class="nav-link text-break" href="{{location}}" target="_blank">{{location}}</a><br>
-            </li>
-            <hr>
+            <div *ngIf="!isArchive">
+                <li class="nav-item">
+                    <strong>Obecnie przegląda:</strong><br>
+                    <a class="nav-link text-break" href="{{location}}" target="_blank">{{_location}}</a><br>
+                </li>
+                <hr>
+            </div>
             <li class="nav-item">
                 <strong>Lokalizacja:</strong><br>
                 <div class="w-100 p-2">
@@ -34,15 +36,14 @@
             <li class="nav-item">
                 <strong>Oprogramowanie:</strong><br>
                 System operacyjny: 
-                {{visitor.operatingSoftware}} <br>
+                {{_visitor.operatingSoftware}} <br>
                 Przeglądarka:
-                {{visitor.browserSoftware}}<br>
+                {{_visitor.browserSoftware}}<br>
             </li>
             <hr>
         </ul>
     </div>
     
-
     <ng-template #visitorNotChoosen>
         Wybierz czat.
     </ng-template>

@@ -14,7 +14,7 @@ export class AgentComponent implements OnInit {
   isDataError: boolean;
 
   constructor(private agentService: AgentService, private router: Router, private agentSocketService: AgentSocketService) { 
-    this.agentSocketService.connect(localStorage.getItem('agent-help-chat-token'));
+    this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
 
     this.agentSocketService.onNewChat().subscribe(data => {
       console.log(".NEWCHAT.")// + JSON.stringify(data.newChat))

@@ -9,7 +9,7 @@
     <ul *ngIf="chatList.length > 0; else chatListEmpty" class="nav flex-column">
         <li *ngFor="let chat of chatList" class="nav-item">
             <div class="nav-link p-2 text-break" (click)="switchRoom(chat._id)">
-                Identyfikator: {{ chat.visitor }}
+                Identyfikator: {{ chat._id }}
             </div>
         <hr>
         </li>

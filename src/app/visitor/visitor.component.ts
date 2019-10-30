@@ -4,7 +4,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { VisitorService } from '../services/visitor.service';
 import { AgentService } from '../services/agent.service'
 import { Visitor } from '../models/visitor.model';
-import { VisitorSocketService } from '../services/visitor-socket.service';
 
 @Component({
   selector: 'app-visitor',
@@ -61,7 +60,6 @@ export class VisitorComponent implements OnInit {
   }
 
   openChat() {
-      // this.visitorSocketService.joinRoom(data.visitor.representative);
     localStorage.setItem("openchat", "1") // set true, it's open
     console.log("STORAGE ON OPEN CHAT " + localStorage.getItem('visitor-help-chat-token'));
     this.agentService.getWorkingAgents(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
