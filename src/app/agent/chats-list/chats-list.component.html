@@ -1,14 +1,46 @@
-
 <div class="sidebar-sticky">
     <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
         <div class="alert alert-danger">
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
+    <div *ngIf="isArchive" class="p-0 ml-2">
+        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">Filturj</button>
+        <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
+            <div class="btn-group w-50 my-1" role="group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Konsultant</button>
+                <div class="dropdown-menu"  x-placement="bottom-start" >
+                    <a class="dropdown-item" href="#">Wszyscy</a>
+                    <a *ngFor="let agent of agents" class="dropdown-item" href="#">{{agent.firstname}} {{agent.lastname}}</a>
+                </div>
+            </div>
+            <div class="btn-group w-50 my-1" role="group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data</button>
+                <div class="dropdown-menu"  x-placement="bottom-start" >
+                    <a class="dropdown-item" href="#">Dzisiaj</a>
+                    <a class="dropdown-item" href="#">Wczoraj</a>
+                    <a class="dropdown-item" href="#">Ostatnich 7 dni</a>
+                    <a class="dropdown-item" href="#">Ostatnich 30 dni</a>
+                    <a class="dropdown-item" href="#">Poprzedni miesiąc</a>
+                    <a class="dropdown-item" href="#">Bieżący miesiąc</a>
+                </div>
+            </div>
+            <div class="btn-group w-50 my-1" role="group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ocena</button>
+                <div class="dropdown-menu"  x-placement="bottom-start" >
+                    <a class="dropdown-item" href="#">1</a>
+                    <a class="dropdown-item" href="#">2</a>
+                    <a class="dropdown-item" href="#">3</a>
+                    <a class="dropdown-item" href="#">4</a>
+                    <a class="dropdown-item" href="#">5</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <ul *ngIf="chatList.length > 0; else chatListEmpty" class="nav flex-column">
         <li *ngFor="let chat of chatList" class="nav-item">
-            <div class="nav-link p-2 text-break" (click)="switchRoom(chat._id)">
+            <div class="nav-link p-2 text-break cursor-pointer" (click)="switchRoom(chat._id)">
                 Identyfikator: {{ chat._id }}
             </div>
         <hr>

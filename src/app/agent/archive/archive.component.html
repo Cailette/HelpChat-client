@@ -3,6 +3,7 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
             <app-chats-list
                 [chatList]="chatList"
+                [isArchive]="true"
                 (switchRoomClick)="onSwitchRoom($event)" >
             </app-chats-list>
         </nav>
@@ -16,8 +17,7 @@
         <div class="col-md-3 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
             <app-chat-info
                 [agent]="agent"
-                [chat]="chat" 
-                (clickDeleteChat)="onDeleteChat($event)" >
+                [chat]="chat" >
             </app-chat-info>
             <app-chat-visitor-info
                 [visitor]="visitor"

@@ -1,5 +1,8 @@
 
 <div class="sidebar-sticky">
+    <div *ngIf="_chat._id" class="p-2">
+        <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat">Usuń czat</button>
+    </div>
     <h1 class="h2">Informacje o czacie:</h1>
     <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
         <div class="alert alert-danger">
@@ -29,9 +32,6 @@
             </li>
             <hr>
         </ul>
-        <div class="d-flex justify-content-center align-items-center p-2">
-            <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat">Usuń czat</button>
-        </div>
         <br>
     </div>
     

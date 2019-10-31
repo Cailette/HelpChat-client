@@ -95,6 +95,14 @@ hr {
     overflow-x: hidden;
 }
 
+.archive-panel {
+    height: calc(100vh - 100px);
+}
+
+.search-panel {
+    height: 50px;
+}
+
 .chat-input{
     height: 3rem;
 }

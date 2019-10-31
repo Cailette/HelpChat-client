@@ -24,6 +24,7 @@ import { ChattingWindowComponent } from './visitor/chatting-window/chatting-wind
 import { ChatRateComponent } from './visitor/chat-rate/chat-rate.component';
 import { MailFormComponent } from './visitor/mail-form/mail-form.component';
 import { MapComponent } from './agent/map/map.component';
+import { ChatInfoComponent } from './agent/chat-info/chat-info.component';
 
 import { AuthGuard } from './auth/auth.guard';
 
@@ -92,4 +93,5 @@ export const routingComponents =
     ChatRateComponent,
     MailFormComponent,
     MapComponent,
+    ChatInfoComponent,
   ]
