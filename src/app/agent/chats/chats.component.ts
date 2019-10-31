@@ -8,7 +8,7 @@ import { AgentSocketService } from '../../services/agent-socket.service';
   templateUrl: './chats.component.html'
 })
 export class ChatsComponent implements OnInit {
-  chatList: any = [];
+  chats: any = [];
   isDataError: boolean;
   chat: any;
   messages: any;
@@ -29,7 +29,7 @@ export class ChatsComponent implements OnInit {
     this.messages = "";
     this.visitor = "";
     this.chatService.getChats(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      this.chatList = data.chats;  
+      this.chats = data.chats;  
     },
     (err: HttpErrorResponse) => {
       this.isDataError = true;
@@ -38,7 +38,7 @@ export class ChatsComponent implements OnInit {
 
   onSwitchRoom(chatId: string){
     console.log("CHAT " + chatId)
-    this.chat = this.chatList.find(chat => {
+    this.chat = this.chats.find(chat => {
       return chat._id === chatId
     })
     this.visitor = this.chat.visitor;

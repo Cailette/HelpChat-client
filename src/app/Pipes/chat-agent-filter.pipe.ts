@@ -9,7 +9,7 @@ export class ChatAgentFilter implements PipeTransform {
     if(!chats) return [];
     if(!filter || filter == "all") return chats;
     return chats.filter( chat => {
-      return filter.toString() === chat["isActive"].toString();
+      return filter.toString() === chat["agent"]["_id"].toString();
     });
    }
 }

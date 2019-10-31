@@ -7,7 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './archive.component.html'
 })
 export class ArchiveComponent implements OnInit {
-  chatList: any = [];
+  chats: any = [];
   isDataError: boolean;
   chat: any;
   messages: any;
@@ -26,7 +26,7 @@ export class ArchiveComponent implements OnInit {
     this.messages = "";
     this.visitor = "";
     this.chatService.getArchiveChats(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      this.chatList = data.chats;  
+      this.chats = data.chats;  
     },
     (err: HttpErrorResponse) => {
       this.isDataError = true;
@@ -35,7 +35,7 @@ export class ArchiveComponent implements OnInit {
 
   onSwitchRoom(chatId: string){
     console.log("CHAT " + chatId)
-    this.chat = this.chatList.find(chat => {
+    this.chat = this.chats.find(chat => {
       return chat._id === chatId
     })
     this.visitor = this.chat.visitor;

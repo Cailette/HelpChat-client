@@ -4,48 +4,54 @@
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
-    <div *ngIf="isArchive" class="p-0 ml-2">
-        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">Filturj</button>
+    <div *ngIf="isArchive && chats.length > 0" class="p-0 ml-2">
+        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
         <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
             <div class="btn-group w-50 my-1" role="group">
-                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Konsultant</button>
-                <div class="dropdown-menu"  x-placement="bottom-start" >
-                    <a class="dropdown-item" href="#">Wszyscy</a>
-                    <a *ngFor="let agent of agents" class="dropdown-item" href="#">{{agent.firstname}} {{agent.lastname}}</a>
-                </div>
+                <!-- <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Konsultant</button> -->
+                <label>Konsultant: </label>
+                <select (change)="onChange($event.target.value, 'filterChatAgent')">
+                    <option value="all" selected>Wszyscy</option>
+                    <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
+                </select>
             </div>
             <div class="btn-group w-50 my-1" role="group">
-                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data</button>
-                <div class="dropdown-menu"  x-placement="bottom-start" >
-                    <a class="dropdown-item" href="#">Dzisiaj</a>
-                    <a class="dropdown-item" href="#">Wczoraj</a>
-                    <a class="dropdown-item" href="#">Ostatnich 7 dni</a>
-                    <a class="dropdown-item" href="#">Ostatnich 30 dni</a>
-                    <a class="dropdown-item" href="#">Poprzedni miesiąc</a>
-                    <a class="dropdown-item" href="#">Bieżący miesiąc</a>
-                </div>
+                <!-- <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data</button> -->
+                <label>Data: </label>
+                <select (change)="onChange($event.target.value, 'filterChatDate')">
+                    <option value="all" selected>Wszystkie</option>
+                    <option value="today">Dzisiaj</option>
+                    <option value="yesterday">Wczoraj</option>
+                    <option value="7days">Ostatnich 7 dni</option>
+                    <option value="30days">Ostatnich 30 dni</option>
+                    <option value="lastMonth">Poprzedni miesiąc</option>
+                    <option value="currentMonth">Bieżący miesiąc</option>
+                </select>
             </div>
             <div class="btn-group w-50 my-1" role="group">
-                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ocena</button>
-                <div class="dropdown-menu"  x-placement="bottom-start" >
-                    <a class="dropdown-item" href="#">1</a>
-                    <a class="dropdown-item" href="#">2</a>
-                    <a class="dropdown-item" href="#">3</a>
-                    <a class="dropdown-item" href="#">4</a>
-                    <a class="dropdown-item" href="#">5</a>
-                </div>
+                <!-- <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ocena</button> -->
+                <label>Ocena: </label>
+                <select (change)="onChange($event.target.value, 'filterChatRating')">
+                    <option value="all" selected>Wszystkie</option>
+                    <option value="null">Brak oceny</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
             </div>
         </div>
     </div>
 
-    <ul *ngIf="chatList.length > 0; else chatListEmpty" class="nav flex-column">
-        <li *ngFor="let chat of chatList" class="nav-item">
+    <div *ngIf="chats.length > 0; else chatListEmpty" class="nav flex-column">
+        <li *ngFor="let chat of chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent" class="nav-item">
             <div class="nav-link p-2 text-break cursor-pointer" (click)="switchRoom(chat._id)">
-                Identyfikator: {{ chat._id }}
+                Czat ID: {{ chat._id }}
             </div>
-        <hr>
+            <hr>
         </li>
-    </ul>
+    </div>
 
     <ng-template #chatListEmpty>
         Brak czatów.
