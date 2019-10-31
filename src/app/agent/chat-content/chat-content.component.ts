@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Chat } from 'src/app/models/chat.model';
-import { Message } from 'src/app/models/message.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-chat-content',
@@ -8,11 +7,18 @@ import { Message } from 'src/app/models/message.model';
 })
 export class ChatContentComponent implements OnInit {
   @Input() isArchive: boolean;
-  @Input() chat: any;
+  _messages: any;
+  @Input() set messages(value: any) {
+    if(value){
+      for (var i = 0; i < value.length; i++) {
+        value[i].time = moment(new Date(value[i].date)).format('HH:mm');
+      };
+      this._messages = value;
+    }
+  }
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }

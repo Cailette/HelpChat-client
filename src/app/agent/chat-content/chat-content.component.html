@@ -1,79 +1,39 @@
 <div class="p-3 chat-content d-flex flex-column-reverse flex-nowrap" [ngStyle]="{'height': isArchive ? 'calc(100vh - 50px)' : ''}">
-    <div class="container-fluid my-2">
-        <div class="row d-flex justify-content-start">
-            <div class="card w-75">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        Wizytor, HH:mm
-                    </h6>
-                    <p class="card-text">
-                        Ut enim ad minim veniamzzkbcjbksdbvsk.dbvkesdbvksdkbvsDKBSKDBksDKsdkbdsKBVksdkvbKVBkdsbvbdVJbSKDVBkdSJBVKSDBVKdsbkvbDSKvbkdsj, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?
-                    </p>
-                </div>
-            </div>
+    <div *ngIf="!(_messages === 'undefined') || !(_messages.lenght > 0)" class="row justify-content-center align-items-center mt-5">
+        <div class="alert alert-info">
+            Brak widomości.
         </div>
     </div>
-
-    <div class="container-fluid my-2">
-        <div class="row d-flex justify-content-end">
-            <div class="card w-75 alert-primary text-dark">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        Ty, HH:mm
-                    </h6>
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid my-2">
-        <div class="row d-flex justify-content-end">
-            <div class="card w-75 alert-primary text-dark">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        Ty, HH:mm
-                    </h6>
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore mam.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid my-2">
-        <div class="row d-flex justify-content-start">
-            <div class="card w-75">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        Wizytor, HH:mm
-                    </h6>
-                    <p class="card-text">
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid my-2">
-            <div class="row d-flex justify-content-end">
-                <div class="card w-75 alert-primary text-dark">
+    <div class="container-fluid my-2" *ngFor="let message of _messages">
+        <ng-container *ngIf="message.sender === 'visitor'" >
+            <div class="row d-flex justify-content-start">
+                <div class="card w-75">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">
-                            Ty, HH:mm
+                            Wizytor, {{message.time}}
                         </h6>
                         <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit. Excepteur sint occaecat cupidatat non proident.
+                            {{message.content}}
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
-    
+        </ng-container>
+        <ng-container *ngIf="message.sender === 'agent'" >
+            <div class="row d-flex justify-content-end">
+                <div class="card w-75 alert-primary text-dark">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Ty, {{message.time}}
+                        </h6>
+                        <p class="card-text">
+                            {{message.content}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
 </div>
 
 <div *ngIf="!isArchive" class="row px-3 justify-content-center align-items-center chat-input">

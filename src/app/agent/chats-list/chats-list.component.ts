@@ -4,8 +4,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   selector: 'app-chats-list',
   templateUrl: './chats-list.component.html'
 })
+
 export class ChatsListComponent implements OnInit {
-  @Input() chats: any = [];
+  _chats: any;
+  @Input() set chats(value: any) {
+    this._chats = value;
+  }
   @Input() isArchive: boolean = false;
   @Output() switchRoomClick = new EventEmitter<string>();
   isDataError: boolean;
@@ -21,7 +25,7 @@ export class ChatsListComponent implements OnInit {
 
   ngOnInit() {
     this.isDataError = false;
-    if(this.chats === undefined){
+    if(this._chats === undefined){
       this.isDataError = true;
     }
   }
@@ -43,13 +47,11 @@ export class ChatsListComponent implements OnInit {
   }
 
   showFilter() {
-    const agentsFormChat = [... this.chats.map(data => data.agent)]
+    const agentsFormChat = [... this._chats.map(data => data.agent)]
     this.agents = agentsFormChat.filter((obj, pos, arr) => {
           return arr.map(mapObj => mapObj["_id"]).indexOf(obj["_id"]) === pos;
       });
     this.isFilter = !this.isFilter;
-    console.log(this.agents)
-    console.log(this.chats)
   }
 
   showSort() {

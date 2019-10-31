@@ -38,6 +38,7 @@ export class ArchiveComponent implements OnInit {
     this.chat = this.chats.find(chat => {
       return chat._id === chatId
     })
+    this.messages = this.chat.messages;
     this.visitor = this.chat.visitor;
     this.agent = this.chat.agent;
   }

@@ -4,11 +4,10 @@
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
-    <div *ngIf="isArchive && chats.length > 0" class="p-0 ml-2">
+    <div *ngIf="isArchive && _chats.length > 0" class="p-0 ml-2">
         <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
         <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
             <div class="btn-group w-50 my-1" role="group">
-                <!-- <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Konsultant</button> -->
                 <label>Konsultant: </label>
                 <select (change)="onChange($event.target.value, 'filterChatAgent')">
                     <option value="all" selected>Wszyscy</option>
@@ -16,7 +15,6 @@
                 </select>
             </div>
             <div class="btn-group w-50 my-1" role="group">
-                <!-- <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data</button> -->
                 <label>Data: </label>
                 <select (change)="onChange($event.target.value, 'filterChatDate')">
                     <option value="all" selected>Wszystkie</option>
@@ -29,7 +27,6 @@
                 </select>
             </div>
             <div class="btn-group w-50 my-1" role="group">
-                <!-- <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ocena</button> -->
                 <label>Ocena: </label>
                 <select (change)="onChange($event.target.value, 'filterChatRating')">
                     <option value="all" selected>Wszystkie</option>
@@ -44,8 +41,8 @@
         </div>
     </div>
 
-    <div *ngIf="chats.length > 0; else chatListEmpty" class="nav flex-column">
-        <li *ngFor="let chat of chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent" class="nav-item">
+    <div *ngIf="_chats.length > 0; else chatListEmpty" class="nav flex-column">
+        <li *ngFor="let chat of _chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent" class="nav-item">
             <div class="nav-link p-2 text-break cursor-pointer" (click)="switchRoom(chat._id)">
                 Czat ID: {{ chat._id }}
             </div>
