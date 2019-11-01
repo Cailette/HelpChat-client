@@ -18,6 +18,8 @@ import { AgentFilter }from './Pipes/agent-filter.pipe';
 import { ChatAgentFilter }from './Pipes/chat-agent-filter.pipe';
 import { ChatDateFilter }from './Pipes/chat-date-filter.pipe';
 import { ChatRatingFilter }from './Pipes/chat-rating-filter.pipe';
+import { StatisticsListComponent } from './agent/statistics-list/statistics-list.component';
+import { StatisticsContentComponent } from './agent/statistics-content/statistics-content.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { ChatRatingFilter }from './Pipes/chat-rating-filter.pipe';
     AgentFilter,
     ChatAgentFilter,
     ChatDateFilter,
-    ChatRatingFilter
+    ChatRatingFilter,
+    StatisticsListComponent,
+    StatisticsContentComponent
   ],
   imports: [
     BrowserModule,

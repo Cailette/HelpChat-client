@@ -1,5 +1,5 @@
 <div class="p-3 chat-content d-flex flex-column-reverse flex-nowrap" [ngStyle]="{'height': isArchive ? 'calc(100vh - 50px)' : ''}">
-    <div *ngIf="!(_messages === 'undefined') || !(_messages.lenght > 0)" class="row justify-content-center align-items-center mt-5">
+    <div *ngIf="undefined !== _messages && !(_messages.length > 0)" class="row justify-content-center align-items-center mt-5">
         <div class="alert alert-info">
             Brak widomości.
         </div>

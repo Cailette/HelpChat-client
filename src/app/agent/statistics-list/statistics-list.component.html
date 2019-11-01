@@ -1,0 +1,174 @@
+<div class="sidebar-sticky">
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+        <div class="alert alert-danger">
+            Wystąpił błąd, spróbuj ponownie później.
+        </div>
+    </div>
+    <!-- <div class="p-0 ml-2">
+        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
+        <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
+            <div class="btn-group w-50 my-1" role="group">
+                <label>Konsultant: </label>
+                <select (change)="onChange($event.target.value, 'filterChatAgent')">
+                    <option value="all" selected>Wszyscy</option>
+                    <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
+                </select>
+            </div>
+            <div class="btn-group w-50 my-1" role="group">
+                <label>Data: </label>
+                <select (change)="onChange($event.target.value, 'filterChatDate')">
+                    <option value="all" selected>Wszystkie</option>
+                    <option value="today">Dzisiaj</option>
+                    <option value="yesterday">Wczoraj</option>
+                    <option value="7days">Ostatnich 7 dni</option>
+                    <option value="30days">Ostatnich 30 dni</option>
+                    <option value="lastMonth">Poprzedni miesiąc</option>
+                    <option value="currentMonth">Bieżący miesiąc</option>
+                </select>
+            </div>
+            <div class="btn-group w-50 my-1" role="group">
+                <label>Ocena: </label>
+                <select (change)="onChange($event.target.value, 'filterChatRating')">
+                    <option value="all" selected>Wszystkie</option>
+                    <option value="null">Brak oceny</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+        </div>
+    </div> -->
+    <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#">Podsumowanie</a>
+                    </h4>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapseChat, #collapseFilter">Czat</a>
+                    </h4>
+                </div>
+                <div id="collapseChat" data-parent="#accordion" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <a href="#">Wszystkie</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">Nieodebrane</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">Satysfakcja</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">Dostępność</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="p-0 ml-2">
+                                        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
+                                        <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
+                                            <div class="btn-group w-50 my-1" role="group">
+                                                <label>Konsultant: </label>
+                                                <select (change)="onChange($event.target.value, 'filterChatAgent')">
+                                                    <option value="all" selected>Wszyscy</option>
+                                                    <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="btn-group w-50 my-1" role="group">
+                                                <label>Data: </label>
+                                                <select (change)="onChange($event.target.value, 'filterChatDate')">
+                                                    <option value="all" selected>Wszystkie</option>
+                                                    <option value="today">Dzisiaj</option>
+                                                    <option value="yesterday">Wczoraj</option>
+                                                    <option value="7days">Ostatnich 7 dni</option>
+                                                    <option value="30days">Ostatnich 30 dni</option>
+                                                    <option value="lastMonth">Poprzedni miesiąc</option>
+                                                    <option value="currentMonth">Bieżący miesiąc</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapseAgents, #collapseFilter">Konsultanci</a>
+                    </h4>
+                </div>
+                <div id="collapseAgents" data-parent="#accordion" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <a href="#">Czas rozmów</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">Aktywność</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">Godziny pracy</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">Szybkość odpowiedzi</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="p-0 ml-2">
+                                        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
+                                        <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
+                                            <div class="btn-group w-50 my-1" role="group">
+                                                <label>Konsultant: </label>
+                                                <select (change)="onChange($event.target.value, 'filterChatAgent')">
+                                                    <option value="all" selected>Wszyscy</option>
+                                                    <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="btn-group w-50 my-1" role="group">
+                                                <label>Data: </label>
+                                                <select (change)="onChange($event.target.value, 'filterChatDate')">
+                                                    <option value="all" selected>Wszystkie</option>
+                                                    <option value="today">Dzisiaj</option>
+                                                    <option value="yesterday">Wczoraj</option>
+                                                    <option value="7days">Ostatnich 7 dni</option>
+                                                    <option value="30days">Ostatnich 30 dni</option>
+                                                    <option value="lastMonth">Poprzedni miesiąc</option>
+                                                    <option value="currentMonth">Bieżący miesiąc</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
