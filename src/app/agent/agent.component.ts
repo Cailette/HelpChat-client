@@ -21,7 +21,7 @@ export class AgentComponent implements OnInit {
     });
 
     this.agentSocketService.onNewMessage().subscribe(data => {
-      console.log(".NEWMESSAGE." + JSON.stringify(data))
+      console.log(".NEWMESSAGEINCHAT." + JSON.stringify(data))
     });
 
     this.agentSocketService.onError().subscribe(error => {

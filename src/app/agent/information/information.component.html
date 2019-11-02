@@ -14,8 +14,9 @@
 
     <p class="lead mt-5">
         <button class="btn btn-outline-primary" (click)="editInformation()" role="button">Edytuj konto</button>
-        <button class="btn btn-outline-primary ml-3 mr-3" data-toggle="modal" data-target="#deleteAlert" id="delete" role="button">Usuń konto</button>
+        <button class="btn btn-outline-danger ml-3 mr-3" data-toggle="modal" data-target="#deleteAlert" id="delete" role="button">Usuń konto</button>
         <button class="btn btn-outline-warning" [routerLink]="['/home/workingHours/', user._id, user.firstname, user.lastname]"  role="button">Godziny pracy</button>
+        <button class="btn btn-outline-info ml-3 mr-3" data-toggle="modal" data-target="#scriptModal" id="script" role="button">Skrypt czatu</button>
     </p>
 </div>  
 
@@ -34,6 +35,43 @@
         </div>
         <div class="modal-footer">
             <a class="btn btn-danger text-white" (click)="delete()" id="deleteAgree">Usuń</a>
+            <a class="btn btn-primary text-white" data-dismiss="modal">Zamknij</a>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="scriptModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="modal">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Skrypt czatu</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p class="lead">
+                By czatować z odwiedzającymi musisz umieścić okno czatu w swoim serwisie internetowym. Skopiuj poniższy skrypt i umieść go w kodzie źródłowym HTML twojej strony interentowej między znacznikami head.
+            </p>
+            <hr class="my-4">
+            <textarea class="form-control" rows="15" disabled>
+<script type="application/javascript">
+    window.__helpchat = window.__helpchat || {};
+    window.__helpchat.license = "{{user._id}}";
+    (function() {
+    var helpchat = document.createElement('script'); 
+    helpchat.id = 'help-chat-script';
+    helpchat.type = 'text/javascript'; 
+    helpchat.async = true;
+    helpchat.src = 'http://localhost:4000/assets/helpchat.js';
+    var s = document.getElementsByTagName('script')[0]; 
+    s.parentNode.insertBefore(helpchat, s);
+    })();
+</script> 
+            </textarea>
+        </div>
+        <div class="modal-footer">
             <a class="btn btn-primary text-white" data-dismiss="modal">Zamknij</a>
         </div>
         </div>

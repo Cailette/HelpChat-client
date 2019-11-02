@@ -1,3 +1,10 @@
-<div class="p-3 chat-content d-flex flex-column-reverse flex-nowrap">
-    
+<div class="p-4 mt-4">
+    <app-statistics-chart>
+        
+    </app-statistics-chart>
+    <app-statistics-table
+        [heads]="head" 
+        [datas]="data" 
+        [colName]="colName">
+    </app-statistics-table>
 </div>

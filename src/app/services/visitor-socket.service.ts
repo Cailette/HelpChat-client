@@ -71,8 +71,8 @@ export class VisitorSocketService {
 
   onNextChat() {
     const observable = new Observable(observer => {
-      this.socket.on('nextChat', (messages, agent) => {
-        observer.next({messages, agent});
+      this.socket.on('nextChat', (chat) => {
+        observer.next(chat);
       });
       return () => {
         this.socket.disconnect();
@@ -86,13 +86,13 @@ export class VisitorSocketService {
   }
  
   emitSendMessage(message: string){
-    this.socket.emit("sendMessage", message);
+    this.socket.emit("message", message);
   }
 
   onReceiveMessage() {
     const observable = new Observable(observer => {
-      this.socket.on('receiveMessage', (receiveMessage) => {
-        observer.next(receiveMessage);
+      this.socket.on('message', (message) => {
+        observer.next(message);
       });
       return () => {
         this.socket.disconnect();

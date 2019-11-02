@@ -43,8 +43,8 @@ export class AgentSocketService {
   
   onNewMessage() {
     const observable = new Observable(observer => {
-      this.socket.on('newMessage', (newMessage) => {
-        observer.next(newMessage);
+      this.socket.on('newMessage', (chat) => {
+        observer.next(chat);
       });
       return () => {
         this.socket.disconnect();
@@ -79,13 +79,13 @@ export class AgentSocketService {
   }
  
   emitSendMessage(message: string){
-    this.socket.emit("sendMessage", message);
+    this.socket.emit("message", message);
   }
 
   onReceiveMessage() {
     const observable = new Observable(observer => {
-      this.socket.on('receiveMessage', (receiveMessage) => {
-        observer.next(receiveMessage);
+      this.socket.on('message', (message) => {
+        observer.next(message);
       });
       return () => {
         this.socket.disconnect();

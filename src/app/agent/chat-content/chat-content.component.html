@@ -24,7 +24,7 @@
                 <div class="card w-75 alert-primary text-dark">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">
-                            Ty, {{message.time}}
+                            {{isArchive? this._agent : 'Ty'}}, {{message.time}}
                         </h6>
                         <p class="card-text">
                             {{message.content}}

@@ -1,13 +1,13 @@
 <div class="margin-top">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top px-5">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <a class="navbar-brand js-scroll-trigger" routerLink="/">
                 HelpChat
             </a>
-            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <ul class="navbar-nav ml-auto mt-2 mt-md-0">
                 <li class="nav-item px-2">
                     <a class="nav-link js-scroll-trigger cursor-pointer" [ngClass]="{'active': isActive === true} " (click)="SwitchActivity()"  role="button">
                         <div *ngIf="isActive; else inNotActive">
@@ -29,9 +29,39 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-2 d-none d-md-block table-active py-4 position-relative">
-                <div class="position-fixed">
-                    <ul class="nav flex-column">
+            <nav class="col-5 col-md-3 col-lg-2 table-active p-2 side-bar-scroll position-relative">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" routerLink="/home/home" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
+                        <i class="fas fa-home"></i>
+                        Strona główna
+                    </a>
+                    <a class="nav-link" routerLink="/home/chats" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
+                        <i class="fas fa-comment-alt"></i>
+                        Czaty
+                    </a>
+                    <a class="nav-link" routerLink="/home/visitors" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
+                        <i class="fas fa-address-book"></i>
+                        Odwiedzający
+                    </a>
+                    <a class="nav-link"  routerLink="/home/archive" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
+                        <i class="fas fa-archive"></i>
+                        Archiwum
+                    </a>
+                    <a class="nav-link" routerLink="/home/consultants" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
+                        <i class="fas fa-user-friends"></i>
+                        Konsultanci
+                    </a>
+                    <a class="nav-link" routerLink="/home/statistics" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
+                        <i class="fas fa-chart-line"></i>
+                        Statystki
+                    </a>
+                    <a class="nav-link"  routerLink="/home/account" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
+                        <i class="fas fa-user"></i>
+                        Konto
+                    </a>
+                </div>
+                <!-- <div class="position-fixed">
+                    <ul class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
                         <li class="nav-item">
                             <a class="nav-link" routerLink="/home" routerLinkActive="active">
                                 <i class="fas fa-home"></i>
@@ -82,10 +112,10 @@
                         </li>
                         <hr>
                     </ul>
-                </div>
+                </div> -->
             </nav>
 
-            <main class="col-md-10 pl-0">
+            <main class="col-7 col-md-9 col-lg-10 pl-0">
                 <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
                     <div class="alert alert-danger">
                         Wystąpił błąd, spróbuj ponownie później.

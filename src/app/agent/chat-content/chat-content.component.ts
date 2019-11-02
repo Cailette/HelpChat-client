@@ -14,6 +14,14 @@ export class ChatContentComponent implements OnInit {
         value[i].time = moment(new Date(value[i].date)).format('HH:mm');
       };
       this._messages = value;
+      console.log(this._messages)
+    }
+  }
+  _agent: any;
+  @Input() set agent(value: any) {
+    this._agent = "";
+    if(value){
+      this._agent = value.firstname + " " + value.lastname;
     }
   }
 

@@ -53,20 +53,20 @@
                     By czatować z odwiedzającymi musisz umieścić okno czatu w swoim serwisie internetowym. Skopiuj poniższy skrypt i umieść go w kodzie źródłowym HTML twojej strony interentowej między znacznikami &lthead&gt.
                 </p>
                 <hr class="my-4">
-                    <textarea class="form-control" rows="15">
-                        <script type="application/javascript">
-                            window.__helpchat = window.__helpchat || {};
-                            window.__helpchat.license = "{{licenceNumber}}";
-                            (function() {
-                            var helpchat = document.createElement('script'); 
-                            helpchat.id = 'help-chat-script';
-                            helpchat.type = 'text/javascript'; 
-                            helpchat.async = true;
-                            helpchat.src = 'http://localhost:4000/assets/helpchat.js';
-                            var s = document.getElementsByTagName('script')[0]; 
-                            s.parentNode.insertBefore(helpchat, s);
-                            })();
-                        </script> 
+                    <textarea class="form-control" rows="15" disabled>
+<script type="application/javascript">
+    window.__helpchat = window.__helpchat || {};
+    window.__helpchat.license = "{{licenceNumber}}";
+    (function() {
+    var helpchat = document.createElement('script'); 
+    helpchat.id = 'help-chat-script';
+    helpchat.type = 'text/javascript'; 
+    helpchat.async = true;
+    helpchat.src = 'http://localhost:4000/assets/helpchat.js';
+    var s = document.getElementsByTagName('script')[0]; 
+    s.parentNode.insertBefore(helpchat, s);
+    })();
+</script> 
                     </textarea>
                 <p class="lead mt-3">
                     <a class="btn btn-primary" href="/login" role="button">Zaloguj się</a>

@@ -1,0 +1,14 @@
+<div  class="table-responsive">
+  <table  class="table table-sm">
+    <thead  class="thead-light">
+      <tr class="table-head">
+        <th *ngFor="let head of _heads">{{head}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of _datas">
+        <td *ngFor="let colName of _colName"> {{data[colName] ? data[colName] : "Brak danych" }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,33 +1,35 @@
-<div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
-    <div class="alert alert-danger">
-        Wystąpił błąd, spróbuj ponownie później.
+<div class="side-bar-scroll">
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+        <div class="alert alert-danger">
+            Wystąpił błąd, spróbuj ponownie później.
+        </div>
     </div>
-</div>
 
-<div *ngIf="isAccountEditSuccess" class="row justify-content-center align-items-center mt-5">
-    <div class="alert alert-success">
-        Zmiany zostały zapisane pomyślnie.
+    <div *ngIf="isAccountEditSuccess" class="row justify-content-center align-items-center mt-5">
+        <div class="alert alert-success">
+            Zmiany zostały zapisane pomyślnie.
+        </div>
     </div>
-</div>
 
-<div *ngIf="!isEditing" class="row d-flex justify-content-center p-5">
-    <div class="col-md-10 col-ml-8">
-        <app-information 
-            [user]="user"
-            (editInformationClick)="onEditInformationClick($event)"
-            (dataError)="onDataError($event)" >
-        </app-information>
+    <div *ngIf="!isEditing" class="row d-flex justify-content-center p-5">
+        <div class="col-md-10 col-ml-8">
+            <app-information 
+                [user]="user"
+                (editInformationClick)="onEditInformationClick($event)"
+                (dataError)="onDataError($event)" >
+            </app-information>
+        </div>
     </div>
-</div>
 
-<div *ngIf="isEditing" class="row d-flex justify-content-center p-5">
-    <div class="col-md-10 col-ml-8">
-        <app-information-form
-            [user]="user"
-            [isEmailError]="isEmailError"
-            (closeClick)="onCloseClick($event)" 
-            (formSubmit)="onFormSubmit($event)" 
-            (dataError)="onDataError($event)" >
-        </app-information-form>
+    <div *ngIf="isEditing" class="row d-flex justify-content-center p-5">
+        <div class="col-md-10 col-ml-8">
+            <app-information-form
+                [user]="user"
+                [isEmailError]="isEmailError"
+                (closeClick)="onCloseClick($event)" 
+                (formSubmit)="onFormSubmit($event)" 
+                (dataError)="onDataError($event)" >
+            </app-information-form>
+        </div>
     </div>
 </div>

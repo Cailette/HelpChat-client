@@ -18,9 +18,8 @@ import { AgentFilter }from './Pipes/agent-filter.pipe';
 import { ChatAgentFilter }from './Pipes/chat-agent-filter.pipe';
 import { ChatDateFilter }from './Pipes/chat-date-filter.pipe';
 import { ChatRatingFilter }from './Pipes/chat-rating-filter.pipe';
-import { StatisticsListComponent } from './agent/statistics-list/statistics-list.component';
-import { StatisticsContentComponent } from './agent/statistics-content/statistics-content.component';
 
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -31,8 +30,6 @@ import { StatisticsContentComponent } from './agent/statistics-content/statistic
     ChatAgentFilter,
     ChatDateFilter,
     ChatRatingFilter,
-    StatisticsListComponent,
-    StatisticsContentComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +39,8 @@ import { StatisticsContentComponent } from './agent/statistics-content/statistic
     ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB01NDAC6qvJ1pCyKEiNNlTWVdK_xp5u8E'
-    })
+    }),
+    ChartsModule
   ],
   providers: [
     GuestService,

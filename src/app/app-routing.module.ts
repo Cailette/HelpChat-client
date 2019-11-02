@@ -25,6 +25,10 @@ import { ChatRateComponent } from './visitor/chat-rate/chat-rate.component';
 import { MailFormComponent } from './visitor/mail-form/mail-form.component';
 import { MapComponent } from './agent/map/map.component';
 import { ChatInfoComponent } from './agent/chat-info/chat-info.component';
+import { StatisticsListComponent } from './agent/statistics-list/statistics-list.component';
+import { StatisticsContentComponent } from './agent/statistics-content/statistics-content.component';
+import { StatisticsTableComponent } from './agent/statistics-table/statistics-table.component';
+import { StatisticsChartComponent } from './agent/statistics-chart/statistics-chart.component';
 
 import { AuthGuard } from './auth/auth.guard';
 
@@ -40,7 +44,7 @@ const routes: Routes = [
   {
     path: 'home', component: AgentComponent, canActivate:[AuthGuard],
     children: [
-      { path: '', component: HomeComponent },
+      { path: 'home', component: HomeComponent },
       { path: 'chats', component: ChatsComponent },
       { path: 'visitors', component: VisitorsComponent },
       { path: 'archive', component: ArchiveComponent },
@@ -94,4 +98,8 @@ export const routingComponents =
     MailFormComponent,
     MapComponent,
     ChatInfoComponent,
+    StatisticsListComponent,
+    StatisticsContentComponent,
+    StatisticsTableComponent,
+    StatisticsChartComponent
   ]
