@@ -11,6 +11,6 @@ export class GuestComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('agent-help-chat-token') != null)
-      this.router.navigate(['/home/home']);
+      this.router.navigate(['/home/chats']);
   }
 }

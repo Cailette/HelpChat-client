@@ -44,7 +44,6 @@ const routes: Routes = [
   {
     path: 'home', component: AgentComponent, canActivate:[AuthGuard],
     children: [
-      { path: 'home', component: HomeComponent },
       { path: 'chats', component: ChatsComponent },
       { path: 'visitors', component: VisitorsComponent },
       { path: 'archive', component: ArchiveComponent },

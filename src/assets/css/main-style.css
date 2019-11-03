@@ -118,3 +118,21 @@ hr {
 .overflow-hide {
     overflow: hidden;
 }
+
+.nav-pills > .active {
+    border: #1566C0 !important;
+}
+
+.nav-pills > .active {
+    color: #1566C0 !important;
+    background-color: rgba(0, 0, 0, 0.045) !important;
+    border-bottom: 1px solid #ccc!important;
+    border-color: #1565c063 !important;
+}
+
+/* .nav-link {
+    border: 1px solid #ccc!important;
+    border-color: #1566C080 !important;
+} */
+
+/* #70adef26 */
