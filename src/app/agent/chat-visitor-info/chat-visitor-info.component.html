@@ -1,11 +1,12 @@
 
-<div class="sidebar-sticky">
-    <h1 class="h2">Informacje o odzwiedzającym:</h1>
-    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+<div class="sidebar-sticky px-3 py-1">
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-3">
         <div class="alert alert-danger">
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
+    <h1 class="h2">Informacje o odzwiedzającym</h1>
+    <hr>
     <div *ngIf="_visitor._id, else visitorNotChoosen">
         <ul class="nav flex-column">
             <li class="nav-item">

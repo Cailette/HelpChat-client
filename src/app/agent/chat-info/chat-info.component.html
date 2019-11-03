@@ -1,43 +1,32 @@
 
-<div class="sidebar-sticky">
-    <div *ngIf="_chat._id" class="p-2">
-        <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat">Usuń czat</button>
-    </div>
-    <h1 class="h2">Informacje o czacie:</h1>
-    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+<div class="sidebar-sticky px-3 py-1 mt-3">
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-4">
         <div class="alert alert-danger">
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
-    <div *ngIf="_chat._id, else chatNotChoosen">
+    <h1 class="h2">Informacje o czacie</h1>
+    <hr>
+    <div *ngIf="_chat._id">
         <ul class="nav flex-column">
-            <li class="nav-item">
-                <strong>Identyfikator:</strong><br>
-                {{_chat._id}} <br>
+            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Identyfikator">
+                <i class="fas fa-passport"></i>  {{_chat._id}}
             </li>
-            <hr>
-            <li class="nav-item">
-                <strong>Czas utworzenia:</strong><br>
-                {{date}}<br>
+            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Konsultant">
+                <i class="fas fa-portrait"></i>  {{_agent}}
             </li>
-            <hr>
-            <li class="nav-item">
-                <strong>Konsultant:</strong><br>
-                {{_agent}}<br>
+            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Czas utworzenia">
+                <i class="fas fa-calendar-alt"></i>  {{date}}
             </li>
-            <hr>
-            <li class="nav-item">
-                <strong>Ocena:</strong><br>
-                {{_chat.rating ? _chat.rating : 'Brak'}}<br>
+            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Ocena">
+                <i class="fas fa-star"></i> {{_chat.rating ? _chat.rating : 'Brak'}}
             </li>
-            <hr>
         </ul>
-        <br>
     </div>
-    
-    <ng-template #chatNotChoosen>
-        Wybierz czat.
-    </ng-template>
+
+    <div *ngIf="_chat._id" class="py-1">
+        <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat">Usuń czat</button>
+    </div>
 </div>
 
 <div class="modal fade" id="deleteChat" role="dialog" aria-labelledby="deleteChat" aria-hidden="true">

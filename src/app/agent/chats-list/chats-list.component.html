@@ -1,22 +1,25 @@
 <div class="sidebar-sticky">
-    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-3">
         <div class="alert alert-danger">
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
-    <div *ngIf="isArchive && _chats.length > 0" class="p-0 ml-2">
+    
+    <h1 class="h2 p-3 mt-1">Czaty</h1>
+    <hr class="m-0">
+    <div *ngIf="isArchive && _chats.length > 0" class="px-3 py-2">
         <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
-        <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
-            <div class="btn-group w-50 my-1" role="group">
-                <label>Konsultant: </label>
-                <select (change)="onChange($event.target.value, 'filterChatAgent')">
+        <div *ngIf="isFilter" class="d-flex flex-column align-items-start w-100">
+            <div class="form-group w-100 my-1" role="group">
+                <label for="agentSelect" class="p-0 mb-0">Konsultant: </label>
+                <select id="agentSelect" class="w-100" (change)="onChange($event.target.value, 'filterChatAgent')">
                     <option value="all" selected>Wszyscy</option>
                     <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
                 </select>
             </div>
-            <div class="btn-group w-50 my-1" role="group">
-                <label>Data: </label>
-                <select (change)="onChange($event.target.value, 'filterChatDate')">
+            <div class="form-group w-100 my-1" role="group">
+                <label for="dateSelect" class="p-0 mb-0">Data: </label>
+                <select id="dateSelect" class="w-100" (change)="onChange($event.target.value, 'filterChatDate')">
                     <option value="all" selected>Wszystkie</option>
                     <option value="today">Dzisiaj</option>
                     <option value="yesterday">Wczoraj</option>
@@ -26,9 +29,9 @@
                     <option value="currentMonth">Bieżący miesiąc</option>
                 </select>
             </div>
-            <div class="btn-group w-50 my-1" role="group">
-                <label>Ocena: </label>
-                <select (change)="onChange($event.target.value, 'filterChatRating')">
+            <div class="form-group w-100 my-1" role="group">
+                <label for="rateSelect" class="p-0 mb-0">Ocena: </label>
+                <select id="rateSelect" class="w-100" (change)="onChange($event.target.value, 'filterChatRating')">
                     <option value="all" selected>Wszystkie</option>
                     <option value="null">Brak oceny</option>
                     <option value="1">1</option>
@@ -40,17 +43,19 @@
             </div>
         </div>
     </div>
+    <small class="form-text px-3">{{counted}} czaty</small>
+    <hr class="m-0">
 
-    <div *ngIf="_chats.length > 0; else chatListEmpty" class="nav flex-column">
+    <div *ngIf="_chats.length > 0; else chatListEmpty" class="nav flex-column nav-pills">
         <li *ngFor="let chat of _chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent" class="nav-item">
-            <div class="nav-link p-2 text-break cursor-pointer" (click)="switchRoom(chat._id)">
-                Czat ID: {{ chat._id }}
+            <div class="nav-link py-3 px-3 text-break cursor-pointer" [ngClass]="{'table-active': selected === chat._id}" (click)="switchRoom(chat._id)">
+                {{ chat.time }}
             </div>
-            <hr>
+            <hr class="m-0">
         </li>
     </div>
 
     <ng-template #chatListEmpty>
-        Brak czatów.
+        <p class="h5 p-3 mt-1">Brak czatów.</p>
     </ng-template>
 </div>

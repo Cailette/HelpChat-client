@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
+        <nav class="col-3 col-md-3 col-lg-2 col-lx-2 p-0 side-bar-scroll bg-light sidebar">
             <app-chats-list
                 [chats]="chats"
                 [isArchive]="true"
@@ -8,7 +8,7 @@
             </app-chats-list>
         </nav>
 
-        <main class="col-md-7 col-lg-7 p-0">
+        <main class="col-5 col-md-6 col-lg-7 col-lx-8 p-0 side-bar-scroll">
             <app-chat-content
                 [isArchive]="true"
                 [messages]="messages"
@@ -16,7 +16,7 @@
             </app-chat-content>
         </main>
 
-        <div class="col-md-3 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
+        <div class="col-4 col-md-3 col-lx-2 p-0 side-bar-scroll bg-light sidebar">
             <app-chat-info
                 [agent]="agent"
                 [chat]="chat"

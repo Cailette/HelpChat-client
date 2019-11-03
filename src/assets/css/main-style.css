@@ -130,6 +130,11 @@ hr {
     border-color: #1565c063 !important;
 }
 
+.alert-light {
+    color: #616161 !important;
+
+}
+
 /* .nav-link {
     border: 1px solid #ccc!important;
     border-color: #1566C080 !important;

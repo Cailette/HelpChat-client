@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-chats-list',
@@ -8,6 +10,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class ChatsListComponent implements OnInit {
   _chats: any;
   @Input() set chats(value: any) {
+    if(value){
+      for (var i = 0; i < value.length; i++) {
+        value[i].time = moment(new Date(value[i].date)).format('DD.MM.YYYY, HH:mm');
+      };
+      this.count(value);
+    }
     this._chats = value;
   }
   @Input() isArchive: boolean = false;
@@ -20,11 +28,16 @@ export class ChatsListComponent implements OnInit {
   filterChatAgent: string = "all";
   filterChatRating: string = "all";
 
+  selected: string;
+  counted: number;
+
   constructor() { 
   }
 
   ngOnInit() {
+    this.selected = "";
     this.isDataError = false;
+    this.counted = 0;
     if(this._chats === undefined){
       this.isDataError = true;
     }
@@ -44,6 +57,7 @@ export class ChatsListComponent implements OnInit {
 
   switchRoom(chatId: string){
     this.switchRoomClick.emit(chatId);
+    this.selected = chatId;
   }
 
   showFilter() {
@@ -56,5 +70,9 @@ export class ChatsListComponent implements OnInit {
 
   showSort() {
     this.isSort = !this.isSort;
+  }
+
+  count(value: Array<any>){
+    this.counted = value.length;
   }
 }
