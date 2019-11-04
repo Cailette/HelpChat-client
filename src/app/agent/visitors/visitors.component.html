@@ -5,19 +5,20 @@
         </div>
     </div>
 
-    <div class="p-3">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-3 pb-2 border-bottom">
             <h1 class="h2">Odwiedzający</h1>
         </div>
 
-        <div  class="table-responsive">
-            <table class="table table-sm">
+        <div class="table-responsive">
+            <table class="table table-sm border-bottom">
                 <thead class="thead-light">
                     <tr>
-                        <th>Identyfikator</th>
-                        <th>Lokalizacja</th>
-                        <th>Czatuje z</th>
-                        <th></th>
+                        <th class="p-3">Identyfikator</th>
+                        <th class="p-3">Czatuje z</th>
+                        <th class="p-3">Liczba czatów</th>
+                        <th class="p-3">Ostatnia wizyta</th>
+                        <th class="p-3"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,11 +26,12 @@
                         <td colspan="4">Brak Odwiedzających</td>
                     </tr>
                     <tr *ngFor="let visitor of visitors">
-                        <td>{{visitor._id}}</td>
-                        <td>{{visitor.location}}</td>
-                        <td>{{visitor.chat ? "-" : "visitor.czat"}}</td>
-                        <td class="text-right">
-                            <button (click)="viewVisitor(visitor._id);" class="btn btn-outline-info ml-2" data-toggle="modal" data-target="#visitorInfo" >Więcej informacji</button>
+                        <td class="align-middle px-3">{{visitor._id}}</td>
+                        <td class="align-middle px-3">{{visitor.chat ? visitor.czat : "-"}}</td>
+                        <td class="align-middle px-3">{{visitor.countChats}}</td>
+                        <td class="align-middle px-3">{{visitor.time}}</td>
+                        <td class="align-middle text-right px-3">
+                            <button (click)="viewVisitor(visitor._id);" class="btn btn-outline-primary" data-toggle="modal" data-target="#visitorInfo" >Więcej informacji</button>
                         </td>
                     </tr>
                 </tbody>
@@ -41,31 +43,30 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Info o odwiedzającym</h5>
+                    <h5 class="modal-title">Odwiedzajacy</h5>
                 </div>
                 <div class="modal-body">
-                    <h1 class="h2">{{visitor._id}}</h1>
                     <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <strong>Podstawowe informacje:</strong><br>
-                            Liczba czatów: {{countedChats}}<br>
-                            Ostatnio widziany: {{visitor.lastVisit}}<br>
+                        <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Identyfikator">
+                            <i class="fas fa-passport"></i>  {{visitor._id}}
                         </li>
-                        <hr>
-                        <li class="nav-item">
-                            <strong>Lokalizacja:</strong><br>
-                            <div class="w-100 p-2">
+                        <li class="nav-item py-1">
+                            <i class="fas fa-comments"></i><strong> Liczba czatów:</strong> {{visitor.countChats}}<br>
+                        </li>
+                        <li class="nav-item py-1">
+                            <i class="fas fa-clock"></i><strong> Ostatnio widziany:</strong> {{visitor.time}}<br>
+                        </li>
+                        <li class="nav-item py-1 w-100" data-toggle="tooltip" data-placement="top" title="Geolokalizacja">
+                            <div class="w-100">
                                 <map geoLocation="{{geoLocation}}"></map>
                             </div>
-                            <br>
                         </li>
-                        <hr>
-                        <li class="nav-item">
-                            <strong>Oprogramowanie:</strong><br>
-                            System operacyjny: {{visitor.operatingSoftware}} <br>
-                            Przeglądarka: {{visitor.browserSoftware}}<br>
+                        <li class="nav-item py-1">
+                            <strong>System operacyjny: </strong>{{visitor.operatingSoftware}}<br>
                         </li>
-                        <hr>
+                        <li class="nav-item py-1">
+                            <strong>Przeglądarka:</strong> {{visitor.browserSoftware}}<br>
+                        </li>
                     </ul>
                 </div>
                 <div class="modal-footer">

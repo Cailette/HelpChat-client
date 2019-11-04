@@ -11,14 +11,14 @@
         </div>
     </div>
 
-    <div *ngIf="!isAdding && !isEditing" class="p-3">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div *ngIf="!isAdding && !isEditing">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-3 border-bottom">
             <h1 class="h2">Konsultanci</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary" (click)="newAgent()">Dodaj</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="newAgent()">Dodaj</button>
                 <input *ngIf="isSearch" type="search" [(ngModel)]="searchAgent" name="searchAgent">
-                <button type="button" class="btn btn-sm btn-outline-secondary" (click)="showSearch()">Szukaj</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="showSearch()">Szukaj</button>
                 <div *ngIf="isFilter" class="d-flex align-items-center ml-2">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio3" [(ngModel)]="filterAgent" value="all" checked>
@@ -39,30 +39,30 @@
                         </label>
                     </div>
                 </div>
-                <button type="button" class="btn btn-sm btn-outline-secondary" (click)="showFilter()">Filturj</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="showFilter()">Filturj</button>
             </div>
             </div>
         </div>
 
         <div  class="table-responsive">
-            <table class="table table-sm">
+            <table class="table table-sm border-bottom">
                 <thead class="thead-light">
                     <tr>
-                        <th>Imie i nazwisko</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                        <th></th>
+                        <th class="p-3">Imie i nazwisko</th>
+                        <th class="p-3">Email</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let agent of agents | agentSearch: searchAgent | agentFilter: filterAgent">
-                        <td>{{agent.firstname}} {{agent.lastname}}</td>
-                        <td>{{agent.email}}</td>
-                        <td>{{agent.isActive ? "Aktywny" : "Niektywny"}}</td>
-                        <td class="text-right">
-                            <button (click)="editSelectedAgent(agent._id);" class="btn btn-outline-info ml-2">Edytuj</button>
-                            <button (click)="deleteSelectedAgent(agent._id);" class="btn btn-outline-danger ml-2" data-toggle="modal" data-target="#deleteAgent">Usuń</button>
-                            <button class="btn btn-outline-warning ml-2" [routerLink]="['/home/workingHours/', agent._id, agent.firstname, agent.lastname]" routerLink="/home/workingHours" role="button">Godziny pracy</button>
+                        <td class="px-3 align-middle">{{agent.firstname}} {{agent.lastname}}</td>
+                        <td class="px-3 align-middle">{{agent.email}}</td>
+                        <td class="px-3 align-middle">{{agent.isActive ? "Aktywny" : "Nieaktywny"}}</td>
+                        <td class="text-right px-3 align-middle">
+                            <button class="btn btn-sm btn-outline-info ml-2" [routerLink]="['/home/workingHours/', agent._id, agent.firstname, agent.lastname]" routerLink="/home/workingHours" role="button"><i class="fas fa-calendar-week"></i> Godziny pracy</button>
+                            <button (click)="editSelectedAgent(agent._id);" class="btn btn-sm btn-outline-primary ml-2"><i class="fas fa-edit"></i> Edytuj</button>
+                            <button (click)="deleteSelectedAgent(agent._id);" class="btn btn-sm btn-outline-danger ml-2" data-toggle="modal" data-target="#deleteAgent"><i class="fas fa-trash-alt"></i> Usuń</button>
                         </td>
                     </tr>
                 </tbody>

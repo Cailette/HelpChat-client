@@ -11,7 +11,7 @@ import * as moment from 'moment';
 })
 export class VisitorsComponent implements OnInit {
   visitors: any = '';
-  visitor: Visitor;
+  visitor: any;
   countedChats: number;
   geoLocation: string;
   isDataError: boolean;
@@ -27,8 +27,13 @@ export class VisitorsComponent implements OnInit {
   getVisitors(){
     console.log("data.visitors")
     this.visitorService.getVisitors(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      this.visitors = data.visitors;
-      console.log(data.visitors)
+      let value = data.visitors;
+      for (var i = 0; i < value.length; i++) {
+        value[i].time = moment(new Date(value[i].lastVisit)).format('DD.MM.YYYY, HH:mm');
+        value[i].countChats = value.chats ? value.chats.length : 0;
+      };
+      this.visitors = value;
+      console.log(this.visitors)
     },
     (err: HttpErrorResponse) => {
       this.isDataError = true;
@@ -40,28 +45,10 @@ export class VisitorsComponent implements OnInit {
 
   viewVisitor(visitorId: string){
     this.resetVisitor();
-    this.getCountedChats(visitorId);
-    this.visitorService.getVisitor(visitorId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      this.visitor = {
-        _id: data.visitor._id,
-        geoLocation: {
-          lat: data.visitor.geoLocation.lat,
-          lng: data.visitor.geoLocation.lng
-        },
-        lastVisit: moment(data.visitor.lastVisit).format('DD.MM.YYYY, HH:mm'),
-        browserSoftware: data.visitor.browserSoftware,
-        operatingSoftware: data.visitor.operatingSoftware,
-        representative: data.visitor.representative
-      };
-      this.geoLocation = this.visitor.geoLocation.lat === 'Brak danych' || this.visitor.geoLocation.lng === 'Brak danych' ? "" : JSON.stringify(this.visitor.geoLocation);
-    },
-    (err: HttpErrorResponse) => {
-      this.isDataError = true;
-      setTimeout(()=>{
-        this.isDataError = false;
-      }, 5000);
-    });
-    
+    this.visitor = this.visitors.find(visitor => {
+      return visitor._id === visitorId
+    })
+    this.geoLocation = this.visitor.geoLocation.lat === 'Brak danych' || this.visitor.geoLocation.lng === 'Brak danych' ? "" : JSON.stringify(this.visitor.geoLocation);
   }
 
   getCountedChats(visitorId: string){

@@ -19,7 +19,11 @@
         </main>
 
         <div class="col-4 col-md-3 col-lx-2 p-0 side-bar-scroll bg-light sidebar">
+            <div *ngIf="visitor === ''" class="p-3 text-center">
+                <p class="text-info h4">Wybierz czat z listy.</p>
+            </div>
             <app-chat-visitor-info
+                *ngIf="visitor"
                 [visitor]="visitor"
                 [location]="location">
             </app-chat-visitor-info>

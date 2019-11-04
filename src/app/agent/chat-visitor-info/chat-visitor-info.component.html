@@ -7,7 +7,7 @@
     </div>
     <h1 class="h2">Odzwiedzający</h1>
     <hr>
-    <div *ngIf="_visitor._id, else visitorNotChoosen">
+    <div>
         <ul class="nav flex-column">
             <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Identyfikator">
                 <i class="fas fa-passport"></i>  {{_visitor._id}}
@@ -36,8 +36,4 @@
             </li>
         </ul>
     </div>
-    
-    <ng-template #visitorNotChoosen>
-        Wybierz czat.
-    </ng-template>
 </div>

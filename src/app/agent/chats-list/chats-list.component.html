@@ -8,7 +8,7 @@
     <h1 class="h2 p-3 mt-1">Czaty</h1>
     <hr class="m-0">
     <div *ngIf="isArchive && _chats.length > 0" class="px-3 py-2">
-        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}} <i class="fas fa-filter"></i></button>
+        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()"><i class="fas fa-filter"></i> {{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
         <div *ngIf="isFilter" class="d-flex flex-column align-items-start w-100">
             <div class="form-group w-100 my-1" role="group">
                 <label for="agentSelect" class="p-0 mb-0">Konsultant: </label>

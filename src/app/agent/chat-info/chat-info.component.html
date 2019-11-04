@@ -6,7 +6,7 @@
     </div>
     <h1 class="h2">Czat</h1>
     <hr>
-    <div *ngIf="_chat._id">
+    <div>
         <ul class="nav flex-column">
             <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Identyfikator">
                 <i class="fas fa-passport"></i>  {{_chat._id}}
@@ -23,8 +23,8 @@
         </ul>
     </div>
 
-    <div *ngIf="_chat._id" class="py-1">
-        <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat">Usuń czat <i class="fas fa-trash-alt"></i></button>
+    <div class="py-1">
+        <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat"><i class="fas fa-trash-alt"></i> Usuń czat</button>
     </div>
 </div>
 
