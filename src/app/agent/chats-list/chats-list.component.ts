@@ -12,10 +12,11 @@ export class ChatsListComponent implements OnInit {
   @Input() set chats(value: any) {
     if(value){
       for (var i = 0; i < value.length; i++) {
-        value[i].time = moment(new Date(value[i].date)).format('DD.MM.YYYY, HH:mm');
+        value[i].time = moment(new Date(value[i].date)).format('DD.MM.YYYY');
       };
       this.count(value);
     }
+    console.log(value)
     this._chats = value;
   }
   @Input() isArchive: boolean = false;

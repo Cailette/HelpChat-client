@@ -8,7 +8,7 @@
     <h1 class="h2 p-3 mt-1">Czaty</h1>
     <hr class="m-0">
     <div *ngIf="isArchive && _chats.length > 0" class="px-3 py-2">
-        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
+        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}} <i class="fas fa-filter"></i></button>
         <div *ngIf="isFilter" class="d-flex flex-column align-items-start w-100">
             <div class="form-group w-100 my-1" role="group">
                 <label for="agentSelect" class="p-0 mb-0">Konsultant: </label>
@@ -49,7 +49,17 @@
     <div *ngIf="_chats.length > 0; else chatListEmpty" class="nav flex-column nav-pills">
         <li *ngFor="let chat of _chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent" class="nav-item">
             <div class="nav-link py-3 px-3 text-break cursor-pointer" [ngClass]="{'table-active': selected === chat._id}" (click)="switchRoom(chat._id)">
-                {{ chat.time }}
+                <div class="row">
+                    <div class="col-6">
+                        <small>Konsultant: {{chat.agent.firstname}}</small>
+                    </div>
+                    <div class="col-6 text-right small">
+                        {{chat.time}}
+                    </div>
+                    <div class="col-12">
+                        <p class="p-0 m-0 truncate">{{chat.messages[0] ? chat.messages[0].content : 'Brak wiadomości'}}</p>
+                    </div>
+                </div>
             </div>
             <hr class="m-0">
         </li>

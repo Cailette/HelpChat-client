@@ -1,11 +1,10 @@
-
 <div class="sidebar-sticky px-3 py-1 mt-3">
     <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-4">
         <div class="alert alert-danger">
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
-    <h1 class="h2">Informacje o czacie</h1>
+    <h1 class="h2">Czat</h1>
     <hr>
     <div *ngIf="_chat._id">
         <ul class="nav flex-column">
@@ -25,7 +24,7 @@
     </div>
 
     <div *ngIf="_chat._id" class="py-1">
-        <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat">Usuń czat</button>
+        <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat">Usuń czat <i class="fas fa-trash-alt"></i></button>
     </div>
 </div>
 

@@ -57,6 +57,10 @@ body {
     margin-top: 50px;
 }
 
+.margin-top > .navbar {
+    max-height: 50px !important;
+}
+
 img {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -125,14 +129,26 @@ hr {
 
 .nav-pills > .active {
     color: #1566C0 !important;
-    background-color: rgba(0, 0, 0, 0.045) !important;
+    background-color: rgba(0, 0, 0, 0.100) !important;
     border-bottom: 1px solid #ccc!important;
     border-color: #1565c063 !important;
 }
 
 .alert-light {
     color: #616161 !important;
+}
 
+.truncate {
+    width: 150px;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+  }
+
+.nav-item > .table-active {
+    color: #1566C0 !important;
+    border-bottom: 1px solid #ccc!important;
+    border-color: #1565c063 !important;
 }
 
 /* .nav-link {

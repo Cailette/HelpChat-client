@@ -15,6 +15,7 @@ export class MapComponent implements OnInit {
 
   appId: string = environment.hereAppID
   appCode: string = environment.hereAppCode
+  platform: any;
 
   _lat: number;
   _lng: number;
@@ -24,7 +25,8 @@ export class MapComponent implements OnInit {
       let geoLocation = JSON.parse(value);
       this._lat = Number(geoLocation.lat);
       this._lng = Number(geoLocation.lng);
-      this.moveMap()
+      this.moveMap();
+      // this.reverseGeocode();
     }else {
       this.dataExist = false;
       if(this.map){
@@ -37,6 +39,10 @@ export class MapComponent implements OnInit {
 
   public ngOnInit() {
     this.dataExist = true;
+    this.platform = new H.service.Platform({
+      "app_id": this.appId,
+      "app_code": this.appCode
+    });
   }
 
   ngAfterViewInit(){
@@ -57,11 +63,7 @@ export class MapComponent implements OnInit {
   }
 
   initMap(){
-    let platform = new H.service.Platform({
-      "app_id": this.appId,
-      "app_code": this.appCode
-    });
-    let defaultLayers = platform.createDefaultLayers();
+    let defaultLayers = this.platform.createDefaultLayers();
     this.map = new H.Map(
       this.mapElement.nativeElement,
       defaultLayers.normal.map,
@@ -70,5 +72,22 @@ export class MapComponent implements OnInit {
         center: { lat: 0, lng: 0 }
       }
     );
+  }
+
+  reverseGeocode() {
+    let geocoder = this.platform.getGeocodingService()
+    let parameters = {
+      prox: '41.8842,-87.6388,250',
+      mode: 'retrieveAddresses',
+      maxresults: '1',
+      gen: '9'
+    };
+
+    geocoder.reverseGeocode(parameters,
+      function (result) {
+        console.log(result);
+      }, function (error) {
+        console.log(error);
+    });
   }
 }

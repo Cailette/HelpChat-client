@@ -1,4 +1,7 @@
-<div *ngIf="!dataExist">
-    Brak danych!
+<div class="w-100" *ngIf="!dataExist">
+    <i class="fas fa-map-marker-alt"></i> Brak danych
 </div>
-<div #map style="width: 100%; height: 200px"></div>
+<div class="w-100" *ngIf="dataExist">
+   <i class="fas fa-map-marker-alt"></i> Miasto, Kraj
+</div>
+<div #map class="w-100" style="height: 200px"></div>
