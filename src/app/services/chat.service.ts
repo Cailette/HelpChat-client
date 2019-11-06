@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
-import { Chat } from '../models/chat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +18,11 @@ export class ChatService {
   getArchiveChats(token: string){
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
     return this.http.get(this.apiURL + '/chats/archive', {headers: reqHeader});
+  }
+  
+  getVisitorAgent(visitorId: string, token: string){
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + '/chats/agent/' + visitorId, {headers: reqHeader});
   }
 
   rateChat(token: string, chatId: string, rating: number){

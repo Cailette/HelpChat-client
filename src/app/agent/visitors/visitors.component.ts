@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Visitor } from 'src/app/models/visitor.model';
 import { VisitorService } from 'src/app/services/visitor.service';
+import { ChatService } from 'src/app/services/chat.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AgentService } from 'src/app/services/agent.service';
 import * as moment from 'moment';
@@ -16,7 +17,7 @@ export class VisitorsComponent implements OnInit {
   geoLocation: string;
   isDataError: boolean;
 
-  constructor(private visitorService: VisitorService, private agentService: AgentService) { }
+  constructor(private visitorService: VisitorService, private agentService: AgentService, private chatService: ChatService) { }
 
   async ngOnInit() {
     this.geoLocation = "";
@@ -30,9 +31,10 @@ export class VisitorsComponent implements OnInit {
       let value = data.visitors;
       for (var i = 0; i < value.length; i++) {
         value[i].time = moment(new Date(value[i].lastVisit)).format('DD.MM.YYYY, HH:mm');
-        value[i].countChats = value.chats ? value.chats.length : 0;
+        value[i].countChats = value[i].chats ? value[i].chats.length : 0;
       };
       this.visitors = value;
+      this.getAgents();
       console.log(this.visitors)
     },
     (err: HttpErrorResponse) => {
@@ -43,12 +45,30 @@ export class VisitorsComponent implements OnInit {
     });
   }
 
+  getAgents(){
+    for (let visitor of this.visitors) {
+      this.chatService.getVisitorAgent(visitor._id, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
+        console.log(data)
+        visitor.agent = data.agent ? data.agent : "-";
+      },
+      (err: HttpErrorResponse) => {
+        this.isDataError = true;
+        setTimeout(()=>{
+          this.isDataError = false;
+        }, 5000);
+      });
+    };
+  }
+
   viewVisitor(visitorId: string){
     this.resetVisitor();
     this.visitor = this.visitors.find(visitor => {
       return visitor._id === visitorId
     })
-    this.geoLocation = this.visitor.geoLocation.lat === 'Brak danych' || this.visitor.geoLocation.lng === 'Brak danych' ? "" : JSON.stringify(this.visitor.geoLocation);
+    
+    setTimeout(()=>{
+      this.geoLocation = this.visitor.geoLocation.lat === 'Brak danych' || this.visitor.geoLocation.lng === 'Brak danych' ? "" : JSON.stringify(this.visitor["geoLocation"]);
+    }, 2000);
   }
 
   getCountedChats(visitorId: string){
@@ -73,6 +93,5 @@ export class VisitorsComponent implements OnInit {
       representative: "",
     };
     this.countedChats = 0;
-    this.geoLocation = "";
   }
 }

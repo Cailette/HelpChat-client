@@ -1,7 +1,8 @@
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar py-4 side-bar-scroll">
-            <app-statistics-list>
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar px-0 py-4 side-bar-scroll">
+            <app-statistics-list
+                (contentChange)="onContentChange($event)">
             </app-statistics-list>
         </nav>
 

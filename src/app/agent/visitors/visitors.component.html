@@ -27,7 +27,7 @@
                     </tr>
                     <tr *ngFor="let visitor of visitors">
                         <td class="align-middle px-3">{{visitor._id}}</td>
-                        <td class="align-middle px-3">{{visitor.chat ? visitor.czat : "-"}}</td>
+                        <td class="align-middle px-3">{{visitor.agent ? visitor.agent.firstname + " " + visitor.agent.lastname : "-"}}</td>
                         <td class="align-middle px-3">{{visitor.countChats}}</td>
                         <td class="align-middle px-3">{{visitor.time}}</td>
                         <td class="align-middle text-right px-3">

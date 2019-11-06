@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div *ngIf="!isEditing" class="row d-flex justify-content-center p-5">
+    <div *ngIf="!isEditing" class="row justify-content-center align-items-center mt-4">
         <div class="col-md-10 col-ml-8">
             <app-information 
                 [user]="user"
@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div *ngIf="isEditing" class="row d-flex justify-content-center p-5">
+    <div *ngIf="isEditing" class="row justify-content-center align-items-center mt-4">
         <div class="col-md-10 col-ml-8">
             <app-information-form
                 [user]="user"

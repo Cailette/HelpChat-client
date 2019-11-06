@@ -4,77 +4,41 @@
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
-    <!-- <div class="p-0 ml-2">
-        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
-        <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
-            <div class="btn-group w-50 my-1" role="group">
-                <label>Konsultant: </label>
-                <select (change)="onChange($event.target.value, 'filterChatAgent')">
-                    <option value="all" selected>Wszyscy</option>
-                    <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
-                </select>
-            </div>
-            <div class="btn-group w-50 my-1" role="group">
-                <label>Data: </label>
-                <select (change)="onChange($event.target.value, 'filterChatDate')">
-                    <option value="all" selected>Wszystkie</option>
-                    <option value="today">Dzisiaj</option>
-                    <option value="yesterday">Wczoraj</option>
-                    <option value="7days">Ostatnich 7 dni</option>
-                    <option value="30days">Ostatnich 30 dni</option>
-                    <option value="lastMonth">Poprzedni miesiąc</option>
-                    <option value="currentMonth">Bieżący miesiąc</option>
-                </select>
-            </div>
-            <div class="btn-group w-50 my-1" role="group">
-                <label>Ocena: </label>
-                <select (change)="onChange($event.target.value, 'filterChatRating')">
-                    <option value="all" selected>Wszystkie</option>
-                    <option value="null">Brak oceny</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-        </div>
-    </div> -->
-    <div class="panel-group" id="accordion">
+    <div class="panel-group p-0" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#">Podsumowanie</a>
+                    <h4 class="panel-title cursor-pointer nav-stat">
+                        <div data-toggle="collapse" class="text-decoration-none p-2" data-parent="#accordion" href="#">Podsumowanie</div>
                     </h4>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapseChat, #collapseFilter">Czat</a>
+                    <h4 class="panel-title cursor-pointer nav-stat">
+                        <div data-toggle="collapse" class="text-decoration-none p-2" href="#collapseChat, #collapseFilter">Czat</div>
                     </h4>
                 </div>
                 <div id="collapseChat" data-parent="#accordion" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <table class="table">
                             <tr>
-                                <td>
-                                    <a href="#">Wszystkie</a>
+                                <td class="cursor-pointer nav-stat">
+                                    <div (click)="changeStatistics('all')">Wszystkie</div>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="cursor-pointer nav-stat">
+                                    <div (click)="changeStatistics('')">Nieodebrane</div>
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td class="cursor-pointer nav-stat">
+                                    <div (click)="changeStatistics('satisfaction')">Satysfakcja</div>
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <a href="#">Nieodebrane</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">Satysfakcja</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">Dostępność</a>
+                                <td class="cursor-pointer nav-stat">
+                                    <div (click)="changeStatistics('availability')">Dostępność</div>
                                 </td>
                             </tr>
                             <tr>
@@ -82,17 +46,16 @@
                                     <div class="p-0 ml-2">
                                         <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()"><i class="fas fa-filter"></i> {{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
                                         <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
-                                            <div class="btn-group w-50 my-1" role="group">
-                                                <label>Konsultant: </label>
-                                                <select (change)="onChange($event.target.value, 'filterChatAgent')">
-                                                    <option value="all" selected>Wszyscy</option>
+                                            <div class="form-group w-100 my-1" role="group">
+                                                <label for="agentSelect1" class="p-0 mb-0">Konsultant: </label>
+                                                <select [(ngModel)]='filterChatAgent' id="agentSelect1" class="w-100" (change)="onChange($event.target.value, 'filterChatAgent')">
+                                                    <option value="all">Wszyscy</option>
                                                     <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
                                                 </select>
                                             </div>
-                                            <div class="btn-group w-50 my-1" role="group">
-                                                <label>Data: </label>
-                                                <select (change)="onChange($event.target.value, 'filterChatDate')">
-                                                    <option value="all" selected>Wszystkie</option>
+                                            <div class="form-group w-100 my-1" role="group">
+                                                <label for="dateSelect1" class="p-0 mb-0">Data: </label>
+                                                <select [(ngModel)]='filterChatDate' id="dateSelect1" class="w-100" (change)="onChange($event.target.value, 'filterChatDate')">
                                                     <option value="today">Dzisiaj</option>
                                                     <option value="yesterday">Wczoraj</option>
                                                     <option value="7days">Ostatnich 7 dni</option>
@@ -111,49 +74,48 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapseAgents, #collapseFilter">Konsultanci</a>
+                    <h4 class="panel-title cursor-pointer nav-stat">
+                        <div data-toggle="collapse" class="text-decoration-none p-2" href="#collapseAgents, #collapseFilter">Konsultanci</div>
                     </h4>
                 </div>
                 <div id="collapseAgents" data-parent="#accordion" class="panel-collapse collapse">
                     <div class="panel-body">
                         <table class="table">
                             <tr>
-                                <td>
-                                    <a href="#">Czas rozmów</a>
+                                <td class="cursor-pointer nav-stat">
+                                    <div (click)="changeStatistics('chatTime')">Czas rozmów</div>
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <a href="#">Aktywność</a>
+                                <td class="cursor-pointer nav-stat">
+                                    <div (click)="changeStatistics('ativity')">Aktywność</div>
                                 </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <a href="#">Godziny pracy</a>
+                                <td class="cursor-pointer nav-stat">
+                                    <div (click)="changeStatistics('workHours')">Godziny pracy</div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">Szybkość odpowiedzi</a>
+                            <!-- <tr>
+                                <td class="cursor-pointer nav-stat">
+                                    <div (click)="changeStatistics('')">Szybkość odpowiedzi</div>
                                 </td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td>
                                     <div class="p-0 ml-2">
                                         <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()">{{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
                                         <div *ngIf="isFilter" class="d-flex  flex-column align-items-start">
-                                            <div class="btn-group w-50 my-1" role="group">
-                                                <label>Konsultant: </label>
-                                                <select (change)="onChange($event.target.value, 'filterChatAgent')">
-                                                    <option value="all" selected>Wszyscy</option>
+                                            <div class="form-group w-100 my-1" role="group">
+                                                <label for="agentSelect2" class="p-0 mb-0">Konsultant: </label>
+                                                <select [(ngModel)]='filterChatAgent' id="agentSelect2" class="w-100" (change)="onChange($event.target.value, 'filterChatAgent')">
+                                                    <option value="all">Wszyscy</option>
                                                     <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
                                                 </select>
                                             </div>
-                                            <div class="btn-group w-50 my-1" role="group">
-                                                <label>Data: </label>
-                                                <select (change)="onChange($event.target.value, 'filterChatDate')">
-                                                    <option value="all" selected>Wszystkie</option>
+                                            <div class="form-group w-100 my-1" role="group">
+                                                <label for="dateSelect2" class="p-0 mb-0">Data: </label>
+                                                <select [(ngModel)]='filterChatDate' id="dateSelect2" class="w-100" (change)="onChange($event.target.value, 'filterChatDate')">
                                                     <option value="today">Dzisiaj</option>
                                                     <option value="yesterday">Wczoraj</option>
                                                     <option value="7days">Ostatnich 7 dni</option>

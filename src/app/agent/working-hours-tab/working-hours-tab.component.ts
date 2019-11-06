@@ -8,14 +8,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class WorkingHoursTabComponent implements OnInit {
   @Output() dataError = new EventEmitter<boolean>();
-  @Output() getWorkHours = new EventEmitter<boolean>();
   @Input() isEditing: boolean;
   workingDays: any;
 
   _agentId: string;
   @Input() set agentId(value: string) {
-    this._agentId = value;
-    this.getAgentWorkHours();
+    if(value){
+      this._agentId = value;
+      this.getAgentWorkHours();
+    }
   }
 
   constructor(private workHoursService: WorkHoursService, @Inject('DAYS') public days: any[]) { }

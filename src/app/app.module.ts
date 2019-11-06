@@ -13,11 +13,11 @@ import {AgentService} from './services/agent.service';
 
 import { days } from 'src/app/models/days.model';
 
-import { AgentSearch }from './Pipes/agent-search.pipe';
-import { AgentFilter }from './Pipes/agent-filter.pipe';
-import { ChatAgentFilter }from './Pipes/chat-agent-filter.pipe';
-import { ChatDateFilter }from './Pipes/chat-date-filter.pipe';
-import { ChatRatingFilter }from './Pipes/chat-rating-filter.pipe';
+import { AgentSearch }from './pipes/agent-search.pipe';
+import { AgentFilter }from './pipes/agent-filter.pipe';
+import { ChatAgentFilter }from './pipes/chat-agent-filter.pipe';
+import { ChatDateFilter }from './pipes/chat-date-filter.pipe';
+import { ChatRatingFilter }from './pipes/chat-rating-filter.pipe';
 
 import { ChartsModule } from 'ng2-charts';
 

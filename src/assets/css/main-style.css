@@ -151,6 +151,10 @@ hr {
     border-color: #1565c063 !important;
 }
 
+.nav-stat:hover {
+    color: #1566C0 !important;
+}
+
 /* .nav-link {
     border: 1px solid #ccc!important;
     border-color: #1566C080 !important;

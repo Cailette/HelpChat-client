@@ -7,13 +7,15 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './statistics-list.component.html'
 })
 export class StatisticsListComponent implements OnInit {
-  @Output() filterChange = new EventEmitter<any>();
-  @Output() contentChange = new EventEmitter<any>();
-  filterChatDate: string = "all";
+  @Output() contentChange = new EventEmitter<{selected: string, filterChatAgent: string, filterChatDate: string}>();
+
+  filterChatDate: string = "today";
   filterChatAgent: string = "all";
+
   isFilter: boolean = false;
   isDataError: boolean;
   agents: any;
+  selected: any;
 
   constructor(private agentService: AgentService) { }
 
@@ -42,5 +44,15 @@ export class StatisticsListComponent implements OnInit {
     if(filter == "filterChatAgent"){
       this.filterChatAgent = option
     }
+    this.changeContent()
+  }
+
+  changeStatistics(select: string){
+    this.selected = select;
+    this.changeContent()
+  }
+  
+  changeContent() {
+    this.contentChange.emit({selected: this.selected, filterChatAgent: this.filterChatAgent, filterChatDate: this.filterChatDate});
   }
 }

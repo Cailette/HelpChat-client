@@ -21,6 +21,11 @@ export class InformationComponent implements OnInit {
   ngOnInit() {
   }
 
+  onDataError() {
+    this.dataError.emit();
+    console.log("this.dataError.emit();")
+  }
+
   editInformation() {
     this.editInformationClick.emit();
   }
