@@ -56,14 +56,16 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let agent of agents | agentSearch: searchAgent | agentFilter: filterAgent">
-                        <td class="px-3 align-middle">{{agent.firstname}} {{agent.lastname}}</td>
-                        <td class="px-3 align-middle">{{agent.email}}</td>
-                        <td class="px-3 align-middle">{{agent.isActive ? "Aktywny" : "Nieaktywny"}}</td>
-                        <td class="text-right px-3 align-middle">
-                            <button class="btn btn-sm btn-outline-info ml-2" [routerLink]="['/home/workingHours/', agent._id, agent.firstname, agent.lastname]" routerLink="/home/workingHours" role="button"><i class="fas fa-calendar-week"></i> Godziny pracy</button>
-                            <button (click)="editSelectedAgent(agent._id);" class="btn btn-sm btn-outline-primary ml-2"><i class="fas fa-edit"></i> Edytuj</button>
-                            <button (click)="deleteSelectedAgent(agent._id);" class="btn btn-sm btn-outline-danger ml-2" data-toggle="modal" data-target="#deleteAgent"><i class="fas fa-trash-alt"></i> Usuń</button>
-                        </td>
+                        <ng-container *ngIf="agent.representative !== null" >
+                            <td class="px-3 align-middle">{{agent.firstname}} {{agent.lastname}}</td>
+                            <td class="px-3 align-middle">{{agent.email}}</td>
+                            <td class="px-3 align-middle">{{agent.isActive ? "Aktywny" : "Nieaktywny"}}</td>
+                            <td class="text-right px-3 align-middle">
+                                <button class="btn btn-sm btn-outline-info ml-2" [routerLink]="['/home/workingHours/', agent._id, agent.firstname, agent.lastname]" routerLink="/home/workingHours" role="button"><i class="fas fa-calendar-week"></i> Godziny pracy</button>
+                                <button (click)="editSelectedAgent(agent._id);" class="btn btn-sm btn-outline-primary ml-2"><i class="fas fa-edit"></i> Edytuj</button>
+                                <button (click)="deleteSelectedAgent(agent._id);" class="btn btn-sm btn-outline-danger ml-2" data-toggle="modal" data-target="#deleteAgent"><i class="fas fa-trash-alt"></i> Usuń</button>
+                            </td>
+                        </ng-container>
                     </tr>
                 </tbody>
             </table>

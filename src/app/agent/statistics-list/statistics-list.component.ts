@@ -54,5 +54,12 @@ export class StatisticsListComponent implements OnInit {
   
   changeContent() {
     this.contentChange.emit({selected: this.selected, filterChatAgent: this.filterChatAgent, filterChatDate: this.filterChatDate});
+    
+    // if(this.selected == "total") {
+    //   this.filterChatDate = "7days";
+    //   this.filterChatAgent = "all";
+    //   this.contentChange.emit({selected: this.selected, filterChatAgent: this.filterChatAgent, filterChatDate: this.filterChatDate});
+    // } else {
+    //   }
   }
 }
