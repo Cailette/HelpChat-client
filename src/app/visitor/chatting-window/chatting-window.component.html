@@ -32,7 +32,7 @@
 </div>
 
 <div class="row px-3 justify-content-center align-items-center chat-input">
-    <div class="input-group">
+    <div class="input-group px-3 mx-3">
         <input type="text" class="form-control" (keydown.enter)="sendMessage()" [(ngModel)]="message" name="message" placeholder="Wpisz wiadomość..." autocomplete="off">
         <div class="input-group-append">
             <button class="btn btn-outline-primary" type="button" (click)="sendMessage()">Wyślij</button>

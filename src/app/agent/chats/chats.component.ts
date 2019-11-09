@@ -23,10 +23,15 @@ export class ChatsComponent implements OnInit {
       console.log("...visitorLocation " + data)
       this.location = data;
     });
+
     this.agentSocketService.onReceiveMessage().subscribe(message => {
       message["time"] = moment(new Date(message["date"])).format('HH:mm');
       console.log("...onReceiveMessage " + message)
       this.messages.unshift(message);
+    });
+    
+    this.agentSocketService.onChatListUpdate().subscribe(() => {
+      this.getChats();
     });
   }
 
@@ -36,6 +41,10 @@ export class ChatsComponent implements OnInit {
     this.chat = "";
     this.messages = [];
     this.visitor = "";
+    this.getChats();
+  }
+
+  getChats(){
     this.chatService.getChats(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.chats = data.chats;  
     },

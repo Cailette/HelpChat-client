@@ -13,11 +13,13 @@ export class AgentComponent implements OnInit {
   isActive: boolean;
   isDataError: boolean;
 
+  newChatCounter: number;
+
   constructor(private agentService: AgentService, private router: Router, private agentSocketService: AgentSocketService) { 
     this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
 
     this.agentSocketService.onNewChat().subscribe(data => {
-      console.log(".NEWCHAT.")// + JSON.stringify(data.newChat))
+      this.incrementNewChatCounter();
     });
 
     this.agentSocketService.onNewMessage().subscribe(data => {
@@ -34,6 +36,7 @@ export class AgentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resetNewChatCounter();
     this.isDataError = false;
     this.isActive = false;
     this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
@@ -66,5 +69,15 @@ export class AgentComponent implements OnInit {
     (err: HttpErrorResponse) => {
       this.isDataError = true;
     });
+  }
+
+  resetNewChatCounter(){
+      this.newChatCounter = 0;
+  }
+
+  incrementNewChatCounter(){
+    if(this.router.url !== '/home/chats'){
+      this.newChatCounter = this.newChatCounter + 1;
+    }
   }
 }

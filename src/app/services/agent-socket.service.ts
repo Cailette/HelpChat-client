@@ -96,6 +96,30 @@ export class AgentSocketService {
     return observable;
   }
 
+  onChatListUpdate() {
+    const observable = new Observable(observer => {
+      this.socket.on('updateChatList', () => {
+        observer.next();
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
+
+  onVisitorDisconnect() {
+    const observable = new Observable(observer => {
+      this.socket.on('visitorDisconnect', () => {
+        observer.next();
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
+
   onError() {
     const observable = new Observable(observer => {
       this.socket.on('error', (error) => {
