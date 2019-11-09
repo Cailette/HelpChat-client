@@ -5,16 +5,17 @@
 </div>
 <div *ngIf="!isDataError" class="container-fluid">
     <div class="row">
-        <nav class="col-3 col-md-3 col-lg-2 col-lx-2 p-0 side-bar-scroll bg-light sidebar">
+        <nav class="col-3 col-md-3 col-lx-2 p-0 side-bar-scroll bg-light sidebar">
             <app-chats-list
                 [chats]="chats"
                 (switchRoomClick)="onSwitchRoom($event)" >
             </app-chats-list>
         </nav>
 
-        <main class="col-5 col-md-6 col-lg-7 col-lx-8 p-0 side-bar-scroll">
+        <main class="col-5 col-md-6 col-lx-8 p-0 side-bar-scroll">
             <app-chat-content 
-                [messages]="messages">
+                [messages]="messages"
+                (sendMessage)="onSendMessage($event)">
             </app-chat-content>
         </main>
 

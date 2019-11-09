@@ -1,11 +1,11 @@
 <div class="row m-0 p-3 d-flex flex-column-reverse flex-nowrap chat-content">
-    <div class="container-fluid my-2" *ngFor="let message of messages">
+    <div class="container-fluid my-2" *ngFor="let message of chat.messages">
         <ng-container *ngIf="message.sender === 'agent'" >
             <div class="row d-flex justify-content-start">
                 <div class="card w-75">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">
-                            {{agent.firstname}} {{agent.lastname}}, {{message.time}}
+                            {{chat.agent.firstname}} {{chat.agent.lastname}}, {{message.time}}
                         </h6>
                         <p class="card-text">
                             {{message.content}}
@@ -33,9 +33,9 @@
 
 <div class="row px-3 justify-content-center align-items-center chat-input">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Wpisz wiadomość...">
+        <input type="text" class="form-control" [(ngModel)]="message" name="message" placeholder="Wpisz wiadomość...">
         <div class="input-group-append">
-            <button class="btn btn-outline-primary" type="button">Wyślij</button>
+            <button class="btn btn-outline-primary" type="button" (click)="sendMessage()">Wyślij</button>
         </div>
     </div>
 </div>

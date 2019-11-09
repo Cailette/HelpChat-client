@@ -20,6 +20,12 @@ import { ChatDateFilter }from './pipes/chat-date-filter.pipe';
 import { ChatRatingFilter }from './pipes/chat-rating-filter.pipe';
 
 import { ChartsModule } from 'ng2-charts';
+import { VisitorService } from './services/visitor.service';
+import { AgentSocketService } from './services/agent-socket.service';
+import { ChatService } from './services/chat.service';
+import { StatisticsService } from './services/statistics.service';
+import { VisitorSocketService } from './services/visitor-socket.service';
+import { WorkHoursService } from './services/work-hours.service';
 
 @NgModule({
   declarations: [
@@ -43,8 +49,14 @@ import { ChartsModule } from 'ng2-charts';
     ChartsModule
   ],
   providers: [
+    VisitorSocketService,
+    AgentSocketService,
     GuestService,
     AgentService,
+    VisitorService,
+    ChatService,
+    StatisticsService,
+    WorkHoursService,
     AuthGuard,
     { provide: 'DAYS', useValue: days }   
   ],

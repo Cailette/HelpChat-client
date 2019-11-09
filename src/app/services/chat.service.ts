@@ -14,6 +14,11 @@ export class ChatService {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
     return this.http.get(this.apiURL + '/chats', {headers: reqHeader});
   }
+
+  getChat(chatId: string, token: string){
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + '/chats/' + chatId, {headers: reqHeader});
+  }
   
   getArchiveChats(token: string){
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);

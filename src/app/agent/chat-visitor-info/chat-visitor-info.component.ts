@@ -14,7 +14,6 @@ export class ChatVisitorInfoComponent implements OnInit {
   geoLocation: string;
   lastVisit: string;
   _visitor: any;
-  _location: any;
   @Input() set visitor(value: any) {
     this._visitor = value;
     if(value){
@@ -25,8 +24,9 @@ export class ChatVisitorInfoComponent implements OnInit {
       }, 1000);
     }
   }
+  _location: any;
   @Input() set location(value: any) {
-    this._location = value;
+    this._location = value.substring(1, value.length - 1);;
   }
   @Input() isArchive: boolean = false;
   

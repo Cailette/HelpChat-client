@@ -38,9 +38,9 @@
 
 <div *ngIf="!isArchive" class="row justify-content-center align-items-center chat-input">
     <div class="input-group px-3 mx-3">
-        <input type="text" class="form-control" placeholder="Wpisz wiadomość...">
+        <input type="text" class="form-control" [(ngModel)]="message" name="message" placeholder="Wpisz wiadomość...">
         <div class="input-group-append">
-            <button class="btn btn-outline-primary" type="button">Wyślij</button>
+            <button class="btn btn-outline-primary" type="button" (click)="sendMessageClick()">Wyślij</button>
         </div>
     </div>
 </div>

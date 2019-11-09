@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
 import { environment } from '../../environments/environment.prod';
 import { Observable } from 'rxjs';
 
@@ -9,12 +9,14 @@ import { Observable } from 'rxjs';
 
 export class VisitorSocketService {
   readonly apiURL: string = environment.baseUrl; 
-  private socket = io(this.apiURL + "/visitor");
+  private socket;
   
-  constructor() { }
+  constructor() {
+    this.socket = io(this.apiURL);// + "/visitor")
+   }
 
   init(token) {
-    this.socket.emit('init', token);
+    this.socket.emit('init', token, "visitor");
   }
 
   // connect(token){
@@ -47,8 +49,8 @@ export class VisitorSocketService {
 
   onConnectionWithAgent() {
     let observable = new Observable(observer => {
-      this.socket.on('connectionWithAgent', (agent, chat) => {
-        observer.next({agent, chat});    
+      this.socket.on('connectionWithAgent', (chat) => {
+        observer.next(chat);    
       });
       return () => {
         this.socket.disconnect();

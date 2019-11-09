@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
 import { environment } from '../../environments/environment.prod';
 import { Observable } from 'rxjs';
 
@@ -9,12 +9,14 @@ import { Observable } from 'rxjs';
 
 export class AgentSocketService {
   readonly apiURL: string = environment.baseUrl;
-  private socket = io(this.apiURL + "/agent");
+  private socket;
   
-  constructor() { }
+  constructor() { 
+    this.socket = io(this.apiURL);// + "/agent")
+  }
 
   init(token) {
-    this.socket.emit('init', token);
+    this.socket.emit('init', token, "agent");
   }
 
   // connect(token){

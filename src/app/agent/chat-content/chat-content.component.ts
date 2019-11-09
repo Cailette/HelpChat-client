@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import * as moment from 'moment';
 
 @Component({
@@ -24,9 +24,20 @@ export class ChatContentComponent implements OnInit {
       this._agent = value.firstname + " " + value.lastname;
     }
   }
+  @Output() sendMessage = new EventEmitter<string>();
+  message: string;
+  
 
   constructor() { }
 
   ngOnInit() {
+    this.message = "";
+  }
+
+  sendMessageClick(){
+    if(this.message !== "") {
+      this.sendMessage.emit(this.message);
+    }
+    this.message = "";
   }
 }

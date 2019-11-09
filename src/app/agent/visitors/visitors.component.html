@@ -24,16 +24,18 @@
                 <tbody>
                     <tr *ngIf="visitors.length == 0">
                         <td colspan="4">Brak Odwiedzających</td>
-                    </tr>
-                    <tr *ngFor="let visitor of visitors">
-                        <td class="align-middle px-3">{{visitor._id}}</td>
-                        <td class="align-middle px-3">{{visitor.agent !== null ? visitor.agent.firstname + " " + visitor.agent.lastname : "-"}}</td>
-                        <td class="align-middle px-3">{{visitor.countChats}}</td>
-                        <td class="align-middle px-3">{{visitor.time}}</td>
-                        <td class="align-middle text-right px-3">
-                            <button (click)="viewVisitor(visitor._id);" class="btn btn-outline-primary" data-toggle="modal" data-target="#visitorInfo" >Więcej informacji</button>
-                        </td>
-                    </tr>
+                    </tr> 
+                    <ng-container *ngIf="visitors.length > 0">
+                        <tr *ngFor="let visitor of visitors">
+                            <td class="align-middle px-3">{{visitor._id}}</td>
+                            <td class="align-middle px-3">{{(visitor.agent !== null && visitor.agent !== undefined) ? visitor.agent.firstname + " " + visitor.agent.lastname : "-"}}</td>
+                            <td class="align-middle px-3">{{visitor.countChats}}</td>
+                            <td class="align-middle px-3">{{visitor.time}}</td>
+                            <td class="align-middle text-right px-3">
+                                <button (click)="viewVisitor(visitor._id);" class="btn btn-outline-primary" data-toggle="modal" data-target="#visitorInfo" >Więcej informacji</button>
+                            </td>
+                        </tr>
+                    </ng-container>
                 </tbody>
             </table>
         </div>

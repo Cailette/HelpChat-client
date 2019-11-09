@@ -9,16 +9,13 @@ import * as moment from 'moment';
   templateUrl: './chatting-window.component.html'
 })
 export class ChattingWindowComponent implements OnInit {
-  agent: Agent;
-  chatId: string;
-  messages: any;
+  chat: any;
+  message: string;
 
   constructor(private router: Router, private visitorSocketService: VisitorSocketService) { 
       this.visitorSocketService.init(localStorage.getItem('visitor-help-chat-token'));
-      this.visitorSocketService.onConnectionWithAgent().subscribe(data => {
-        console.log(data["agent"])
-        this.agent = data["agent"];
-        this.chatId = data["chat"]["_id"];
+      this.visitorSocketService.onConnectionWithAgent().subscribe(chat => {
+        this.chat = chat;
         window.parent.postMessage("getLocation", "*");
       });
 
@@ -31,41 +28,45 @@ export class ChattingWindowComponent implements OnInit {
         window.parent.postMessage("getLocation", "*");
       });
       
-      this.visitorSocketService.onNextChat().subscribe((data) => {
+      this.visitorSocketService.onNextChat().subscribe(chat => {
         console.log("onNextChat");
-        console.log(data)
-        this.agent = data["agent"];
-        this.chatId = data["_id"];
-        // display messages
-        if(data["messages"]){
-          let chatMessages = data["messages"]
+        console.log(chat)
+        if(chat["messages"]){
+          let chatMessages = chat["messages"]
           for (var i = 0; i < chatMessages.length; i++) {
             chatMessages[i].time = moment(new Date(chatMessages[i].date)).format('HH:mm');
           };
-          this.messages = chatMessages;
+          this.chat.messages = chatMessages;
         }
-        window.parent.postMessage("getLocation", "*");
+      });
+
+      this.visitorSocketService.onReceiveMessage().subscribe(message => {
+        message["time"] = moment(new Date(message["date"])).format('HH:mm');
+        this.chat.messages.push(message);
       });
     }
 
   ngOnInit() {
-    this.resetAgent();
+    this.chat = "";
     this.visitorSocketService.emitConnectWithAgent();
-  }
-
-  resetAgent(){
-    this.agent = {
-      _id:        "",
-      firstname:  "",
-      lastname:   "",
-      password:   "",
-      email:	    ""
-    }
   }
   
   ngOnDestroy() {
-    this.router.navigate(['/chat/rating', this.chatId]);
+    this.router.navigate(['/chat/rating', this.chat._id]);
     this.visitorSocketService.disconnect();
+  }
+
+  sendMessage(){
+    if(this.message !== "") {
+      let contnet = {
+        content: this.message,
+        time: moment(new Date()).format('HH:mm'),
+        sender: 'agent'
+      }
+      this.chat.messages.push(contnet);
+      this.visitorSocketService.emitSendMessage(this.message);
+    }
+    this.message = "";
   }
   
   @HostListener('window:message', ['$event'])

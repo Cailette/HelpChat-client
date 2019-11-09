@@ -20,8 +20,8 @@ export class VisitorsComponent implements OnInit {
   constructor(private visitorService: VisitorService, private agentService: AgentService, private chatService: ChatService) { }
 
   async ngOnInit() {
-    this.geoLocation = "";
     this.resetVisitor()
+    this.geoLocation = "";
     this.getVisitors();
   }
 
@@ -49,7 +49,7 @@ export class VisitorsComponent implements OnInit {
     for (let visitor of this.visitors) {
       this.chatService.getVisitorAgent(visitor._id, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
         console.log(data)
-        visitor.agent = data.agent ? data.agent : "-";
+        visitor.agent = data.agent;
       },
       (err: HttpErrorResponse) => {
         this.isDataError = true;
