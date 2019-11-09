@@ -1,5 +1,5 @@
 <div class="p-3 chat-content d-flex flex-column-reverse flex-nowrap" [ngStyle]="{'height': isArchive ? 'calc(100vh - 50px)' : ''}">
-    <div *ngIf="undefined !== _messages && !(_messages.length > 0)" class="row justify-content-center align-items-center mt-5">
+    <div *ngIf="isArchive && undefined !== _messages && !(_messages.length > 0)" class="row justify-content-center align-items-center mt-5">
         <div class="alert alert-info">
             Brak widomości.
         </div>
@@ -37,8 +37,8 @@
 </div>
 
 <div *ngIf="!isArchive" class="row justify-content-center align-items-center chat-input">
-    <div class="input-group px-3 mx-3">
-        <input type="text" class="form-control" [(ngModel)]="message" name="message" placeholder="Wpisz wiadomość...">
+    <div class="input-group px-3 mx-3" [ngStyle]="{'pointer-events': _isChat ? '' : 'none', 'opacity': _isChat ? '' : '0.4'}">
+        <input type="text" class="form-control"  (keydown.enter)="sendMessageClick()"  [(ngModel)]="message" name="message" placeholder="Wpisz wiadomość..." autocomplete="off">
         <div class="input-group-append">
             <button class="btn btn-outline-primary" type="button" (click)="sendMessageClick()">Wyślij</button>
         </div>

@@ -15,7 +15,7 @@ export class ChatsComponent implements OnInit {
   messages: any;
   visitor: any;
   location: any = "";
-  message: any = "";
+  isChat: boolean;
 
   constructor(private chatService: ChatService, private agentSocketService: AgentSocketService) { 
     this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
@@ -25,14 +25,16 @@ export class ChatsComponent implements OnInit {
     });
     this.agentSocketService.onReceiveMessage().subscribe(message => {
       message["time"] = moment(new Date(message["date"])).format('HH:mm');
-      this.chat.messages.push(message);
+      console.log("...onReceiveMessage " + message)
+      this.messages.unshift(message);
     });
   }
 
   ngOnInit() {
+    this.isChat = false;
     this.isDataError = false;
     this.chat = "";
-    this.messages = "";
+    this.messages = [];
     this.visitor = "";
     this.chatService.getChats(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.chats = data.chats;  
@@ -47,8 +49,10 @@ export class ChatsComponent implements OnInit {
     this.chatService.getChat(chatId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
       this.chat = data.chat;  
       this.visitor = this.chat.visitor;
+      this.messages = this.chat.messages;
       this.agentSocketService.emitSwitchRoom(this.chat._id);
       this.agentSocketService.emitGetLocation();
+      this.isChat = true;
       console.log("getLocation...");
     },
     (err: HttpErrorResponse) => {
@@ -56,15 +60,8 @@ export class ChatsComponent implements OnInit {
     });
   }
 
-  onSendMessage(content){
-    this.message = {
-      content: content,
-      date: new Date(),
-      sender: 'agent'
-    }
-    this.chat.messages.push(this.message);
-    this.agentSocketService.emitSendMessage(content);
-    this.message = "";
+  onSendMessage(message){
+    this.agentSocketService.emitSendMessage(message);
   }
   
   ngOnDestroy() {

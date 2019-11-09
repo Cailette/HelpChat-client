@@ -11,6 +11,7 @@ import * as moment from 'moment';
 export class ChattingWindowComponent implements OnInit {
   chat: any;
   message: string;
+  messages: any;
 
   constructor(private router: Router, private visitorSocketService: VisitorSocketService) { 
       this.visitorSocketService.init(localStorage.getItem('visitor-help-chat-token'));
@@ -31,22 +32,24 @@ export class ChattingWindowComponent implements OnInit {
       this.visitorSocketService.onNextChat().subscribe(chat => {
         console.log("onNextChat");
         console.log(chat)
+        this.chat = chat;
         if(chat["messages"]){
           let chatMessages = chat["messages"]
           for (var i = 0; i < chatMessages.length; i++) {
             chatMessages[i].time = moment(new Date(chatMessages[i].date)).format('HH:mm');
           };
-          this.chat.messages = chatMessages;
+          this.messages = chatMessages;
         }
       });
 
       this.visitorSocketService.onReceiveMessage().subscribe(message => {
         message["time"] = moment(new Date(message["date"])).format('HH:mm');
-        this.chat.messages.push(message);
+        this.messages.unshift(message);
       });
     }
 
   ngOnInit() {
+    this.messages = [];
     this.chat = "";
     this.visitorSocketService.emitConnectWithAgent();
   }
@@ -58,12 +61,6 @@ export class ChattingWindowComponent implements OnInit {
 
   sendMessage(){
     if(this.message !== "") {
-      let contnet = {
-        content: this.message,
-        time: moment(new Date()).format('HH:mm'),
-        sender: 'agent'
-      }
-      this.chat.messages.push(contnet);
       this.visitorSocketService.emitSendMessage(this.message);
     }
     this.message = "";

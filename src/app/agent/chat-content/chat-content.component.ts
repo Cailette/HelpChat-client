@@ -24,6 +24,10 @@ export class ChatContentComponent implements OnInit {
       this._agent = value.firstname + " " + value.lastname;
     }
   }
+  _isChat: boolean;
+  @Input() set isChat(value: boolean) {
+    this._isChat = value;
+  }
   @Output() sendMessage = new EventEmitter<string>();
   message: string;
   
