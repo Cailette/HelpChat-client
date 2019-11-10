@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, AfterViewInit } from '@angular/core';
 import { Agent } from 'src/app/models/agent.model';
 import { VisitorSocketService } from 'src/app/services/visitor-socket.service';
 import { Router } from '@angular/router';
@@ -8,16 +8,15 @@ import * as moment from 'moment';
   selector: 'app-chatting-window',
   templateUrl: './chatting-window.component.html'
 })
-export class ChattingWindowComponent implements OnInit {
+export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit {
   chat: any;
   message: string;
   messages: any;
 
   constructor(private router: Router, private visitorSocketService: VisitorSocketService) { 
-      this.visitorSocketService.init(localStorage.getItem('visitor-help-chat-token'));
       this.visitorSocketService.onConnectionWithAgent().subscribe(chat => {
+        console.log(chat);
         this.chat = chat;
-        window.parent.postMessage("getLocation", "*");
       });
 
       this.visitorSocketService.onError().subscribe(error => {
@@ -49,18 +48,25 @@ export class ChattingWindowComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.visitorSocketService.init(localStorage.getItem('visitor-help-chat-token'));
+    console.log("ngOnInit /chat/content");
     this.messages = [];
     this.chat = "";
+  }
+
+  ngAfterViewInit() {
     this.visitorSocketService.emitConnectWithAgent();
   }
   
   ngOnDestroy() {
-    this.router.navigate(['/chat/rating', this.chat._id]);
+    localStorage.setItem("disconnect", "1"); 
+    localStorage.removeItem("openchat");
     this.visitorSocketService.disconnect();
+    this.router.navigate(['/chat/rating', this.chat._id]);
   }
 
   sendMessage(){
-    if(this.message !== "") {
+    if(this.message !== "") { 
       this.visitorSocketService.emitSendMessage(this.message);
     }
     this.message = "";

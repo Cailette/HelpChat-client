@@ -22,9 +22,9 @@ export class AgentComponent implements OnInit {
       this.incrementNewChatCounter();
     });
 
-    this.agentSocketService.onNewMessage().subscribe(data => {
-      console.log(".NEWMESSAGEINCHAT." + JSON.stringify(data))
-    });
+    // this.agentSocketService.onNewMessage().subscribe(data => {
+    //   console.log(".NEWMESSAGEINCHAT." + JSON.stringify(data))
+    // });
 
     this.agentSocketService.onError().subscribe(error => {
       console.log(JSON.stringify(error))

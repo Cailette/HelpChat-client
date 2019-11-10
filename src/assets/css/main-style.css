@@ -139,7 +139,7 @@ hr {
 }
 
 .truncate {
-    width: 150px;
+    width: 170px;
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
     overflow: hidden !important;

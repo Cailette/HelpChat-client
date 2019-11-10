@@ -43,17 +43,17 @@ export class AgentSocketService {
     return observable;
   }
   
-  onNewMessage() {
-    const observable = new Observable(observer => {
-      this.socket.on('newMessage', (chat) => {
-        observer.next(chat);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    });
-    return observable;
-  }
+  // onNewMessage() {
+  //   const observable = new Observable(observer => {
+  //     this.socket.on('newMessage', (chat) => {
+  //       observer.next(chat);
+  //     });
+  //     return () => {
+  //       this.socket.disconnect();
+  //     };
+  //   });
+  //   return observable;
+  // }
  
   emitGetLocation(){
     this.socket.emit("getLocation");
@@ -86,8 +86,8 @@ export class AgentSocketService {
 
   onReceiveMessage() {
     const observable = new Observable(observer => {
-      this.socket.on('message', (message) => {
-        observer.next(message);
+      this.socket.on('message', (chatId, message) => {
+        observer.next({chatId, message});
       });
       return () => {
         this.socket.disconnect();
@@ -98,8 +98,8 @@ export class AgentSocketService {
 
   onChatListUpdate() {
     const observable = new Observable(observer => {
-      this.socket.on('updateChatList', () => {
-        observer.next();
+      this.socket.on('updateChatList', (chat) => {
+        observer.next(chat);
       });
       return () => {
         this.socket.disconnect();
@@ -110,8 +110,8 @@ export class AgentSocketService {
 
   onVisitorDisconnect() {
     const observable = new Observable(observer => {
-      this.socket.on('visitorDisconnect', () => {
-        observer.next();
+      this.socket.on('visitorDisconnect', (chatId) => {
+        observer.next(chatId);
       });
       return () => {
         this.socket.disconnect();

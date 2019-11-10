@@ -8,17 +8,21 @@ import * as moment from 'moment';
 })
 
 export class ChatsListComponent implements OnInit {
-  _chats: any;
+  _chats: any = [];
   @Input() set chats(value: any) {
     if(value){
       for (var i = 0; i < value.length; i++) {
         value[i].time = moment(new Date(value[i].date)).format('DD.MM.YYYY');
+        console.log(value[0].time)
       };
       this.count(value);
+      console.log("@Input() set chats(value: any)")
+      console.log(value)
+      // console.log(value[0].time)
+      this._chats = value;
     }
-    console.log(value)
-    this._chats = value;
   }
+
   @Input() isArchive: boolean = false;
   @Output() switchRoomClick = new EventEmitter<string>();
   isDataError: boolean;

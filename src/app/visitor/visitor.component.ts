@@ -30,9 +30,9 @@ export class VisitorComponent implements OnInit {
     this.licenceID = '';
     this.resetVisitor();
     
-    if(localStorage.getItem("openchat")){ 
+    if(localStorage.getItem("openchat") && (localStorage.getItem("disconnect") !== "1")){ 
       this.nextChat();
-    } else {
+    } else { 
       this.openPage();
     }
   }
@@ -40,7 +40,7 @@ export class VisitorComponent implements OnInit {
   openPage(){
     if(!localStorage.getItem("openpages")){
       localStorage.setItem("openpages", "1");
-      this.newVisitor();
+      this.newVisitor(); 
     } else {
       localStorage.setItem("openpages", (parseInt(localStorage.getItem("openpages")) + 1) + ""); 
     }
@@ -53,19 +53,23 @@ export class VisitorComponent implements OnInit {
       },
       (err: HttpErrorResponse) => {
         console.log(JSON.stringify(err));
-      });
+      }); 
     } else {
       window.parent.postMessage("getVisitorInfo", "*");
     }
   }
 
   openChat() {
+    if(localStorage.getItem("disconnect")){ 
+      localStorage.removeItem("disconnect");
+    }
     localStorage.setItem("openchat", "1") // set true, it's open
-    console.log("STORAGE ON OPEN CHAT " + localStorage.getItem('visitor-help-chat-token'));
+    console.log("ON OPEN CHAT");
     this.agentService.getWorkingAgents(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
       this.isClose = false;
       this.isAgent = true;
       window.parent.postMessage("show", "*");
+      console.log("/chat/content");
       this.router.navigate(['/chat/content']);
     },
     (err: HttpErrorResponse) => {
@@ -81,6 +85,7 @@ export class VisitorComponent implements OnInit {
     this.isClose = false;
     this.isAgent = true;
     window.parent.postMessage("show", "*");
+    console.log("nextChat /chat/content");
     this.router.navigate(['/chat/content']); // chat is open so I open conwersation
     // connect and donwload messagess for this chat
   }
@@ -90,6 +95,7 @@ export class VisitorComponent implements OnInit {
       this.isRating = true;
       this.router.navigate(['/chat']);
     } else {
+      console.log("closeChat /chat/content");
       this.isClose = true;
       this.isRating = false;
       localStorage.removeItem("openchat"); // false as I close chat

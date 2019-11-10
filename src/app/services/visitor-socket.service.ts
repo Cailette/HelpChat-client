@@ -12,7 +12,7 @@ export class VisitorSocketService {
   private socket;
   
   constructor() {
-    this.socket = io(this.apiURL);// + "/visitor")
+    this.socket = io(this.apiURL, {'force new connection': false});// + "/visitor")
    }
 
   init(token) {
@@ -93,7 +93,7 @@ export class VisitorSocketService {
 
   onReceiveMessage() {
     const observable = new Observable(observer => {
-      this.socket.on('message', (message) => {
+      this.socket.on('message', (chatId, message) => {
         observer.next(message);
       });
       return () => {
