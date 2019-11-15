@@ -1,18 +1,18 @@
-<div class="row m-0 p-3 d-flex flex-column-reverse flex-nowrap chat-content">
-    <div class="row d-flex justify-content-center">
-        <div class="card w-75 text-center">
-            <p class="card-text">
-                Połączono z konsultantem, w czym możemy pomóc?
+<div class="row m-0 p-1 d-flex flex-column-reverse flex-nowrap chat-content-window">
+    <div *ngIf="agentDisconnect" class="row d-flex justify-content-center my-1">
+        <div class="card w-75 alert-info text-dark text-center">
+            <p class="card-text p-2">
+                Konsultant zakończył czat.
             </p>
         </div>
     </div>
-    
-    <div class="container-fluid my-2" *ngFor="let message of messages">
+
+    <div class="container-fluid my-1" *ngFor="let message of messages">
         <ng-container *ngIf="message.sender === 'agent'" >
-            <div class="row d-flex justify-content-start">
+            <div class="row m-0 d-flex justify-content-start">
                 <div class="card w-75">
-                    <div class="card-body">
-                        <h6 class="card-subtitle mb-2 text-muted">
+                    <div class="card-body p-3">
+                        <h6 class="card-subtitle mb-1 text-muted">
                             {{chat.agent.firstname}} {{chat.agent.lastname}}, {{message.time}}
                         </h6>
                         <p class="card-text">
@@ -23,10 +23,10 @@
             </div>
         </ng-container>
         <ng-container *ngIf="message.sender === 'visitor'" >
-            <div class="row d-flex justify-content-end">
+            <div class="row m-0 d-flex justify-content-end">
                 <div class="card w-75 alert-primary text-dark">
-                    <div class="card-body">
-                        <h6 class="card-subtitle mb-2 text-muted">
+                    <div class="card-body p-3">
+                        <h6 class="card-subtitle mb-1 text-muted">
                             Ty, {{message.time}}
                         </h6>
                         <p class="card-text">
@@ -37,9 +37,16 @@
             </div>
         </ng-container>
     </div>
+    <div class="row d-flex justify-content-center my-1">
+        <div class="card w-75 alert-info text-dark text-center">
+            <p class="card-text p-2">
+                Połączono z konsultantem, w czym możemy pomóc?
+            </p>
+        </div>
+    </div>
 </div>
 
-<div class="row px-3 justify-content-center align-items-center chat-input">
+<div [ngStyle]="{'pointer-events': agentDisconnect ? 'none' : '', 'opacity': agentDisconnect ? '0.4' : ''}" class="row px-3 justify-content-center align-items-center chat-input">
     <div class="input-group mx-3">
         <input type="text" class="form-control" (keydown.enter)="sendMessage()" [(ngModel)]="message" name="message" placeholder="Wpisz wiadomość..." autocomplete="off">
         <div class="input-group-append">

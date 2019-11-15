@@ -75,11 +75,15 @@ export class AgentSocketService {
   emitSendMessage(message: string){
     this.socket.emit("message", message);
   }
+ 
+  emitCloseChat(){
+    this.socket.emit("closeChat");
+  }
 
   onReceiveMessage() {
     const observable = new Observable(observer => {
-      this.socket.on('message', (chatId, message) => {
-        observer.next({chatId, message});
+      this.socket.on('message', (message) => {
+        observer.next(message);
       });
       return () => {
         this.socket.disconnect();

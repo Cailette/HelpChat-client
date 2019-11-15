@@ -16,6 +16,7 @@ export class ChatsComponent implements OnInit {
   // visitor: any;
   location: any = "";
   isChat: boolean;
+  visitorDisconnect: boolean;
 
   constructor(private chatService: ChatService, private agentSocketService: AgentSocketService) { 
     this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
@@ -24,11 +25,10 @@ export class ChatsComponent implements OnInit {
       this.location = data;
     });
 
-    this.agentSocketService.onReceiveMessage().subscribe(data => {
+    this.agentSocketService.onReceiveMessage().subscribe(message => {
       console.log("...onReceiveMessage ")
-      console.log(data)
-      let message = data["message"];
-      let chatId = data["chatId"];
+      console.log(message)
+      let chatId = message["chat"];
 
       message["time"] = moment(new Date(message["date"])).format('HH:mm');
 
@@ -49,26 +49,27 @@ export class ChatsComponent implements OnInit {
     });
 
     this.agentSocketService.onVisitorDisconnect().subscribe(chatId => {
-      this.chats = this.chats.filter(function( ch ) {
+      this.chats = this.chats.filter(ch => {
           return ch._id !== chatId;
       });
+      if(chatId === this.chat._id) {
+        this.isChat = false;
+        this.visitorDisconnect = true;
+      }
     });
     
     this.agentSocketService.onChatListUpdate().subscribe((chat) => {
       chat["newMessageCounter"] = 0;
-      let oldChats = this.chats;
-      oldChats.unshift(chat);
-      this.chats = oldChats;
+      this.chats = [...this.chats, chat];
     });
   }
 
   ngOnInit() {
+    this.visitorDisconnect = false;
     this.chats = [];
     this.isChat = false;
     this.isDataError = false;
     this.chat = "";
-    // this.messages = [];
-    // this.visitor = "";
     this.getChats();
   }
 
@@ -85,6 +86,7 @@ export class ChatsComponent implements OnInit {
   }
 
   onSwitchRoom(chatId: string){
+    this.visitorDisconnect = false;
     console.log("CHAT " + chatId)
     this.chat = this.chats.find(ch => {
       return ch._id === chatId
@@ -93,19 +95,19 @@ export class ChatsComponent implements OnInit {
     this.isChat = true;
     this.agentSocketService.emitSwitchRoom(this.chat._id);
     this.agentSocketService.emitGetLocation();
-    // this.chatService.getChat(chatId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-    //   this.chat = data.chat;  
-    //   this.visitor = this.chat.visitor;
-    //   // this.messages = this.chat.messages;
-    //   console.log("getLocation...");
-    // },
-    // (err: HttpErrorResponse) => {
-    //   this.isDataError = true;
-    // });
   }
 
   onSendMessage(message){
     this.agentSocketService.emitSendMessage(message);
+  }
+
+  onCloseThisChat(){
+    this.chats = this.chats.filter(ch => {
+      return ch._id !== this.chat._id;
+    });
+    this.isChat = false;
+    this.chat = "";
+    this.agentSocketService.emitCloseChat();
   }
   
   ngOnDestroy() {

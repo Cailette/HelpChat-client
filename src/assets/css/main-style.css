@@ -93,6 +93,12 @@ hr {
     overflow-x: hidden;
 }
 
+.chat-content-window{
+    height: calc(100vh - 3rem - 50px);
+    overflow: auto;
+    overflow-x: hidden;
+}
+
 .side-bar-scroll {
     height: calc(100vh - 50px);
     overflow-y: auto;

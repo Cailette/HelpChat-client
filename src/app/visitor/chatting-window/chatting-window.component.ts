@@ -12,6 +12,7 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
   chat: any;
   message: string;
   messages: any;
+  agentDisconnect: boolean;
 
   constructor(private router: Router, private visitorSocketService: VisitorSocketService) { 
       this.visitorSocketService.onConnectionWithAgent().subscribe(chat => {
@@ -45,9 +46,15 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
         message["time"] = moment(new Date(message["date"])).format('HH:mm');
         this.messages.unshift(message);
       });
+
+      
+      this.visitorSocketService.onAgentDisconnect().subscribe(() => {
+        this.agentDisconnect = true;
+      });
     }
 
   ngOnInit() {
+    this.agentDisconnect = false;
     this.visitorSocketService.init(localStorage.getItem('visitor-help-chat-token'));
     console.log("ngOnInit /chat/content");
     this.messages = [];

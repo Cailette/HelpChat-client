@@ -24,17 +24,26 @@ export class ChatContentComponent implements OnInit {
       this._agent = value.firstname + " " + value.lastname;
     }
   }
+  
   _isChat: boolean;
   @Input() set isChat(value: boolean) {
     this._isChat = value;
   }
+  
+  _visitorDisconnect: boolean;
+  @Input() set visitorDisconnect(value: boolean) {
+    this._visitorDisconnect = value;
+  }
+
   @Output() sendMessage = new EventEmitter<string>();
   message: string;
-  
+
+  @Output() closeThisChat = new EventEmitter<boolean>();
 
   constructor() { }
 
   ngOnInit() {
+    this._visitorDisconnect = false;
     this.message = "";
   }
 
@@ -43,5 +52,9 @@ export class ChatContentComponent implements OnInit {
       this.sendMessage.emit(this.message);
     }
     this.message = "";
+  }
+
+  closeChat(){
+    this.closeThisChat.emit();
   }
 }

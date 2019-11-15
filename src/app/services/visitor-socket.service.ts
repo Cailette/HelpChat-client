@@ -93,8 +93,20 @@ export class VisitorSocketService {
 
   onReceiveMessage() {
     const observable = new Observable(observer => {
-      this.socket.on('message', (chatId, message) => {
+      this.socket.on('message', (message) => {
         observer.next(message);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
+
+  onAgentDisconnect() {
+    const observable = new Observable(observer => {
+      this.socket.on('agentDisconnect', () => {
+        observer.next();
       });
       return () => {
         this.socket.disconnect();

@@ -1,10 +1,18 @@
-<div *ngIf="!isArchive" class="row justify-content-end px-3 m-0 align-items-center chat-input bg-light hover" [ngStyle]="{'pointer-events': !(_isChat) ? '' : 'none', 'opacity': !(_isChat) ? '' : '0.4'}">
+<div *ngIf="!isArchive" class="row justify-content-end px-3 m-0 align-items-center chat-input bg-light hover" [ngStyle]="{'pointer-events': _isChat ? '' : 'none', 'opacity': _isChat ? '' : '0.4'}">
     <span data-toggle="modal" data-target="#closeChat">
         <i class="fas fa-2x fa-times " data-toggle="tooltip" data-placement="top" title="Zakończ czat"></i>
     </span>
 </div>
 
 <div class="p-3 chat-content d-flex flex-column-reverse flex-nowrap" [ngStyle]="{'height': isArchive ? 'calc(100vh - 50px)' : ''}">
+    <div *ngIf="_visitorDisconnect" class="row d-flex justify-content-center my-1">
+        <div class="card w-75 alert-info text-dark text-center">
+            <p class="card-text p-2">
+                Odwiedzający zakończył czat.
+            </p>
+        </div>
+    </div>
+    
     <div *ngIf="isArchive && undefined !== _messages && !(_messages.length > 0)" class="row justify-content-center align-items-center mt-5">
         <div class="alert alert-info">
             Brak widomości.
