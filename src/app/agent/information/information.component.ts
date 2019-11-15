@@ -3,20 +3,27 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AgentService } from 'src/app/services/agent.service';
 import { Agent } from 'src/app/models/agent.model';
+import { GlobalRole } from '../../auth/Role';
 
 @Component({
   selector: 'app-information',
   templateUrl: './information.component.html'
 })
 export class InformationComponent implements OnInit {
+  role: string;
+  Representative: string;
+
   @Input() user: Agent;
   @Output() editInformationClick = new EventEmitter<boolean>();
   @Output() dataError = new EventEmitter<boolean>();
   
   constructor(
     private agentService: AgentService, 
-    private router: Router
-    ) { }
+    private router: Router,
+    private globalRole: GlobalRole) { 
+    this.role = this.globalRole.role;
+    this.Representative = this.globalRole.Representative;
+  }
 
   ngOnInit() {
   }

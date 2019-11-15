@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-import { Label } from 'ng2-charts';
+import { Label, BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-statistics-chart',
@@ -10,9 +10,18 @@ import { Label } from 'ng2-charts';
 })
 
 export class StatisticsChartComponent implements OnInit {
-  public barChartOptions: ChartOptions = {
+  barChartOptions: ChartOptions = {
     responsive: true,
-    scales: { xAxes: [{}], yAxes: [{}] },
+    scales: { 
+      xAxes: [{}], 
+      yAxes: [{ 
+        ticks: {
+          beginAtZero: true,
+          stepSize: 1,
+          suggestedMax: 10
+        } 
+      }] 
+    },
     plugins: {
       datalabels: {
         anchor: 'end',
@@ -20,40 +29,33 @@ export class StatisticsChartComponent implements OnInit {
       }
     }
   };
-  public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  public barChartType: ChartType = 'bar';
-  public barChartLegend = true;
-  public barChartPlugins = [pluginDataLabels];
+  barChartType: ChartType = 'bar';
+  barChartLegend = false;
+  barChartPlugins = [pluginDataLabels];
 
-  public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-  ];
+  barChartLabels: Label[];
+  barChartData: ChartDataSets[];
+
+  @Input() set labels(value: any) {
+    if(value !== undefined){
+      this.barChartLabels = value;
+    }
+  }
+
+  @Input() set bars(value: any) {
+    if(value !== undefined){
+      this.barChartData = [{
+          data: value,
+          backgroundColor: '#1565c063'
+      }];
+    }
+  }
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  // events
-  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
-  }
-
-  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
-  }
-
-  public randomize(): void {
-    // Only Change 3 values
-    const data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      (Math.random() * 100),
-      56,
-      (Math.random() * 100),
-      40];
-    this.barChartData[0].data = data;
+    this.barChartLabels = [];
+    this.barChartData = [
+      {data: []}];
   }
 }

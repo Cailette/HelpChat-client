@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AgentService } from 'src/app/services/agent.service';
 import { AgentSocketService } from '../services/agent-socket.service';
+import { GlobalRole, Role } from '../auth/Role';
 
 @Component({
   selector: 'app-agent',
@@ -10,21 +11,23 @@ import { AgentSocketService } from '../services/agent-socket.service';
 })
 
 export class AgentComponent implements OnInit {
+  role: string;
+  Representative: string;
   isActive: boolean;
   isDataError: boolean;
 
   newChatCounter: number;
 
-  constructor(private agentService: AgentService, private router: Router, private agentSocketService: AgentSocketService) { 
+  constructor(private authorization: Role, private globalRole: GlobalRole, private agentService: AgentService, private router: Router, private agentSocketService: AgentSocketService) { 
+    this.checkRole();
+    this.role = this.globalRole.role;
+    this.Representative = this.globalRole.Representative;
+    
     this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
 
     this.agentSocketService.onNewChat().subscribe(data => {
       this.incrementNewChatCounter();
     });
-
-    // this.agentSocketService.onNewMessage().subscribe(data => {
-    //   console.log(".NEWMESSAGEINCHAT." + JSON.stringify(data))
-    // });
 
     this.agentSocketService.onError().subscribe(error => {
       console.log(JSON.stringify(error))
@@ -33,6 +36,10 @@ export class AgentComponent implements OnInit {
         this.isDataError = false;
       }, 3000);
     });
+  }
+
+  private checkRole() {
+    this.authorization.isAuthorized();
   }
 
   ngOnInit() {

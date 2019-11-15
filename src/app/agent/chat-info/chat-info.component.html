@@ -23,7 +23,7 @@
         </ul>
     </div>
 
-    <div class="py-1">
+    <div *ngIf="role === Representative" class="py-1">
         <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat"><i class="fas fa-trash-alt"></i> Usuń czat</button>
     </div>
 </div>

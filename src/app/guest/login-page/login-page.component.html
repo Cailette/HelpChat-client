@@ -1,7 +1,7 @@
-<div class="container mt-5">
-    <div class="row justify-content-center pt-4">
+<div class="container mt-4 pt-3">
+    <div class="row justify-content-center mt-4">
         <div class="col-6">
-            <h2 class="text-center mb-5">Zaloguj się</h2>
+            <h2 class="text-center my-4">Zaloguj się</h2>
 
             <div *ngIf="isLoginError" class="row justify-content-center align-items-center">
                 <div class="alert alert-warning">
@@ -9,7 +9,7 @@
                 </div>
             </div>
 
-            <form class="form" #loginForm="ngForm" (ngSubmit)="OnSubmit(email.value, password.value)">
+            <form class="form px-4" #loginForm="ngForm" (ngSubmit)="OnSubmit(email.value, password.value)">
                 <div class="form-group mt-3">
                     <label for="email" class="text-primary">Email:</label>
                     <input type="email" #email ngModel name="email" id="email" class="form-control" required>
@@ -18,7 +18,7 @@
                     <label for="password" class="text-primary">Hasło:</label>
                     <input type="password" #password ngModel name="password" id="password" class="form-control" required>
                 </div>
-                <div class="form-group mt-3">
+                <div class="form-group text-center mt-4">
                     <button [disabled]="!loginForm.valid" type="submit" class="btn btn-outline-primary">Zaloguj</button>
                 </div>
             </form>

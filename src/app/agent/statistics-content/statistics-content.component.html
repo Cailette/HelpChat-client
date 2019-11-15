@@ -1,10 +1,17 @@
 <div class="p-4 mt-4">
-    <app-statistics-chart>
-        
-    </app-statistics-chart>
-    <app-statistics-table
-        [heads]="head" 
-        [datas]="data" 
-        [colName]="colName">
-    </app-statistics-table>
+    <h2 class="h-2">{{_header}}</h2>
+    <h4 class="h-4 mb-4">{{_time}} dla {{_agent}}</h4>
+    <div class="mb-4">
+        <app-statistics-chart
+            [labels]="head" 
+            [bars]="bars" >
+        </app-statistics-chart>
+    </div>
+    <div class="mt-4">
+        <app-statistics-table
+            [heads]="head" 
+            [datas]="data" 
+            [rowName]="rowName">
+        </app-statistics-table>
+    </div>
 </div>

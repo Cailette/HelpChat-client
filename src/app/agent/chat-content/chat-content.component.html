@@ -1,9 +1,16 @@
+<div *ngIf="!isArchive" class="row justify-content-end px-3 m-0 align-items-center chat-input bg-light hover" [ngStyle]="{'pointer-events': !(_isChat) ? '' : 'none', 'opacity': !(_isChat) ? '' : '0.4'}">
+    <span data-toggle="modal" data-target="#closeChat">
+        <i class="fas fa-2x fa-times " data-toggle="tooltip" data-placement="top" title="Zakończ czat"></i>
+    </span>
+</div>
+
 <div class="p-3 chat-content d-flex flex-column-reverse flex-nowrap" [ngStyle]="{'height': isArchive ? 'calc(100vh - 50px)' : ''}">
     <div *ngIf="isArchive && undefined !== _messages && !(_messages.length > 0)" class="row justify-content-center align-items-center mt-5">
         <div class="alert alert-info">
             Brak widomości.
         </div>
     </div>
+
     <div class="container-fluid my-2" *ngFor="let message of _messages">
         <ng-container *ngIf="message.sender === 'visitor'" >
             <div class="row d-flex justify-content-start">
@@ -42,5 +49,25 @@
         <div class="input-group-append">
             <button class="btn btn-outline-primary" type="button" (click)="sendMessageClick()">Wyślij</button>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="closeChat" role="dialog" aria-labelledby="closeChat" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Zakończ czat</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <p>Czy na pewno chcesz zakończyć ten czat?</p>
+        </div>
+        <div class="modal-footer">
+        <button (click)="closeChat();"  type="button" class="btn btn-danger"  data-dismiss="modal">Zakończ</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Powrót</button>
+        </div>
+    </div>
     </div>
 </div>

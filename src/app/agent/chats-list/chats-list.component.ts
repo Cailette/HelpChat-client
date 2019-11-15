@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
+import { GlobalRole } from '../../auth/Role';
 
 
 @Component({
@@ -8,6 +9,10 @@ import * as moment from 'moment';
 })
 
 export class ChatsListComponent implements OnInit {
+  role: string;
+  id: string;
+  Agent: string;
+
   _chats: any = [];
   @Input() set chats(value: any) {
     if(value){
@@ -36,7 +41,10 @@ export class ChatsListComponent implements OnInit {
   selected: string;
   counted: number;
 
-  constructor() { 
+  constructor(private globalRole: GlobalRole) {
+    this.role = this.globalRole.role;
+    this.Agent = this.globalRole.Agent;
+    this.id = this.globalRole.id;
   }
 
   ngOnInit() {
@@ -45,6 +53,9 @@ export class ChatsListComponent implements OnInit {
     this.counted = 0;
     if(this._chats === undefined){
       this.isDataError = true;
+    }
+    if(this.role === this.Agent){
+      this.filterChatAgent = this.id;
     }
   }
 

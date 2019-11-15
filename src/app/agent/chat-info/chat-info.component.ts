@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as moment from 'moment';
+import { GlobalRole } from '../../auth/Role';
 
 @Component({
   selector: 'app-chat-info',
@@ -9,6 +10,9 @@ import * as moment from 'moment';
   styles: []
 })
 export class ChatInfoComponent implements OnInit {
+  role: string;
+  Representative: string;
+
   isDataError: boolean;
   _chat: any;
   _agent: any;
@@ -26,7 +30,10 @@ export class ChatInfoComponent implements OnInit {
   @Output() clickDeleteChat = new EventEmitter<string>();
   deleteChat: string;
 
-  constructor(private chatService: ChatService) { }
+  constructor(private globalRole: GlobalRole, private chatService: ChatService) {
+    this.role = this.globalRole.role;
+    this.Representative = this.globalRole.Representative;
+  }
 
   ngOnInit() {
     this.isDataError = false;

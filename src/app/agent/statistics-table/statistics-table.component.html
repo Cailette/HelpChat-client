@@ -2,12 +2,12 @@
   <table  class="table table-sm">
     <thead  class="thead-light">
       <tr class="table-head">
-        <th *ngFor="let head of _heads">{{head}}</th>
+        <th style="min-width: 100px;" *ngFor="let head of _heads">{{head}}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of _datas">
-        <td *ngFor="let colName of _colName"> {{data[colName] ? data[colName] : "Brak danych" }}</td>
+      <tr>
+        <td *ngFor="let head of _heads"> {{_datas[head] !== null ? _datas[head] : 0 }}</td>
       </tr>
     </tbody>
   </table>

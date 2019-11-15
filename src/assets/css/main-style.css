@@ -88,7 +88,7 @@ hr {
 }
 
 .chat-content{
-    height: calc(100vh - 3rem - 50px);
+    height: calc(100vh - 3rem - 3rem - 50px);
     overflow: auto;
     overflow-x: hidden;
 }
@@ -152,6 +152,14 @@ hr {
 }
 
 .nav-stat:hover {
+    color: #1566C0 !important;
+}
+
+.hover {
+    color: #0f4c929f !important;
+}
+
+.hover:hover {
     color: #1566C0 !important;
 }
 

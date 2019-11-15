@@ -1,33 +1,108 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { AgentService } from 'src/app/services/agent.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-statistics-content',
   templateUrl: './statistics-content.component.html'
 })
 export class StatisticsContentComponent implements OnInit {
+  isDataError: boolean;
   data: Array<any>;
   head: Array<String>;
-  colName: Array<String>;
-
-  constructor(){
-    this.head = new Array<String>('Name', 'Age', 'Gender');
-    this.colName = new Array<String>('name', 'age', 'gender');
-    this.data = new Array<UserDetails>();
+  rowName: Array<String>;
+  bars: Array<String>;
+  
+  _header: string;
+  @Input() set header(value: string) {
+    this.headerChange(value);
   }
+  _time: string;
+  @Input() set time(value: string) {
+    this.timeChange(value);
+  }
+  _agent: string;
+  @Input() set agent(value: string) {
+    this.agentChange(value);
+  }
+
+  @Input() set statistics(value: any) {
+    if(value !== undefined && value.data !== undefined && value.head !== undefined && value.rowName !== undefined && value.bars !== undefined){
+      this.data = value.data;
+      this.head = value.head;
+      this.rowName = value.rowName;
+      this.bars = value.bars;
+    }
+  }
+
+  constructor(private agentService: AgentService) { }
 
   ngOnInit() {
-    this.data.push(new UserDetails('Apple', 18, 'Male'));
-    this.data.push(new UserDetails2('Banana', 24));
-    this.data.push(new UserDetails2('Mango', 34));
-    this.data.push(new UserDetails('Orange', 13, 'Female'));
-    this.data.push(new UserDetails('Guava', 56, 'Male'));
+    this.isDataError = false;
   }
-}
+  
+  headerChange(selected){
+    switch (selected) {
+      case "all":
+        this._header = "Suma chatów";
+        break;
+      case "satisfaction":
+          this._header = "Średnia satysfakcja odwiedzających";
+          break;
+      case "availability":
+          this._header = "Czas dostępności czatu";
+          break;
+      case "chatTime":
+          this._header = "Średni czas rozmów";
+          break;
+      case "ativity":
+          this._header = "Aktywność konsultantów";
+          break;
+      case "workHours":
+          this._header = "Czas pracy konsultantów";
+          break; 
+      default:
+          this._header = "";
+    }
+  }
 
-export class UserDetails{
-  constructor(public name: String, public age: Number, public gender: String) { }
-}
+  timeChange(selected){
+    switch (selected) {
+      case "today":
+        this._time = "Dzisiaj";
+        break;
+      case "yesterday":
+          this._time = "Wczoraj";
+          break;
+      case "7days":
+          this._time = "Ostatnich 7 dni";
+          break;
+      case "30days":
+          this._time = "Ostatnich 30 dni";
+          break;
+      case "lastMonth":
+          this._time = "Poprzedni miesiąc";
+          break;
+      case "currentMonth":
+          this._time = "Bieżący miesiącs";
+          break; 
+      default:
+          this._time = "";
+    }
+  }
 
-export class UserDetails2{
-  constructor(public name: String, public age: Number) { }
+  agentChange(selected){
+    switch (selected) {
+      case "all":
+        this._agent = "wszystkich agentów";
+        break; 
+      default:
+        this.agentService.getAgentInformation(localStorage.getItem('agent-help-chat-token'), selected).subscribe((data: any) => {
+          this._agent = data.user.firstname + " " + data.user.lastname;
+        },
+        (err: HttpErrorResponse) => {
+          this.isDataError = true;
+        });
+    }
+  }
 }

@@ -9,19 +9,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class StatisticsListComponent implements OnInit {
   @Output() contentChange = new EventEmitter<{selected: string, filterChatAgent: string, filterChatDate: string}>();
 
-  filterChatDate: string = "today";
-  filterChatAgent: string = "all";
+  filterChatDate: string;
+  filterChatAgent: string;
 
   isFilter: boolean = false;
   isDataError: boolean;
   agents: any;
-  selected: any;
+  selected: string;
 
   constructor(private agentService: AgentService) { }
 
   ngOnInit() {
+    this.filterChatAgent = "all";
+    this.filterChatDate = "7days";
+    this.selected = "all"
     this.getAgents();
     this.isDataError = false;
+    this.changeContent();
   }
 
   showFilter() {

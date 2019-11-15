@@ -16,17 +16,17 @@ export class StatisticsTableComponent implements OnInit {
   _datas:Array<any> = new Array<any>();
   @Input() set datas(value: Array<any>) {
     if (!this.isColName) {
-      if (value !== undefined && value.length > 0) {
+      if (value !== undefined) {
         this._datas = value;
       }
     }
   }
-  _colName: Array<String> = new Array<String>();
-  @Input() set colName(value: Array<any>) {
+  _rowName: Array<String> = new Array<String>();
+  @Input() set rowName(value: Array<any>) {
     if (value !== undefined && value.length > 0) {
-      this._colName = value;
+      this._rowName = value;
       this.isColName = true;
-      if (!this.isHeadAndColLengthSame(this._heads, this._colName)) {
+      if (!this.isHeadAndColLengthSame(this._heads, this._rowName)) {
         console.error('ERROR: Table columns names and heads different length');
       }
     }

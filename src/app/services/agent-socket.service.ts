@@ -12,20 +12,12 @@ export class AgentSocketService {
   private socket;
   
   constructor() { 
-    this.socket = io(this.apiURL);// + "/agent")
+    this.socket = io(this.apiURL);
   }
 
   init(token) {
     this.socket.emit('init', token, "agent");
   }
-
-  // connect(token){
-  //   this.socket = io(this.apiURL + "/agent", {
-  //       query: {
-  //         token: token
-  //       }
-  //     });
-  // }
 
   disconnect(){
     this.socket.disconnect();

@@ -8,23 +8,43 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class StatisticsComponent implements OnInit {
   isDataError: boolean;
+  header: string;
+  time: string;
+  agent: string;
+
+  statistics: any;
 
   constructor(private statisticsService: StatisticsService) { }
 
   ngOnInit() {
+    this.header = "";
+    this.time = "";
+    this.agent = "";
     this.isDataError = false;
   }
 
   onContentChange(statistics: any){
     let {selected, filterChatAgent, filterChatDate} = statistics;
+    this.header = selected;
+    this.time = filterChatDate;
+    this.agent = filterChatAgent;
     filterChatDate = this.changeFilterDate(filterChatDate)
     this.statisticsService.getStatistics(localStorage.getItem('agent-help-chat-token'), selected, filterChatAgent, filterChatDate).subscribe((data: any) => {
-      // this.chats = data.chats;  
+      // this.chats = data.statistics; 
+      let head = data.statistics.map(s => s.time);
+      let rowName = "";
+      let bars = data.statistics.map(s => s.data ? s.data : 0);
+      console.log("bars")
+      console.log(bars)
+      let cells = []
+      data.statistics.forEach((s => cells[s.time] = s.data));
+      this.statistics = {head: head, rowName: rowName, data: cells, bars: bars}
     },
     (err: HttpErrorResponse) => {
       this.isDataError = true;
     });
   }
+
 
   changeFilterDate(filterChatDate){
     switch (filterChatDate) {

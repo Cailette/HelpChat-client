@@ -1,4 +1,12 @@
 <div class="row m-0 p-3 d-flex flex-column-reverse flex-nowrap chat-content">
+    <div class="row d-flex justify-content-center">
+        <div class="card w-75 text-center">
+            <p class="card-text">
+                Połączono z konsultantem, w czym możemy pomóc?
+            </p>
+        </div>
+    </div>
+    
     <div class="container-fluid my-2" *ngFor="let message of messages">
         <ng-container *ngIf="message.sender === 'agent'" >
             <div class="row d-flex justify-content-start">

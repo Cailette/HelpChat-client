@@ -21,7 +21,7 @@
                 <div id="collapseChat" data-parent="#accordion" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <table class="table">
-                            <tr>
+                            <tr [ngClass]="{'table-active': selected === 'all'}">
                                 <td class="cursor-pointer nav-stat">
                                     <div (click)="changeStatistics('all')">Wszystkie</div>
                                 </td>
@@ -31,12 +31,12 @@
                                     <div (click)="changeStatistics('')">Nieodebrane</div>
                                 </td>
                             </tr> -->
-                            <tr>
+                            <tr [ngClass]="{'table-active': selected === 'satisfaction'}">
                                 <td class="cursor-pointer nav-stat">
                                     <div (click)="changeStatistics('satisfaction')">Satysfakcja</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr [ngClass]="{'table-active': selected === 'availability'}">
                                 <td class="cursor-pointer nav-stat">
                                     <div (click)="changeStatistics('availability')">Dostępność</div>
                                 </td>
@@ -81,17 +81,17 @@
                 <div id="collapseAgents" data-parent="#accordion" class="panel-collapse collapse">
                     <div class="panel-body">
                         <table class="table">
-                            <tr>
+                            <tr [ngClass]="{'table-active': selected === 'chatTime'}">
                                 <td class="cursor-pointer nav-stat">
                                     <div (click)="changeStatistics('chatTime')">Czas rozmów</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr [ngClass]="{'table-active': selected === 'ativity'}">
                                 <td class="cursor-pointer nav-stat">
                                     <div (click)="changeStatistics('ativity')">Aktywność</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr [ngClass]="{'table-active': selected === 'workHours'}">
                                 <td class="cursor-pointer nav-stat">
                                     <div (click)="changeStatistics('workHours')">Godziny pracy</div>
                                 </td>

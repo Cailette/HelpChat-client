@@ -8,8 +8,8 @@ import {AppRoutingModule, routingComponents} from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {AuthGuard} from './auth/auth.guard';
-import {GuestService} from './services/guest.service';
-import {AgentService} from './services/agent.service';
+import {GlobalRole, Role} from './auth/Role';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { days } from 'src/app/models/days.model';
 
@@ -20,6 +20,9 @@ import { ChatDateFilter }from './pipes/chat-date-filter.pipe';
 import { ChatRatingFilter }from './pipes/chat-rating-filter.pipe';
 
 import { ChartsModule } from 'ng2-charts';
+
+import {GuestService} from './services/guest.service';
+import {AgentService} from './services/agent.service';
 import { VisitorService } from './services/visitor.service';
 import { AgentSocketService } from './services/agent-socket.service';
 import { ChatService } from './services/chat.service';
@@ -46,9 +49,19 @@ import { WorkHoursService } from './services/work-hours.service';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB01NDAC6qvJ1pCyKEiNNlTWVdK_xp5u8E'
     }),
+    JwtModule.forRoot({
+      config: {
+        // ...
+        tokenGetter: () => {
+          return localStorage.getItem("access_token");
+        }
+      }
+    }),
     ChartsModule
   ],
   providers: [
+    GlobalRole,
+    Role,
     VisitorSocketService,
     AgentSocketService,
     GuestService,

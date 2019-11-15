@@ -5,9 +5,9 @@
         <h1 class="display-4">{{user.firstname}} {{user.lastname}}</h1>
         <p class="lead">{{user.email}}</p>
         <hr class="my-4">
-        <p><strong>Uprawnienia:</strong> {{user.representative == null ? 'Przedstawiciel' : 'Konsultant'}}</p>
+        <p><strong>Uprawnienia:</strong> {{role === Representative ? 'Przedstawiciel' : 'Konsultant'}}</p>
         <hr class="my-1">
-        <p><strong>Licencja:</strong> {{user.representative == null ? user._id : user.representative}}</p>
+        <p><strong>Licencja:</strong> {{role === Representative ? user._id : user.representative}}</p>
         <hr class="my-1">
         <p *ngIf="user.isActive; else inNotActive"><strong>Status:</strong> Jesteś aktywny i akceptujesz czaty.</p>
         <ng-template #inNotActive>
@@ -19,11 +19,11 @@
             (dataError)="onDataError($event)" >
         </app-working-hours-tab>
     
-        <div *ngIf="user.representative == null" class="row justify-content-center my-3">
+        <div *ngIf="role === Representative" class="row justify-content-center my-3">
             <button class="btn btn-outline-primary w-25" (click)="editInformation()" role="button">Edytuj konto</button>
             <button class="btn btn-outline-danger w-25 ml-3 mr-3" data-toggle="modal" data-target="#deleteAlert" id="delete" role="button">Usuń konto</button>
         </div>
-        <div *ngIf="user.representative == null" class="row justify-content-center">
+        <div *ngIf="role === Representative" class="row justify-content-center">
             <button class="btn btn-outline-warning w-25" [routerLink]="['/home/workingHours/', user._id, user.firstname, user.lastname]"  role="button">Godziny pracy</button>
             <button class="btn btn-outline-info w-25 ml-3 mr-3" data-toggle="modal" data-target="#scriptModal" id="script" role="button">Skrypt czatu</button>
         </div>
