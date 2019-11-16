@@ -106,27 +106,6 @@ function chatListener(event) {
             }, helpChatBaseLocation);
         }
     }
-
-    // if(event.data.req === "openpages") {
-    //     iframeHelpChat.contentWindow.postMessage({
-    //         "res": "openpages", 
-    //         "localStorage": localStorage.openpages
-    //     }, helpChatBaseLocation);
-    // }
-
-    // if(event.data.req === "getToken") {
-    //     const token = readCookie(event.data.tokenName)
-    //     console.log("readCookie(event.data.tokenName): " + token)
-    //     iframeHelpChat.contentWindow.postMessage({
-    //         "res": "token", 
-    //         "token": token
-    //     }, helpChatBaseLocation);
-    // }
-
-    // if(event.data.req === "setToken") {
-    //     console.log("setToken: " + JSON.stringify(event.data))
-    //     createCookie(event.data.tokenName, event.data.tokenValue, event.data.tokenTime);
-    // }
 }
 
 function locationChange(){
@@ -166,28 +145,3 @@ function getBrowserSoftware() {
     if((userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) return "IE";
     return "Brak danych";
 }
-
-// function createCookie(name, value, days) {
-// 	if (days) {
-// 		var date = new Date();
-// 		date.setTime(date.getTime()+(days*24*60*60*1000));
-// 		var expires = "; expires="+date.toGMTString();
-// 	}
-// 	else var expires = "";
-// 	document.cookie = name+"="+value+expires+"; path=/";
-// }
-
-// function readCookie(name) {
-// 	var nameEQ = name + "=";
-// 	var ca = document.cookie.split(';');
-// 	for(var i=0;i < ca.length;i++) {
-// 		var c = ca[i];
-// 		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-// 		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-// 	}
-// 	return null;
-// }
-
-// function eraseCookie(name) {
-// 	createCookie(name,"",-1);
-// }

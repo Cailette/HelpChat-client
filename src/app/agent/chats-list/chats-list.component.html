@@ -10,10 +10,11 @@
     <div *ngIf="isArchive && _chats.length > 0" class="px-3 py-2">
         <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()"><i class="fas fa-filter"></i> {{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
         <div *ngIf="isFilter" class="d-flex flex-column align-items-start w-100">
-            <div *ngIf="role === Representative"  class="form-group w-100 my-1" role="group">
+            <div *ngIf="role !== Agent"  class="form-group w-100 my-1" role="group">
                 <label for="agentSelect" class="p-0 mb-0">Konsultant: </label>
                 <select [(ngModel)]='filterChatAgent' id="agentSelect" class="w-100" (change)="onChange($event.target.value, 'filterChatAgent')">
                     <option value="all">Wszyscy</option>
+                    <option value="{{id}}">Twoje</option>
                     <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
                 </select>
             </div>
@@ -43,7 +44,7 @@
             </div>
         </div>
     </div>
-    <small class="form-text px-3">Liczba czatów: {{_chats.length ? _chats.length : '0'}}</small>
+    <small class="form-text px-3">Liczba czatów: {{_chats.length ? _chats.length : '0' }}</small>
     <hr class="m-0">
 
     <div *ngIf="_chats !== undefined && _chats.length > 0; else chatListEmpty" class="nav flex-column nav-pills">

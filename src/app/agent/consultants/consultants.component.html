@@ -55,6 +55,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr *ngIf="agents.length == 1">
+                        <td colspan="4">Brak konsultantów</td>
+                    </tr> 
                     <tr *ngFor="let agent of agents | agentSearch: searchAgent | agentFilter: filterAgent">
                         <ng-container *ngIf="agent.representative !== null" >
                             <td class="px-3 align-middle">{{agent.firstname}} {{agent.lastname}}</td>
