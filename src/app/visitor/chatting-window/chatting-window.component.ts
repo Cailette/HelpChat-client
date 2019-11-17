@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
+  providers: [VisitorSocketService],
   selector: 'app-chatting-window',
   templateUrl: './chatting-window.component.html'
 })
@@ -15,50 +16,60 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
   agentId: any;
   agentDisconnect: boolean;
 
-  constructor(private router: Router, private activatedRouter: ActivatedRoute, private visitorSocketService: VisitorSocketService) { 
-      this.visitorSocketService.onConnectionWithAgent().subscribe(chat => {
-        console.log(chat);
-        this.chat = chat;
-      });
+  
+  private onConnectionWithAgentSubscribtion: any;
+  private onErrorSubscribtion: any;
+  private onGetLocationSubscribtion: any;
+  private onNextChatSubscribtion: any;
+  private onReceiveMessage: any;
+  private onAgentDisconnect: any;
 
-      this.visitorSocketService.onError().subscribe(error => {
-        console.log(JSON.stringify(error))
-      });
-      
-      this.visitorSocketService.onGetLocation().subscribe(() => {
-        console.log("visitor...getLocation");
-        window.parent.postMessage("getLocation", "*");
-      });
-      
-      this.visitorSocketService.onNextChat().subscribe(chat => {
-        console.log("onNextChat");
-        console.log(chat)
-        this.chat = chat;
-        if(chat["messages"]){
-          let chatMessages = chat["messages"]
-          for (var i = 0; i < chatMessages.length; i++) {
-            chatMessages[i].time = moment(new Date(chatMessages[i].date)).format('HH:mm');
-          };
-          this.messages = chatMessages;
-        }
-      });
-
-      this.visitorSocketService.onReceiveMessage().subscribe(message => {
-        message["time"] = moment(new Date(message["date"])).format('HH:mm');
-        this.messages.unshift(message);
-      });
-
-      
-      this.visitorSocketService.onAgentDisconnect().subscribe(() => {
-        this.agentDisconnect = true;
-      });
-    }
+  constructor(private router: Router, private activatedRouter: ActivatedRoute, private visitorSocketService: VisitorSocketService) { }
 
   ngOnInit() {
+    this.onConnectionWithAgentSubscribtion = this.visitorSocketService.onConnectionWithAgent().subscribe(chat => {
+      console.log(chat);
+      this.chat = chat;
+    });
+
+    this.onErrorSubscribtion = this.visitorSocketService.onError().subscribe(error => {
+      console.log(JSON.stringify(error))
+    });
+    
+    this.onGetLocationSubscribtion = this.visitorSocketService.onGetLocation().subscribe(() => {
+      console.log("visitor...getLocation");
+      window.parent.postMessage("getLocation", "*");
+    });
+    
+    this.onNextChatSubscribtion = this.visitorSocketService.onNextChat().subscribe(chat => {
+      console.log("onNextChat");
+      console.log(chat)
+      this.chat = chat;
+      this.agentId = chat["agent"]["_id"]
+      if(chat["messages"]){
+        let chatMessages = chat["messages"]
+        for (var i = 0; i < chatMessages.length; i++) {
+          chatMessages[i].time = moment(new Date(chatMessages[i].date)).format('HH:mm');
+        };
+        this.messages = chatMessages;
+      }
+    });
+
+    this.onReceiveMessage = this.visitorSocketService.onReceiveMessage().subscribe(message => {
+      message["time"] = moment(new Date(message["date"])).format('HH:mm');
+      this.messages.unshift(message);
+    });
+
+    
+    this.onAgentDisconnect = this.visitorSocketService.onAgentDisconnect().subscribe(() => {
+      this.agentDisconnect = true;
+    });
+
     this.activatedRouter.params.subscribe(params => {
       this.agentId = params['agentId'];
       console.log(this.agentId);
     });
+
     this.agentDisconnect = false;
     this.visitorSocketService.init(localStorage.getItem('visitor-help-chat-token'));
     console.log("ngOnInit /chat/content");
@@ -67,7 +78,7 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   ngAfterViewInit() {
-    this.visitorSocketService.emitConnectWithAgent(this.agentId);
+    this.visitorSocketService.emitConnectWithAgent(this.agentId === 'nextChat' ? null : this.agentId);
   }
   
   ngOnDestroy() {
@@ -75,6 +86,13 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
     localStorage.removeItem("openchat");
     this.visitorSocketService.disconnect();
     this.router.navigate(['/chat/rating', this.chat._id]);
+    
+    this.onConnectionWithAgentSubscribtion.unsubscribe();
+    this.onErrorSubscribtion.unsubscribe();
+    this.onGetLocationSubscribtion.unsubscribe();
+    this.onNextChatSubscribtion.unsubscribe();
+    this.onReceiveMessage.unsubscribe();
+    this.onAgentDisconnect.unsubscribe();
   }
 
   sendMessage(){

@@ -62,8 +62,6 @@ import { WorkHoursService } from './services/work-hours.service';
   providers: [
     GlobalRole,
     Role,
-    VisitorSocketService,
-    AgentSocketService,
     GuestService,
     AgentService,
     VisitorService,

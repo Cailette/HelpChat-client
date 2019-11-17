@@ -5,6 +5,7 @@ import { AgentSocketService } from '../../services/agent-socket.service';
 import * as moment from 'moment';
 
 @Component({
+  providers: [AgentSocketService],
   selector: 'app-chats',
   templateUrl: './chats.component.html'
 })
@@ -18,49 +19,54 @@ export class ChatsComponent implements OnInit {
   isChat: boolean;
   visitorDisconnect: boolean;
 
-  constructor(private chatService: ChatService, private agentSocketService: AgentSocketService) { 
+  private onVisitorLocationChangeSubscribtion: any;
+  private onReceiveMessageSubscribtion: any;
+  private onVisitorDisconnectSubscribtion: any;
+  private onChatListUpdateSubscribtion: any;
+
+  constructor(private chatService: ChatService, private agentSocketService: AgentSocketService) { }
+
+  ngOnInit() {
     this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
-    this.agentSocketService.onVisitorLocationChange().subscribe(data => {
+    console.log("...subscribe ")
+    this.onVisitorLocationChangeSubscribtion = this.agentSocketService.onVisitorLocationChange().subscribe(data => {
       console.log("...visitorLocation " + data)
       this.location = data;
     });
 
-    this.agentSocketService.onReceiveMessage().subscribe(message => {
+    this.onReceiveMessageSubscribtion = this.agentSocketService.onReceiveMessage().subscribe(message => {
       console.log("onReceiveMessage ")
       message["time"] = moment(new Date(message["date"])).format('HH:mm');
       let chatReceiveMessageId = message["chat"];
       let oldChats = this.chats;
       oldChats.map(ch => {
         if(ch._id === chatReceiveMessageId) {
-          console.log("oldChats.chat._id === chatReceiveMessageId")
           ch.messages.unshift(message);
           if(ch._id !== this.chat._id) {
-            console.log("oldChats.chat._id !== this.currentChat._id")
             ch.newMessageCounter = ch.newMessageCounter + 1;
-            console.log(ch.newMessageCounter)
           }
         }
       })
       this.chats = oldChats;
     });
 
-    this.agentSocketService.onVisitorDisconnect().subscribe(chatId => {
+    this.onVisitorDisconnectSubscribtion = this.agentSocketService.onVisitorDisconnect().subscribe(chatId => {
       this.chats = this.chats.filter(ch => {
           return ch._id !== chatId;
       });
       if(chatId === this.chat._id) {
+        this.agentSocketService.emitSwitchRoom(this.chat.agent._id);
         this.isChat = false;
         this.visitorDisconnect = true;
       }
     });
     
-    this.agentSocketService.onChatListUpdate().subscribe((chat) => {
+    this.onChatListUpdateSubscribtion = this.agentSocketService.onChatListUpdate().subscribe((chat) => {
+      console.log("onChatListUpdate ")
       chat["newMessageCounter"] = 0;
       this.chats = [...this.chats, chat];
     });
-  }
 
-  ngOnInit() {
     this.visitorDisconnect = false;
     this.chats = [];
     this.isChat = false;
@@ -110,5 +116,10 @@ export class ChatsComponent implements OnInit {
     if(this.chat){
       this.agentSocketService.emitSwitchRoom(this.chat.agent._id);
     }
+    console.log("...unsubscribe ")
+    this.onVisitorLocationChangeSubscribtion.unsubscribe();
+    this.onReceiveMessageSubscribtion.unsubscribe();
+    this.onVisitorDisconnectSubscribtion.unsubscribe();
+    this.onChatListUpdateSubscribtion.unsubscribe();
   }
 } 

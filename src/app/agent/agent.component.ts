@@ -6,6 +6,7 @@ import { AgentSocketService } from '../services/agent-socket.service';
 import { GlobalRole, Role } from '../auth/Role';
 
 @Component({
+  providers: [AgentSocketService],
   selector: 'app-agent',
   templateUrl: './agent.component.html'
 })
@@ -18,24 +19,13 @@ export class AgentComponent implements OnInit {
 
   newChatCounter: number;
 
+  private onNewChatChangeSubscribtion: any;
+  private onErrorSubscribtion: any;
+
   constructor(private authorization: Role, private globalRole: GlobalRole, private agentService: AgentService, private router: Router, private agentSocketService: AgentSocketService) { 
     this.checkRole();
     this.role = this.globalRole.role;
     this.Representative = this.globalRole.Representative;
-    
-    this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
-
-    this.agentSocketService.onNewChat().subscribe(data => {
-      this.incrementNewChatCounter();
-    });
-
-    this.agentSocketService.onError().subscribe(error => {
-      console.log(JSON.stringify(error))
-      this.isDataError = true;
-      setTimeout(()=>{
-        this.isDataError = false;
-      }, 3000);
-    });
   }
 
   private checkRole() {
@@ -43,6 +33,20 @@ export class AgentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
+
+    this.onNewChatChangeSubscribtion = this.agentSocketService.onNewChat().subscribe(data => {
+      this.incrementNewChatCounter();
+    });
+
+    this.onErrorSubscribtion = this.agentSocketService.onError().subscribe(error => {
+      console.log(JSON.stringify(error))
+      this.isDataError = true;
+      setTimeout(()=>{
+        this.isDataError = false;
+      }, 3000);
+    });
+
     this.resetNewChatCounter();
     this.isDataError = false;
     this.isActive = false;
@@ -59,6 +63,8 @@ export class AgentComponent implements OnInit {
       this.SwitchActivity();
     }
     this.agentSocketService.disconnect();
+    this.onErrorSubscribtion.unsubscribe();
+    this.onNewChatChangeSubscribtion.unsubscribe();
   }
 
   Logout() {

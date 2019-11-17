@@ -48,7 +48,6 @@ export class VisitorsComponent implements OnInit {
   getAgents(){
     for (let visitor of this.visitors) {
       this.chatService.getVisitorAgent(visitor._id, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-        console.log(data)
         visitor.agent = data.agent;
       },
       (err: HttpErrorResponse) => {

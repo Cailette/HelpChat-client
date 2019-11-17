@@ -9,10 +9,9 @@ import { Observable } from 'rxjs';
 
 export class AgentSocketService {
   readonly apiURL: string = environment.baseUrl;
-  private socket;
+  private socket = io(this.apiURL);
   
   constructor() { 
-    this.socket = io(this.apiURL);
   }
 
   init(token) {

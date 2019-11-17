@@ -87,7 +87,7 @@ export class VisitorComponent implements OnInit {
     this.isClose = false;
     this.isAgent = true;
     window.parent.postMessage("show", "*");
-    this.router.navigate(['/chat/content', null]); // chat is open so I open conwersation
+    this.router.navigate(['/chat/content', 'nextChat']); // chat is open so I open conwersation
     // connect and donwload messagess for this chat
   }
 
