@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <small class="form-text px-3">Liczba czatów: {{_chats.length ? _chats.length : '0' }}</small>
+    <small class="form-text px-3">Liczba czatów: {{(_chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent).length ? (_chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent).length : '0' }}</small>
     <hr class="m-0">
 
     <div *ngIf="_chats !== undefined && _chats.length > 0; else chatListEmpty" class="nav flex-column nav-pills">

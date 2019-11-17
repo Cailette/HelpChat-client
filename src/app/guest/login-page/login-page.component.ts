@@ -20,7 +20,7 @@ export class LoginPageComponent implements OnInit {
   OnSubmit(email, password) {
     this.guestService.authenticate(email, password).subscribe((data: any) => {
       localStorage.setItem('agent-help-chat-token', data.token);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home/chats']);
     },
     (err: HttpErrorResponse) => {
       this.isLoginError = true;

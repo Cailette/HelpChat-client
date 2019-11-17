@@ -43,8 +43,8 @@ export class VisitorSocketService {
     return observable;
   }
   
-  emitConnectWithAgent() {
-    this.socket.emit('connectWithAgent');
+  emitConnectWithAgent(agentId) {
+    this.socket.emit('connectWithAgent', agentId);
   }
 
   onConnectionWithAgent() {

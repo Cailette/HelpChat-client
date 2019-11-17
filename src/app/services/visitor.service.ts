@@ -41,8 +41,16 @@ export class VisitorService {
     return this.http.post(this.apiURL + '/visitors', visitor, {headers: reqHeader});
   }
  
-  updateVisitor(token: string) {
-    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.put(this.apiURL + '/visitors', {}, {headers: reqHeader});
+  updateVisitor(token: string, status: boolean) {
+    if(status){
+      var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+      return this.http.put(this.apiURL + '/visitors/' + status, {}, {headers: reqHeader});
+    } else {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("PUT", 'http://localhost:3000/visitors/' + status, false);
+      xmlhttp.setRequestHeader("Content-type", "application/json");
+      xmlhttp.setRequestHeader("x-access-token", token);
+      xmlhttp.send();
+    }
   }
 }

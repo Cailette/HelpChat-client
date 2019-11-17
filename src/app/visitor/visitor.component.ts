@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { VisitorService } from '../services/visitor.service';
@@ -16,6 +16,7 @@ export class VisitorComponent implements OnInit {
   isRating: boolean;
   licenceID: string;
   visitor: Visitor;
+  agent: any;
 
   constructor(
     private router: Router, 
@@ -27,6 +28,7 @@ export class VisitorComponent implements OnInit {
     this.isClose = true;
     this.isAgent = true;
     this.isRating = false;
+    this.agent = '';
     this.licenceID = '';
     this.resetVisitor();
     
@@ -48,7 +50,7 @@ export class VisitorComponent implements OnInit {
 
   newVisitor() {
     if (localStorage.getItem('visitor-help-chat-token') !== null) {
-      this.visitorService.updateVisitor(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
+      this.visitorService.updateVisitor(localStorage.getItem('visitor-help-chat-token'), true).subscribe((data: any) => {
         console.log(JSON.stringify(data.message));
       },
       (err: HttpErrorResponse) => {
@@ -64,13 +66,13 @@ export class VisitorComponent implements OnInit {
       localStorage.removeItem("disconnect");
     }
     localStorage.setItem("openchat", "1") // set true, it's open
-    console.log("ON OPEN CHAT");
-    this.agentService.getWorkingAgents(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
+    this.agentService.getRandomWorkingAgent(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
       this.isClose = false;
       this.isAgent = true;
+      this.agent = data.user;
       window.parent.postMessage("show", "*");
-      console.log("/chat/content");
-      this.router.navigate(['/chat/content']);
+      console.log("/chat/content/" + this.agent._id);
+      this.router.navigate(['/chat/content', this.agent._id]);
     },
     (err: HttpErrorResponse) => {
       this.isClose = false;
@@ -85,8 +87,7 @@ export class VisitorComponent implements OnInit {
     this.isClose = false;
     this.isAgent = true;
     window.parent.postMessage("show", "*");
-    console.log("nextChat /chat/content");
-    this.router.navigate(['/chat/content']); // chat is open so I open conwersation
+    this.router.navigate(['/chat/content', null]); // chat is open so I open conwersation
     // connect and donwload messagess for this chat
   }
 
@@ -95,7 +96,6 @@ export class VisitorComponent implements OnInit {
       this.isRating = true;
       this.router.navigate(['/chat']);
     } else {
-      console.log("closeChat /chat/content");
       this.isClose = true;
       this.isRating = false;
       localStorage.removeItem("openchat"); // false as I close chat
@@ -111,19 +111,42 @@ export class VisitorComponent implements OnInit {
       this.router.navigate(['/chat']);
   }
 
-  @HostListener('window:beforeunload', ['$event'])
-    onClose(event) {
+  @HostListener('window:pagehide', ['$event'])
+    async onClose($event) {
       if(parseInt(localStorage.getItem("openpages")) > 1){
         localStorage.setItem("openpages", (parseInt(localStorage.getItem("openpages")) - 1) + "");
       } else {
         localStorage.removeItem("openpages");
         localStorage.removeItem("openchat"); // close all tabs -> disconnect
-        this.visitorService.updateVisitor(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
-              console.log(JSON.stringify(data.message));
-        },
-        (err: HttpErrorResponse) => {
-          console.log(JSON.stringify(err));
-        });
+
+        this.visitorService.updateVisitor(localStorage.getItem('visitor-help-chat-token'), false)
+        
+        // if (!navigator.sendBeacon) {
+        //   navigator.sendBeacon = (url, data) =>{ window.fetch(url, {method: 'POST', body: data, credentials: 'include'}) }
+        // }
+
+        // let headers = {
+        //   type: 'application/json',
+        //   'x-access-token': localStorage.getItem('visitor-help-chat-token')
+        // };
+        // let blob = new Blob([], headers);
+        // navigator.sendBeacon('http://localhost:3000/visitors/' + status, blob);
+
+
+
+
+        
+// $(window).on('pagehide', function() {
+// 	$.ajax({
+//         type: 'PUT',
+//         url: 'http://localhost:3000/visitors/' + false,
+//         headers: {
+//             type: 'application/json',
+//             'x-access-token': localStorage.getItem('visitor-help-chat-token')
+//         },
+//         async: false
+//     });
+// });
       }
   }
 
@@ -150,16 +173,21 @@ export class VisitorComponent implements OnInit {
         });
       }
       
-      if (event.data == "closePages") {
-        localStorage.removeItem("openpages");
-        localStorage.removeItem("openchat");
-        this.visitorService.updateVisitor(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
-          console.log(JSON.stringify(data.message));
-        },
-        (err: HttpErrorResponse) => {
-          console.log(JSON.stringify(err));
-        });
-      }
+      // if (event.data == "closePages") {
+      //   if(parseInt(localStorage.getItem("openpages")) > 1){
+      //     localStorage.setItem("openpages", (parseInt(localStorage.getItem("openpages")) - 1) + "");
+      //   } else {
+      //     localStorage.removeItem("openpages");
+      //     localStorage.removeItem("openchat"); // close all tabs -> disconnect
+          
+      //     this.visitorService.updateVisitor(localStorage.getItem('visitor-help-chat-token'), false).subscribe((data: any) => {
+      //       console.log(JSON.stringify(data.message));
+      //     },
+      //     (err: HttpErrorResponse) => {
+      //       console.log(JSON.stringify(err));
+      //     });
+      //   }
+      // }
   }
   
   resetVisitor(){

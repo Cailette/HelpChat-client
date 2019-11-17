@@ -36,7 +36,7 @@ const routes: Routes = [
   {
     path: '', component: GuestComponent,
     children: [
-      { path: '', component: MainPageComponent, pathMatch: 'full' },
+      { path: '', component: LoginPageComponent, pathMatch: 'full' },
       { path: 'login', component: LoginPageComponent, pathMatch: 'full' },
       { path: 'register', component: RegisterPageComponent, pathMatch: 'full' }
     ]
@@ -57,7 +57,7 @@ const routes: Routes = [
   {
     path: 'chat', component: VisitorComponent,
     children: [
-      { path: 'content', component: ChattingWindowComponent},
+      { path: 'content/:agentId', component: ChattingWindowComponent},
       { path: 'mail', component: MailFormComponent},
       { path: 'rating/:chatId', component: ChatRateComponent},
     ]

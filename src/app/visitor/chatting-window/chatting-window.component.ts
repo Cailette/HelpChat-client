@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, OnDestroy, AfterViewInit } from '@angular/core';
 import { Agent } from 'src/app/models/agent.model';
 import { VisitorSocketService } from 'src/app/services/visitor-socket.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
@@ -12,9 +12,10 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
   chat: any;
   message: string;
   messages: any;
+  agentId: any;
   agentDisconnect: boolean;
 
-  constructor(private router: Router, private visitorSocketService: VisitorSocketService) { 
+  constructor(private router: Router, private activatedRouter: ActivatedRoute, private visitorSocketService: VisitorSocketService) { 
       this.visitorSocketService.onConnectionWithAgent().subscribe(chat => {
         console.log(chat);
         this.chat = chat;
@@ -54,6 +55,10 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
   ngOnInit() {
+    this.activatedRouter.params.subscribe(params => {
+      this.agentId = params['agentId'];
+      console.log(this.agentId);
+    });
     this.agentDisconnect = false;
     this.visitorSocketService.init(localStorage.getItem('visitor-help-chat-token'));
     console.log("ngOnInit /chat/content");
@@ -62,7 +67,7 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   ngAfterViewInit() {
-    this.visitorSocketService.emitConnectWithAgent();
+    this.visitorSocketService.emitConnectWithAgent(this.agentId);
   }
   
   ngOnDestroy() {

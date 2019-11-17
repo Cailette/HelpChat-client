@@ -46,14 +46,14 @@
     </div>
     
     <div *ngIf="!isRegistering" class="row justify-content-center">
-        <div class="col">
-            <div class="jumbotron">
+        <div class="col mt-4">
+            <div class="jumbotron py-3">
                 <h1 class="display-5">Twoje konto zostało poprawnie utworzone!</h1>
                 <p class="lead">
                     By czatować z odwiedzającymi musisz umieścić okno czatu w swoim serwisie internetowym. Skopiuj poniższy skrypt i umieść go w kodzie źródłowym HTML twojej strony interentowej między znacznikami &lthead&gt.
                 </p>
                 <hr class="my-4">
-                    <textarea class="form-control" rows="15" disabled>
+                    <textarea class="form-control" rows="13" disabled style="background-color: white;">
 <script type="application/javascript">
     window.__helpchat = window.__helpchat || {};
     window.__helpchat.license = "{{licenceNumber}}";
@@ -66,8 +66,7 @@
     var s = document.getElementsByTagName('script')[0]; 
     s.parentNode.insertBefore(helpchat, s);
     })();
-</script> 
-                    </textarea>
+</script> </textarea>
                 <p class="lead mt-3">
                     <a class="btn btn-primary" href="/login" role="button">Zaloguj się</a>
                 </p>
