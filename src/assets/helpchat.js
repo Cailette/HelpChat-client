@@ -27,6 +27,7 @@ function initWidget() {
     appendJs(helpChatBaseLocation + '/assets/iframe-style.js');
 
     window.addEventListener("message", chatListener, false);
+    window.addEventListener("focus", focus, false);
 
     var oldHref = document.location.href;
     window.onload = function() {
@@ -45,6 +46,10 @@ function initWidget() {
         };
         observer.observe(bodyList, config);
     };
+}
+
+function focus(){
+    checkChat();
 }
 
 function chatListener(event) {
@@ -114,6 +119,15 @@ function locationChange(){
     iframeHelpChat.contentWindow.postMessage({
         "res" : "locationChange", 
         "data" : JSON.stringify(document.location.href)
+    }, helpChatBaseLocation);
+}
+
+function checkChat(event){
+    console.log("checkChat")
+    var helpChatBaseLocation = getBaseLocation();
+    var iframeHelpChat = document.getElementById("chat-iframe");
+    iframeHelpChat.contentWindow.postMessage({
+        "res" : "checkChat"
     }, helpChatBaseLocation);
 }
 

@@ -24,4 +24,14 @@ export class Role {
     this.globalRole.role = decodeToken['representative'] ? "Agent" : "Representative";
     this.globalRole.id =  decodeToken['id'];
   }
+
+  isVisitorAuthorized(): string {
+   const token = localStorage.getItem('agent-help-chat-token');
+    const decodeToken = this.jwtHelperService.decodeToken(token);
+    if (!decodeToken) {
+      console.log('Invalid token');
+      return;
+    }
+    this.globalRole.id = decodeToken['id'];
+  }
 }

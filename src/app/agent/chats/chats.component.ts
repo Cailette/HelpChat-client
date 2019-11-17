@@ -36,18 +36,20 @@ export class ChatsComponent implements OnInit {
 
     this.onReceiveMessageSubscribtion = this.agentSocketService.onReceiveMessage().subscribe(message => {
       console.log("onReceiveMessage ")
-      message["time"] = moment(new Date(message["date"])).format('HH:mm');
-      let chatReceiveMessageId = message["chat"];
-      let oldChats = this.chats;
-      oldChats.map(ch => {
-        if(ch._id === chatReceiveMessageId) {
-          ch.messages.unshift(message);
-          if(ch._id !== this.chat._id) {
-            ch.newMessageCounter = ch.newMessageCounter + 1;
+        message["time"] = moment(new Date(message["date"])).format('HH:mm');
+        let chatReceiveMessageId = message["chat"];
+        let oldChats = this.chats;
+        oldChats.map(ch => {
+          if(ch._id === chatReceiveMessageId) {
+            if(!(ch.messages.find(m => m._id === message["_id"]))) {
+              ch.messages.unshift(message);
+              if(ch._id !== this.chat._id) {
+                ch.newMessageCounter = ch.newMessageCounter + 1;
+              }
+            }
           }
-        }
-      })
-      this.chats = oldChats;
+        })
+        this.chats = oldChats;
     });
 
     this.onVisitorDisconnectSubscribtion = this.agentSocketService.onVisitorDisconnect().subscribe(chatId => {
