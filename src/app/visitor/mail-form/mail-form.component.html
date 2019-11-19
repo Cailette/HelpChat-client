@@ -1,15 +1,16 @@
-<div class="row m-0 p-3 side-bar-scroll d-flex flex-column flex-nowrap">
+<div *ngIf="mailing" class="row m-0 p-3 side-bar-scroll d-flex flex-column flex-nowrap">
 
     <div class="alert alert-info mt-2 p-2 text-center" data-error="">
         Aktualnie nie ma aktywnych konsultantów. Prześlij nam maila.
     </div>
 
-    <form class="form" #mailForm="ngForm" (ngSubmit)="OnSubmit(mailForm)">
+    <form class="form">
         <div class="row">
             <div class="col-md-12">
                 <div class="md-form mt-2">
                     <label for="email" class="">Twój mail*</label>
-                    <input type="text" id="email" name="email" class="form-control" required>
+                    <input type="text" id="email" name="email" class="form-control validate" #sender="ngModel" [(ngModel)]="mail.sender" required>
+                    
                 </div>
             </div>
         </div>
@@ -18,7 +19,7 @@
             <div class="col-md-12">
                 <div class="md-form mt-4">
                     <label for="subject" class="">Temat*</label>
-                    <input type="text" id="subject" name="subject" class="form-control" required>
+                    <input type="text" id="subject" name="subject" #subject="ngModel" [(ngModel)]="mail.subject" class="form-control" required>
                 </div>
             </div>
         </div>
@@ -27,7 +28,7 @@
             <div class="col-md-12">
                 <div class="md-form mt-2">
                     <label for="message">Wiadomość*</label>
-                    <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea" required></textarea>
+                    <textarea type="text" id="message" name="message" #text="ngModel" [(ngModel)]="mail.text" rows="2" class="form-control md-textarea" required></textarea>
                 </div>
 
             </div>
@@ -38,8 +39,20 @@
         </div>
     
         <div class="col-16 my-3 text-center">
-            <button [disabled]="!mailForm.valid" type="submit" class="btn btn-outline-primary">Wyślij</button>
+            <button [disabled]="!(emailPattern.test(mail.sender)) || mail.text == '' || mail.subject == '' || mail.sender == ''" (click)="submit()" class="btn btn-outline-primary">Wyślij</button>
         </div>
                 
     </form>
+</div>
+
+<div *ngIf="!mailing && !mailingError" class="row m-0 p-3 chat-form d-flex flex-column flex-nowrap justify-content-center align-items-center">
+    <div class="alert alert-info mt-2 p-2 text-center">
+        Konsultant otrzymał twoją wiadomość. Dziękujemy!
+    </div>
+</div>
+
+<div *ngIf="mailingError" class="row m-0 p-3 chat-form d-flex flex-column flex-nowrap justify-content-center align-items-center">
+    <div class="alert alert-danger mt-2 p-2 text-center">
+        Wysłanie maila niepowiodło się, przepraszamy.
+    </div>
 </div>

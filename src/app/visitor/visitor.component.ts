@@ -67,8 +67,8 @@ export class VisitorComponent implements OnInit {
     if(localStorage.getItem("disconnect")){ 
       localStorage.removeItem("disconnect");
     }
-    localStorage.setItem("openchat", "1") // set true, it's open
     this.agentService.getRandomWorkingAgent(localStorage.getItem('visitor-help-chat-token')).subscribe((data: any) => {
+      localStorage.setItem("openchat", "1") // set true, it's open
       this.isClose = false;
       this.isAgent = true;
       this.agent = data.user;
@@ -77,6 +77,7 @@ export class VisitorComponent implements OnInit {
       this.router.navigate(['/chat/content', this.agent._id]);
     },
     (err: HttpErrorResponse) => {
+      localStorage.setItem("openmail", "1") // set true, it's open
       this.isClose = false;
       this.isAgent = false;
       window.parent.postMessage("show", "*");
@@ -116,7 +117,7 @@ export class VisitorComponent implements OnInit {
 
   closeMailForm() {
       this.isClose = true;
-      localStorage.removeItem("openchat"); // false as I close chat
+      localStorage.removeItem("openmail"); // false as I close chat
       window.parent.postMessage("hide", "*");
       this.router.navigate(['/chat']);
   }
@@ -126,6 +127,9 @@ export class VisitorComponent implements OnInit {
       if(parseInt(localStorage.getItem("openpages")) > 1){
         localStorage.setItem("openpages", (parseInt(localStorage.getItem("openpages")) - 1) + "");
       } else {
+        if(localStorage.getItem("openmail") === "1"){ 
+          localStorage.removeItem("openmail");
+        }
         localStorage.removeItem("openpages");
         localStorage.removeItem("openchat"); // close all tabs -> disconnect
 
@@ -133,14 +137,13 @@ export class VisitorComponent implements OnInit {
       }
   }
 
-  // @HostListener('window:focus', ['$event'])
-  //   focus($event) {
-  // }
-
   @HostListener('window:message', ['$event'])
     onMessage(event) {
       if (event.data.res == "checkChat") {
         console.log("focus");
+        if(localStorage.getItem("openmail") === "1"){ 
+          return;
+        }
         if(localStorage.getItem("openchat") !=="1" && (localStorage.getItem("disconnect") === "1")){ 
           window.parent.postMessage("hide", "*");
           this.router.navigate(['/chat']);

@@ -23,9 +23,9 @@ export class GuestService {
   }
 
   authenticate(email: String, password: String) {
-      var data = JSON.stringify({email: email, password: password});
+      var body = JSON.stringify({email: email, password: password});
       var reqHeader = new HttpHeaders({'Content-Type': 'application/json'});
-      return this.http.post(this.apiURL + '/users/authenticate', data, {headers: reqHeader});
+      return this.http.post(this.apiURL + '/users/authenticate', body, {headers: reqHeader});
   }
 
 }
