@@ -12,8 +12,8 @@
         <tbody>
             <tr *ngFor="let day of workingDays">
                 <td>{{day.dayOfWeek}}</td>
-                <td>{{day.hourFrom}}</td>
-                <td>{{day.hourTo}}</td>
+                <td>{{day.hourFrom}}:00</td>
+                <td>{{day.hourTo}}:00</td>
                 <td *ngIf="isEditing" class="text-right">
                     <div (click)="deleteWorkingHours(day._id);" class="btn btn-sm btn-outline-danger ml-2">Usuń</div>
                 </td>

@@ -67,7 +67,7 @@ export class VisitorsComponent implements OnInit {
     
     setTimeout(()=>{
       this.geoLocation = this.visitor.geoLocation.lat === 'Brak danych' || this.visitor.geoLocation.lng === 'Brak danych' ? "" : JSON.stringify(this.visitor["geoLocation"]);
-    }, 2000);
+    }, 3000);
   }
 
   getCountedChats(visitorId: string){

@@ -10,8 +10,10 @@ export class StatisticsContentComponent implements OnInit {
   isDataError: boolean;
   data: Array<any>;
   head: Array<String>;
-  rowName: Array<String>;
   bars: Array<String>;
+  colName: Array<String>;
+  agentsStatistics: Array<any>;
+  isAgentsStatistics: boolean;
   
   _header: string;
   @Input() set header(value: string) {
@@ -27,21 +29,29 @@ export class StatisticsContentComponent implements OnInit {
   }
 
   @Input() set statistics(value: any) {
-    if(value !== undefined && value.data !== undefined && value.head !== undefined && value.rowName !== undefined && value.bars !== undefined){
+    if(value !== undefined && value.data !== undefined && value.head !== undefined && value.bars !== undefined){
       this.data = value.data;
       this.head = value.head;
-      this.rowName = value.rowName;
       this.bars = value.bars;
+      this.colName = value.colName;
+    }
+    if(this.isAgentsStatistics) {
+      this.head = value.head;
+      this.colName = value.colName;
+      this.agentsStatistics = value.data;
+      console.log(this.agentsStatistics)
     }
   }
 
   constructor(private agentService: AgentService) { }
 
   ngOnInit() {
+    this.agentsStatistics = [];
     this.isDataError = false;
   }
   
   headerChange(selected){
+    this.isAgentsStatistics = false;
     switch (selected) {
       case "all":
         this._header = "Suma chatów";
@@ -55,10 +65,12 @@ export class StatisticsContentComponent implements OnInit {
       case "chatTime":
           this._header = "Średni czas rozmów";
           break;
-      case "ativity":
+      case "activity":
+          this.isAgentsStatistics = true;
           this._header = "Aktywność konsultantów";
           break;
       case "workHours":
+          this.isAgentsStatistics = true;
           this._header = "Czas pracy konsultantów";
           break; 
       default:
@@ -84,7 +96,10 @@ export class StatisticsContentComponent implements OnInit {
           this._time = "Poprzedni miesiąc";
           break;
       case "currentMonth":
-          this._time = "Bieżący miesiącs";
+          this._time = "Bieżący miesiąc";
+          break; 
+      case "all":
+          this._time = "Wszystkie";
           break; 
       default:
           this._time = "";

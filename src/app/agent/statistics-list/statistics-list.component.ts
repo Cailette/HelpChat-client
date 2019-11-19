@@ -52,18 +52,14 @@ export class StatisticsListComponent implements OnInit {
   }
 
   changeStatistics(select: string){
+    if(!(select === "workHours" || select === "ativity") && (this.selected === "workHours" || this.selected === "ativity")){
+      this.filterChatDate = '7days'
+    }
     this.selected = select;
     this.changeContent()
   }
   
   changeContent() {
     this.contentChange.emit({selected: this.selected, filterChatAgent: this.filterChatAgent, filterChatDate: this.filterChatDate});
-    
-    // if(this.selected == "total") {
-    //   this.filterChatDate = "7days";
-    //   this.filterChatAgent = "all";
-    //   this.contentChange.emit({selected: this.selected, filterChatAgent: this.filterChatAgent, filterChatDate: this.filterChatDate});
-    // } else {
-    //   }
   }
 }

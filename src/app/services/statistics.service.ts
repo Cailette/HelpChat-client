@@ -10,8 +10,13 @@ export class StatisticsService {
  
   constructor(private http: HttpClient) { } 
 
-  getStatistics(token: string, selected: string, filterChatAgent: string, filterChatDate: string) {
+  getChatStatistics(token: string, selected: string, filterChatAgent: string, filterChatDate: string) {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.get(this.apiURL + `/statistics/${selected}/${filterChatAgent}/${filterChatDate}`, {headers: reqHeader});
+    return this.http.get(this.apiURL + `/statistics/chats/${selected}/${filterChatAgent}/${filterChatDate}`, {headers: reqHeader});
+  }
+
+  getAgentStatistics(token: string, selected: string, filterChatAgent: string, filterChatDate: string) {
+    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+    return this.http.get(this.apiURL + `/statistics/agents/${selected}/${filterChatAgent}/${filterChatDate}`, {headers: reqHeader});
   }
 }

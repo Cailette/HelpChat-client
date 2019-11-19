@@ -1,17 +1,27 @@
 <div class="p-4 mt-4">
-    <h2 class="h-2">{{_header}}</h2>
-    <h4 class="h-4 mb-4">{{_time}} dla {{_agent}}</h4>
-    <div class="mb-4">
+    <p class="display-4">{{_header}}</p>
+    <p class="h3 mb-4">{{_time}} dla {{_agent}}</p>
+    <div *ngIf="!isAgentsStatistics" class="mb-4">
         <app-statistics-chart
             [labels]="head" 
             [bars]="bars" >
         </app-statistics-chart>
     </div>
-    <div class="mt-4">
+    <div *ngIf="!isAgentsStatistics" class="mt-4">
         <app-statistics-table
-            [heads]="head" 
-            [datas]="data" 
-            [rowName]="rowName">
+            [heads]="head"
+            [datas]="data"
+            [colName]="colName" >
         </app-statistics-table>
+    </div>
+    <div *ngIf="isAgentsStatistics" class="mt-4">
+        <div *ngFor="let stat of agentsStatistics" class="mt-4">
+            <span class="h4">{{stat.agent.firstname}} {{stat.agent.lastname}} </span><span class="h6">{{stat.agent._id}}</span>
+            <app-statistics-table
+                [heads]="head"
+                [datas]="stat.data"
+                [colName]="colName">
+            </app-statistics-table>
+        </div>
     </div>
 </div>

@@ -22,6 +22,7 @@ function initWidget() {
     const chatIframe = document.createElement('iframe');
     chatIframe.id = 'chat-iframe';
     chatIframe.src = helpChatBaseLocation + "/chat";
+    chatIframe.frameborder = '1';
     document.body.appendChild(chatIframe);
 
     appendJs(helpChatBaseLocation + '/assets/iframe-style.js');
