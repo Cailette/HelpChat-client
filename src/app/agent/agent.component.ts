@@ -19,7 +19,8 @@ export class AgentComponent implements OnInit {
 
   newChatCounter: number;
 
-  private onNewChatChangeSubscribtion: any;
+  private onNewChatSubscribtion: any;
+  private onDisconnectChatSubscribtion: any;
   private onErrorSubscribtion: any;
 
   constructor(private authorization: Role, private globalRole: GlobalRole, private agentService: AgentService, private router: Router, private agentSocketService: AgentSocketService) { 
@@ -35,8 +36,14 @@ export class AgentComponent implements OnInit {
   ngOnInit() {
     this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
 
-    this.onNewChatChangeSubscribtion = this.agentSocketService.onNewChat().subscribe(data => {
+    this.onNewChatSubscribtion = this.agentSocketService.onNewChat().subscribe(data => {
+      console.log("onNewChat")
       this.incrementNewChatCounter();
+    });
+
+    this.onDisconnectChatSubscribtion = this.agentSocketService.onVisitorDisconnect().subscribe(data => {
+      console.log("onVisitorDisconnect")
+      this.decrementNewChatCounter();
     });
 
     this.onErrorSubscribtion = this.agentSocketService.onError().subscribe(error => {
@@ -64,7 +71,8 @@ export class AgentComponent implements OnInit {
     }
     this.agentSocketService.disconnect();
     this.onErrorSubscribtion.unsubscribe();
-    this.onNewChatChangeSubscribtion.unsubscribe();
+    this.onNewChatSubscribtion.unsubscribe();
+    this.onDisconnectChatSubscribtion.unsubscribe();
   }
 
   Logout() {
@@ -91,6 +99,12 @@ export class AgentComponent implements OnInit {
   incrementNewChatCounter(){
     if(this.router.url !== '/home/chats'){
       this.newChatCounter = this.newChatCounter + 1;
+    }
+  }
+
+  decrementNewChatCounter(){
+    if(this.router.url !== '/home/chats' && this.newChatCounter > 0){
+      this.newChatCounter = this.newChatCounter - 1;
     }
   }
 }

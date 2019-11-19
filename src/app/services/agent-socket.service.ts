@@ -33,6 +33,18 @@ export class AgentSocketService {
     });
     return observable;
   }
+
+  onDisconnectChat() {
+    const observable = new Observable(observer => {
+      this.socket.on('disconnectChat', () => {
+        observer.next();
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
   
   // onNewMessage() {
   //   const observable = new Observable(observer => {
