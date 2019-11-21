@@ -12,96 +12,38 @@ export class StatisticsComponent implements OnInit {
   header: string;
   time: string;
   agent: string;
-
   statistics: any;
   isAgentsStatistics: boolean;
 
-  constructor(private statisticsService: StatisticsService, @Inject('DAYS') public days: any[]) { }
+  constructor(
+    private statisticsService: StatisticsService, 
+    @Inject('DAYS') public days: any[]
+  ) { }
 
   ngOnInit() {
+    this.isDataError = false;
     this.isAgentsStatistics = false;
     this.header = "";
     this.time = "";
     this.agent = "";
-    this.isDataError = false;
   }
 
   onContentChange(statistics: any){
     let {selected, filterChatAgent, filterChatDate} = statistics;
-    if(selected === this.header &&  filterChatAgent === this.agent && filterChatDate === this.time){
-      return;
-    }
+
+    if(selected === this.header
+      && filterChatAgent === this.agent 
+      && filterChatDate === this.time) return;
+
     this.header = selected;
     this.time = filterChatDate;
     this.agent = filterChatAgent;
     filterChatDate = this.changeFilterDate(filterChatDate)
 
     if(selected === "workHours" || selected === "activity"){
-      this.statisticsService.getAgentStatistics(localStorage.getItem('agent-help-chat-token'), selected, filterChatAgent, filterChatDate).subscribe((data: any) => {
-        console.log("getAgentStatistics")
-        if(selected === "activity"){
-          let head = ["day", "from", "to", "timeDuration", "notLate"];
-          let bars = [];
-          let colName = ["Dzień", "Godzina od", "Godzina do", "Przedział czasu", "W czas"];
-          console.log(data.statistics);
-          data.statistics.forEach(s => {
-            s.data.forEach(d => {
-                let to = moment(d.to);
-                let from = moment(d.from);
-                let diff = to.diff(from);
-                d.timeDuration = d.to ? moment.utc(diff).format("HH:mm:ss") : '-';
-                d.day = moment.utc(d.from).format('DD.MM.YYYY');
-                d.to = d.to ? moment.utc(d.to).format('HH:mm:ss') : '-';
-                d.from = moment.utc(d.from).format('HH:mm:ss')
-                d.notLate = d.inTime ? 'Tak' : 'Nie';
-            });
-          });
-
-          let cells = data.statistics;
-          this.statistics = {head: head, colName: colName, data: cells, bars: bars}
-        }
-        if(selected === "workHours"){
-          let head = ["dayOfWeek", "hourFrom", "hourTo", "dayFrom", "dayTo"];
-          let bars = [];
-          let colName = ["Dzień tygodnia", "Godzina od", "Godzina do", "Obowiązywały od", "Obowiązywały do"];
-          console.log(data.statistics);
-          data.statistics.forEach(s => {
-            s.data.forEach(d => {
-                // let to = moment(d.to);
-                // let from = moment(d.from);
-                // let diff = to.diff(from);
-                // d.timeDuration = d.to ? moment.utc(diff).format("HH:mm:ss") : '-';
-                d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day;
-                d.hourTo = d.hourTo + ':00';
-                d.hourFrom = d.hourFrom + ':00';
-                d.dayTo = d.dayTo ? moment.utc(d.dayTo).format('DD.MM.YYYY') : '-';
-                d.dayFrom = moment.utc(d.dayFrom).format('DD.MM.YYYY')
-            });
-          });
-
-          let cells = data.statistics;
-          this.statistics = {head: head, colName: colName, data: cells, bars: bars}
-          
-        }
-
-      },
-      (err: HttpErrorResponse) => {
-        this.isDataError = true;
-      });
+      this.agentStatistics(selected, filterChatAgent, filterChatDate);
     } else {
-      // this.isAgentsStatistics = false;
-      this.statisticsService.getChatStatistics(localStorage.getItem('agent-help-chat-token'), selected, filterChatAgent, filterChatDate).subscribe((data: any) => {
-        let head = data.statistics.map(s => s.time);
-        let bars = data.statistics.map(s => s.data ? s.data : 0);
-        let colName = null;
-        let cells = [];
-        cells[0] = [];
-        data.statistics.forEach((s => cells[0][s.time] = s.data));
-        this.statistics = {head: head, colName: colName, data: cells, bars: bars}
-      },
-      (err: HttpErrorResponse) => {
-        this.isDataError = true;
-      });
+      this.chatStatistics(selected, filterChatAgent, filterChatDate)
     }
   }
 
@@ -111,8 +53,6 @@ export class StatisticsComponent implements OnInit {
       case 'today':
         var date = new Date();
         var today = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-        console.log(today)
-        console.log(JSON.stringify(today))
         return JSON.stringify(today)
       case 'yesterday':
         var date = new Date();
@@ -145,5 +85,76 @@ export class StatisticsComponent implements OnInit {
       default:
         return filterChatDate
     }
+  }
+
+  agentStatistics(selected, filterChatAgent, filterChatDate){
+    this.statisticsService.getAgentStatistics(
+      localStorage.getItem('agent-help-chat-token'), selected, filterChatAgent, filterChatDate)
+      .subscribe(
+        (data: any) => {
+          if(selected === "activity") this.activityStatistics(data)
+          if(selected === "workHours") this.workHoursStatistics(data)
+        },
+        (err: HttpErrorResponse) => { this.isDataError = true; }
+      );
+  }
+
+  chatStatistics(selected, filterChatAgent, filterChatDate){
+    this.statisticsService.getChatStatistics(
+      localStorage.getItem('agent-help-chat-token'), selected, filterChatAgent, filterChatDate)
+        .subscribe(
+          (data: any) => {
+            let head = data.statistics.map(s => s.time);
+            let bars = data.statistics.map(s => s.data ? s.data : 0);
+            let colName = null;
+            let cells = [];
+            cells[0] = [];
+            data.statistics.forEach((s => cells[0][s.time] = s.data));
+            this.statistics = {head: head, colName: colName, data: cells, bars: bars}
+          },
+          (err: HttpErrorResponse) => { this.isDataError = true; }
+        );
+  }
+
+  activityStatistics(data){
+    let colName = ["Dzień", "Godzina od", "Godzina do", "Przedział czasu", "W czas"];
+    let head = ["day", "from", "to", "timeDuration", "notLate"];
+    let bars = [];
+    
+    data.statistics.forEach(s => {
+      s.data.forEach(d => {
+          let to = moment(d.to);
+          let from = moment(d.from);
+          let diff = to.diff(from);
+          
+          d.timeDuration = d.to ? moment.utc(diff).format("HH:mm:ss") : '-';
+          d.day = moment.utc(d.from).format('DD.MM.YYYY');
+          d.to = d.to ? moment.utc(d.to).format('HH:mm:ss') : '-';
+          d.from = moment.utc(d.from).format('HH:mm:ss')
+          d.notLate = d.inTime ? 'Tak' : 'Nie';
+      });
+    });
+
+    let cells = data.statistics;
+    this.statistics = {head: head, colName: colName, data: cells, bars: bars}
+  }
+
+  workHoursStatistics(data){
+    let colName = ["Dzień tygodnia", "Godzina od", "Godzina do", "Obowiązywały od", "Obowiązywały do"];
+    let head = ["dayOfWeek", "hourFrom", "hourTo", "dayFrom", "dayTo"];
+    let bars = [];
+
+    data.statistics.forEach(s => {
+      s.data.forEach(d => {
+          d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day;
+          d.hourTo = d.hourTo + ':00';
+          d.hourFrom = d.hourFrom + ':00';
+          d.dayTo = d.dayTo ? moment.utc(d.dayTo).format('DD.MM.YYYY') : '-';
+          d.dayFrom = moment.utc(d.dayFrom).format('DD.MM.YYYY')
+      });
+    });
+
+    let cells = data.statistics;
+    this.statistics = {head: head, colName: colName, data: cells, bars: bars}
   }
 }

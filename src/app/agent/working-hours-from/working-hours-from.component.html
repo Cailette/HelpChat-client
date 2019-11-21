@@ -3,7 +3,8 @@
         <h1 class="h2">{{agentFirstname}} {{agentLastname}}</h1>
         <p class="lead">Dodaj godziny pracy</p>
 
-        <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+        <div *ngIf="isDataError" 
+            class="row justify-content-center align-items-center mt-5">
             <div class="alert alert-danger">
                 Wystąpił błąd, spróbuj ponownie później.
             </div>
@@ -16,48 +17,71 @@
         </app-working-hours-tab>
         
         <form  #addForm="ngForm" (ngSubmit)="OnSubmit(addForm)">
-
             <table class="table table-sm">
                 <thead class="thead">
                     <tr>
                         <td>
                             <div class="form-group">
-                                <select class="form-control validate w-100" id="dayOfWeek" #dayOfWeek="ngModel" [(ngModel)]="workDay.dayOfWeek" name="dayOfWeek" required>
-                                    <option *ngFor="let day of days" [value]="day.number">{{day.day}}</option>
+                                <select class="form-control validate w-100" id="dayOfWeek" 
+                                    #dayOfWeek="ngModel" [(ngModel)]="workDay.dayOfWeek" 
+                                    name="dayOfWeek" required>
+                                    <option *ngFor="let day of days" 
+                                        [value]="day.number">
+                                        {{day.day}}
+                                    </option>
                                 </select>
                             </div>
                         </td>
                         <td>
                             <div class="form-inline">
                                 <label for="hourFrom" class="text-primary mr-2">Od:</label>
-                                <input type="number" name="hourFrom" id="hourFrom" class="form-control validate" #hourFrom="ngModel" [(ngModel)]="workDay.hourFrom" min="1" max="24" required>
+                                <input type="number" name="hourFrom" 
+                                    id="hourFrom" class="form-control validate" 
+                                    #hourFrom="ngModel" [(ngModel)]="workDay.hourFrom" 
+                                    min="1" max="24" required>
                             </div>
                         </td>
                         <td>
                             <div class="form-inline">
                                 <label for="hourTo" class="text-primary mr-2">Do:</label>
-                                <input type="number" name="hourTo" id="hourTo" class="form-control validate" #hourTo="ngModel" [(ngModel)]="workDay.hourTo" min="1" max="24" required>
-                            </div> 
+                                <input type="number" name="hourTo" 
+                                    id="hourTo" class="form-control validate" 
+                                    #hourTo="ngModel" [(ngModel)]="workDay.hourTo" 
+                                    min="1" max="24" required>
+                            </div>
                         </td>
                         <td class="text-right">
-                            <button type="submit" [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" class="btn btn-primary">Dodaj</button>
+                            <button type="submit" 
+                                [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' 
+                                || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" 
+                                class="btn btn-primary">
+                                Dodaj
+                            </button>
                         </td>
                     </tr>
                 </thead>
             </table>
             
-            <div class="row justify-content-center mt-1" *ngIf="dayOfWeek.invalid && (dayOfWeek.dirty || dayOfWeek.touched) && workDay.dayOfWeek == ''">
+            <div class="row justify-content-center mt-1" 
+                *ngIf="dayOfWeek.invalid && (dayOfWeek.dirty 
+                    || dayOfWeek.touched) && workDay.dayOfWeek == ''">
                 <div class="alert alert-warning text-center mx-3">
                     Dzień tygodnia jest wymagany.
                 </div>
             </div>
-            <div class="row justify-content-center mt-1" *ngIf="((hourTo.dirty || hourTo.touched) || (hourFrom.dirty || hourFrom.touched)) && workDay.hourTo <= workDay.hourFrom">
+            <div class="row justify-content-center mt-1" 
+            *ngIf="((hourTo.dirty || hourTo.touched) || (hourFrom.dirty
+                || hourFrom.touched)) && workDay.hourTo <= workDay.hourFrom">
                 <div class="alert alert-warning text-center mx-3">
-                    Wartości zakresu godzin muszą mieścić się w przedziale od 0 do 24 oraz ‘godziny od’ muszą być mniejsze od ‘godziny do’.”
+                    Wartości zakresu godzin muszą mieścić się w przedziale 
+                    od 0 do 24 oraz ‘godziny od’ muszą być mniejsze od ‘godziny do’.”
                 </div>
             </div>
             <div class="row justify-content-center my-2">
-                <button type="button" class="btn btn-outline-secondary ml-4" (click)="back()">Powrót</button>
+                <button type="button" (click)="back()"
+                    class="btn btn-outline-secondary ml-4" >
+                    Powrót
+                </button>
             </div>
         </form>
     </div>

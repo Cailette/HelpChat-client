@@ -1,5 +1,7 @@
 <div>
-    <p *ngIf="!workingDays"><strong>Brak ustalonych godzin pracy.</strong></p>
+    <p *ngIf="!workingDays">
+        <strong>Brak ustalonych godzin pracy.</strong>
+    </p>
     <table *ngIf="workingDays.length > 0" class="table table-sm">
         <thead class="thead">
             <tr>
@@ -15,7 +17,10 @@
                 <td>{{day.hourFrom}}:00</td>
                 <td>{{day.hourTo}}:00</td>
                 <td *ngIf="isEditing" class="text-right">
-                    <div (click)="deleteWorkingHours(day._id);" class="btn btn-sm btn-outline-danger ml-2">Usuń</div>
+                    <div (click)="deleteWorkingHours(day._id);" 
+                        class="btn btn-sm btn-outline-danger ml-2">
+                        Usuń
+                    </div>
                 </td>
             </tr>
         </tbody>

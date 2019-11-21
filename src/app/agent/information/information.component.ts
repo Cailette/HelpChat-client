@@ -20,13 +20,13 @@ export class InformationComponent implements OnInit {
   constructor(
     private agentService: AgentService, 
     private router: Router,
-    private globalRole: GlobalRole) { 
+    private globalRole: GlobalRole
+  ) { 
     this.role = this.globalRole.role;
     this.Representative = this.globalRole.Representative;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onDataError() {
     this.dataError.emit();
@@ -37,14 +37,14 @@ export class InformationComponent implements OnInit {
     this.editInformationClick.emit();
   }
   
-  //   NIE TESTOWANE
   delete() {
-    this.agentService.deleteAccount(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      localStorage.removeItem('agent-help-chat-token');
-      this.router.navigate(['/']);
-    },
-    (err: HttpErrorResponse) => {
-      this.dataError.emit();
-    });
+    this.agentService.deleteAccount(localStorage.getItem('agent-help-chat-token'))
+    .subscribe(
+      (data: any) => {
+        localStorage.removeItem('agent-help-chat-token');
+        this.router.navigate(['/']);
+      },
+      (err: HttpErrorResponse) => { this.dataError.emit(); }
+    );
   }
 }

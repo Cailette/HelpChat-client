@@ -21,29 +21,34 @@ export class WorkingHoursFromComponent implements OnInit {
   isEditing: boolean;
   workDay: any;
 
-  constructor(private _location: Location, private router: ActivatedRoute, private workHoursService: WorkHoursService, @Inject('DAYS') public days: any[]) { }
+  constructor(
+    private _location: Location, 
+    private router: ActivatedRoute, 
+    private workHoursService: WorkHoursService, 
+    @Inject('DAYS') public days: any[]
+  ) { }
 
   ngOnInit() {
     this.isDataError = false;
     this.isEditing = true;
     this.resetWorkDay();
-
     this.router.params.subscribe(params => {
       this.agentId = params['agentId'];
       this.agentFirstname = params['agentFirstname'];
       this.agentLastname = params['agentLastname'];
-      console.log(this.agentId);
     });
   }
   
   OnSubmit(form: NgForm) {
-    this.workHoursService.createAgentWorkHours(localStorage.getItem('agent-help-chat-token'), form.value, this.agentId).subscribe((data: any) => {
-      this.childWorkingHoursTab.getAgentWorkHours();
-      this.resetWorkDay();
-    },
-    (err: HttpErrorResponse) => {
-      this.dataError.emit();
-    });
+    this.workHoursService.createAgentWorkHours(
+      localStorage.getItem('agent-help-chat-token'), form.value, this.agentId)
+      .subscribe(
+        (data: any) => {
+          this.childWorkingHoursTab.getAgentWorkHours();
+          this.resetWorkDay();
+        },
+        (err: HttpErrorResponse) => { this.dataError.emit(); }
+      );
   }
   
   onDataError(){

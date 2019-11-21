@@ -17,9 +17,17 @@ export class AgentService {
     return this.http.get(this.apiURL + '/users/user', {headers: reqHeader});
   }
  
-  switchActivity(token: string){
-    var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
-    return this.http.put(this.apiURL + '/users/activity', {}, {headers: reqHeader}); 
+  switchActivity(token: string, pagehide: boolean){
+    if(pagehide){
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("PUT", this.apiURL + '/users/activity', false);
+      xmlhttp.setRequestHeader("Content-type", "application/json");
+      xmlhttp.setRequestHeader("x-access-token", token);
+      xmlhttp.send();
+    } else {
+      var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+      return this.http.put(this.apiURL + '/users/activity', {}, {headers: reqHeader}); 
+    }
   } 
 
   updateAccount(token: string, user: User){

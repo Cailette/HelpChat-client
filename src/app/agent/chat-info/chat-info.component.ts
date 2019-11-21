@@ -12,25 +12,26 @@ import { GlobalRole } from '../../auth/Role';
 export class ChatInfoComponent implements OnInit {
   role: string;
   Representative: string;
-
   isDataError: boolean;
+  deleteChat: string;
+  date: string;
   _chat: any;
   _agent: any;
-  date: string;
+  
   @Input() set agent(value: any) {
     this._agent = "";
-    if(value){
-      this._agent = value.firstname + " " + value.lastname;
-    }
+    if(value) this._agent = value.firstname + " " + value.lastname;
   }
   @Input() set chat(value: any) {
     this._chat = value;
     this.date = moment(value.date).format('DD.MM.YYYY, HH:mm')
   }
   @Output() clickDeleteChat = new EventEmitter<string>();
-  deleteChat: string;
 
-  constructor(private globalRole: GlobalRole, private chatService: ChatService) {
+  constructor(
+    private globalRole: GlobalRole, 
+    private chatService: ChatService
+  ) {
     this.role = this.globalRole.role;
     this.Representative = this.globalRole.Representative;
   }
@@ -44,11 +45,10 @@ export class ChatInfoComponent implements OnInit {
   }
 
   delete(){
-    this.chatService.delete(localStorage.getItem('agent-help-chat-token'), this.deleteChat).subscribe((data: any) => {
-      this.clickDeleteChat.emit();
-    },
-    (err: HttpErrorResponse) => {
-      this.isDataError = true;
-    });
+    this.chatService.delete(localStorage.getItem('agent-help-chat-token'), this.deleteChat)
+    .subscribe(
+      (data: any) => { this.clickDeleteChat.emit() },
+      (err: HttpErrorResponse) => { this.isDataError = true }
+    );
   }
 }

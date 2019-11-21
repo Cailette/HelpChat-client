@@ -1,49 +1,65 @@
 <div class="sidebar-sticky px-3 py-1 mt-3">
-    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-4">
-        <div class="alert alert-danger">
-            Wystąpił błąd, spróbuj ponownie później.
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center m-2">
+        <div class="alert alert-danger text-center">
+            Wystąpił błąd, nie można wyświetlić infromacji o czacie.
         </div>
     </div>
-    <h1 class="h2">Czat</h1>
-    <hr>
-    <div>
+    <div *ngIf="!isDataError">
+        <h1 class="h2">Czat</h1>
+        <hr>
         <ul class="nav flex-column">
-            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Identyfikator">
+            <li class="nav-item py-1" data-toggle="tooltip" 
+                data-placement="top" title="Identyfikator">
                 <i class="fas fa-passport"></i>  {{_chat._id}}
             </li>
-            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Konsultant">
+            <li class="nav-item py-1" data-toggle="tooltip" 
+                data-placement="top" title="Konsultant">
                 <i class="fas fa-portrait"></i>  {{_agent}}
             </li>
-            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Czas utworzenia">
+            <li class="nav-item py-1" data-toggle="tooltip" 
+                data-placement="top" title="Czas utworzenia">
                 <i class="fas fa-calendar-alt"></i>  {{date}}
             </li>
-            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Ocena">
+            <li class="nav-item py-1" data-toggle="tooltip" 
+                data-placement="top" title="Ocena">
                 <i class="fas fa-star"></i> {{_chat.rating ? _chat.rating : 'Brak'}}
             </li>
         </ul>
-    </div>
 
-    <div *ngIf="role === Representative" class="py-1">
-        <button (click)="modalDelete(_chat._id);" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteChat"><i class="fas fa-trash-alt"></i> Usuń czat</button>
+        <div *ngIf="role === Representative" class="py-1">
+            <button (click)="modalDelete(_chat._id);" 
+                type="button" class="btn btn-danger" 
+                data-toggle="modal" data-target="#deleteChat">
+                <i class="fas fa-trash-alt"></i> Usuń czat
+            </button>
+        </div>
     </div>
 </div>
 
-<div class="modal fade" id="deleteChat" role="dialog" aria-labelledby="deleteChat" aria-hidden="true">
+<div class="modal fade" id="deleteChat" role="dialog" 
+    aria-labelledby="deleteChat" aria-hidden="true">
     <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title">Usuń czat</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Usuń czat</h5>
+                <button type="button" class="close" 
+                    data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz usunąć czat?</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="delete();" type="button" 
+                    class="btn btn-danger" data-dismiss="modal">
+                    Usuń
+                </button>
+                <button type="button" 
+                    class="btn btn-secondary" data-dismiss="modal">
+                    Zamknij
+                </button>
+            </div>
         </div>
-        <div class="modal-body">
-        <p>Czy na pewno chcesz usunąć czat?</p>
-        </div>
-        <div class="modal-footer">
-        <button (click)="delete();"  type="button" class="btn btn-danger"  data-dismiss="modal">Usuń</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        </div>
-    </div>
     </div>
 </div>

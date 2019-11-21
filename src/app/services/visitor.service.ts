@@ -47,7 +47,7 @@ export class VisitorService {
       return this.http.put(this.apiURL + '/visitors/' + status, {}, {headers: reqHeader});
     } else {
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("PUT", 'http://localhost:3000/visitors/' + status, false);
+      xmlhttp.open("PUT", this.apiURL + '/visitors/' + status, false);
       xmlhttp.setRequestHeader("Content-type", "application/json");
       xmlhttp.setRequestHeader("x-access-token", token);
       xmlhttp.send();

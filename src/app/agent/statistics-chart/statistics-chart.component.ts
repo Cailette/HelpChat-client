@@ -29,17 +29,15 @@ export class StatisticsChartComponent implements OnInit {
       }
     }
   };
+
+  barChartLabels: Label[];
+  barChartData: ChartDataSets[];
   barChartType: ChartType = 'bar';
   barChartLegend = false;
   barChartPlugins = [pluginDataLabels];
 
-  barChartLabels: Label[];
-  barChartData: ChartDataSets[];
-
   @Input() set labels(value: any) {
-    if(value !== undefined){
-      this.barChartLabels = value;
-    }
+    if(value !== undefined) this.barChartLabels = value;
   }
 
   @Input() set bars(value: any) {
@@ -56,6 +54,7 @@ export class StatisticsChartComponent implements OnInit {
   ngOnInit() {
     this.barChartLabels = [];
     this.barChartData = [
-      {data: []}];
+      { data: [] }
+    ];
   }
 }

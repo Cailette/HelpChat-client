@@ -16,7 +16,10 @@ export class AccountComponent implements OnInit {
   isEmailError: boolean;
   user: Agent;
 
-  constructor(private agentService: AgentService, private router: Router, @Inject('DAYS') public days: any[]) { }
+  constructor(
+    private agentService: AgentService,
+    @Inject('DAYS') public days: any[]
+  ) { }
 
   ngOnInit() {
     this.resetUser();
@@ -25,12 +28,11 @@ export class AccountComponent implements OnInit {
     this.isEditing = false;
     this.isEmailError = false;
 
-    this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      this.user = data.user;
-    },
-    (err: HttpErrorResponse) => {
-      this.isDataError = true;
-    });
+    this.agentService.getAccountInformation(localStorage.getItem('agent-help-chat-token'))
+      .subscribe(
+        (data: any) => { this.user = data.user; },
+        (err: HttpErrorResponse) => { this.isDataError = true; }
+      );
   }
   
   onEditInformationClick(){
@@ -46,16 +48,17 @@ export class AccountComponent implements OnInit {
   }
 
   onFormSubmit(form: NgForm){
-    this.agentService.updateAccount(localStorage.getItem('agent-help-chat-token'), form.value).subscribe((data: any) => {
-      this.isEditing = false;
-      this.isAccountEditSuccess = true;
-      setTimeout(()=>{
-        this.isAccountEditSuccess = false;
-      }, 3000);
-    },
-    (err: HttpErrorResponse) => {
-        this.isEmailError = true;
-    });
+    this.agentService.updateAccount(localStorage.getItem('agent-help-chat-token'), form.value)
+      .subscribe(
+        (data: any) => {
+          this.isEditing = false;
+          this.isAccountEditSuccess = true;
+          setTimeout(()=>{
+            this.isAccountEditSuccess = false;
+          }, 3000);
+        },
+      (err: HttpErrorResponse) => { this.isEmailError = true; }
+    );
   }
 
   resetUser(){

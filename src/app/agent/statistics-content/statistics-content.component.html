@@ -16,7 +16,8 @@
     </div>
     <div *ngIf="isAgentsStatistics" class="mt-4">
         <div *ngFor="let stat of agentsStatistics" class="mt-4">
-            <span class="h4">{{stat.agent.firstname}} {{stat.agent.lastname}} </span><span class="h6">{{stat.agent._id}}</span>
+            <span class="h4">{{stat.agent.firstname}} {{stat.agent.lastname}}</span>
+            <span class="h6">{{stat.agent._id}}</span>
             <app-statistics-table
                 [heads]="head"
                 [datas]="stat.data"

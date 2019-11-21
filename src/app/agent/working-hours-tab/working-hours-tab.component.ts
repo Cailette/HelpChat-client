@@ -7,11 +7,10 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './working-hours-tab.component.html'
 })
 export class WorkingHoursTabComponent implements OnInit {
+  _agentId: string;
+  workingDays: any;
   @Output() dataError = new EventEmitter<boolean>();
   @Input() isEditing: boolean;
-  workingDays: any;
-
-  _agentId: string;
   @Input() set agentId(value: string) {
     if(value){
       this._agentId = value;
@@ -19,28 +18,33 @@ export class WorkingHoursTabComponent implements OnInit {
     }
   }
 
-  constructor(private workHoursService: WorkHoursService, @Inject('DAYS') public days: any[]) { }
+  constructor(
+    private workHoursService: WorkHoursService, 
+    @Inject('DAYS') public days: any[]
+  ) { }
 
   ngOnInit() {
     this.workingDays = [];
   }
 
   getAgentWorkHours(){
-    this.workHoursService.getAgentWorkHours(localStorage.getItem('agent-help-chat-token'), this._agentId).subscribe((data: any) => {
-      this.workingDays = data.workHours;
-      this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
-    },
-    (err: HttpErrorResponse) => {
-      this.dataError.emit();
-    });  
+    this.workHoursService.getAgentWorkHours(
+      localStorage.getItem('agent-help-chat-token'), this._agentId)
+      .subscribe(
+        (data: any) => {
+          this.workingDays = data.workHours;
+          this.workingDays.map(d => d.dayOfWeek = this.days.find(x => x.number === d.dayOfWeek).day);
+        },
+        (err: HttpErrorResponse) => { this.dataError.emit(); }
+      );  
   }
 
   deleteWorkingHours(workingHoursId: string) {
-    this.workHoursService.deleteWorkHours(localStorage.getItem('agent-help-chat-token'), workingHoursId).subscribe((data: any) => {
-      this.getAgentWorkHours();
-    },
-    (err: HttpErrorResponse) => {
-      this.dataError.emit();
-    });
+    this.workHoursService.deleteWorkHours(
+      localStorage.getItem('agent-help-chat-token'), workingHoursId)
+      .subscribe(
+        (data: any) => { this.getAgentWorkHours(); },
+        (err: HttpErrorResponse) => { this.dataError.emit(); }
+      );
   }
 }

@@ -11,72 +11,73 @@ import * as moment from 'moment';
   templateUrl: './visitors.component.html'
 })
 export class VisitorsComponent implements OnInit {
-  visitors: any = '';
+  visitors: Array<any>;
   visitor: any;
   countedChats: number;
   geoLocation: string;
   isDataError: boolean;
 
-  constructor(private visitorService: VisitorService, private agentService: AgentService, private chatService: ChatService) { }
+  constructor(
+    private visitorService: VisitorService,
+    private chatService: ChatService
+  ) { }
 
   async ngOnInit() {
-    this.resetVisitor()
+    this.visitors = [];
     this.geoLocation = "";
+    this.resetVisitor()
     this.getVisitors();
   }
 
   getVisitors(){
-    console.log("data.visitors")
-    this.visitorService.getVisitors(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      let value = data.visitors;
-      for (var i = 0; i < value.length; i++) {
-        value[i].time = moment(new Date(value[i].lastVisit)).format('DD.MM.YYYY, HH:mm');
-        value[i].countChats = value[i].chats ? value[i].chats.length : 0;
-      };
-      this.visitors = value;
-      this.getAgents();
-      console.log(this.visitors)
-    },
-    (err: HttpErrorResponse) => {
-      this.isDataError = true;
-      setTimeout(()=>{
-        this.isDataError = false;
-      }, 5000);
-    });
+    this.visitorService.getVisitors(localStorage.getItem('agent-help-chat-token'))
+      .subscribe(
+        (data: any) => {
+          let value = data.visitors;
+          for (var i = 0; i < value.length; i++) {
+            value[i].time = moment(new Date(value[i].lastVisit)).format('DD.MM.YYYY, HH:mm');
+            value[i].countChats = value[i].chats ? value[i].chats.length : 0;
+          };
+          this.visitors = value;
+          this.getAgents();
+        },
+        (err: HttpErrorResponse) => {
+          this.isDataError = true;
+          setTimeout(()=>{ this.isDataError = false; }, 5000);
+        }
+      );
   }
 
   getAgents(){
     for (let visitor of this.visitors) {
-      this.chatService.getVisitorAgent(visitor._id, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-        visitor.agent = data.agent;
-      },
-      (err: HttpErrorResponse) => {
-        this.isDataError = true;
-        setTimeout(()=>{
-          this.isDataError = false;
-        }, 5000);
-      });
+      this.chatService.getVisitorAgent(visitor._id, localStorage.getItem('agent-help-chat-token'))
+        .subscribe(
+          (data: any) => { visitor.agent = data.agent; },
+          (err: HttpErrorResponse) => { 
+            this.isDataError = true;
+            setTimeout(()=>{ this.isDataError = false; }, 5000);
+          }
+        );
     };
   }
 
   viewVisitor(visitorId: string){
     this.resetVisitor();
-    this.visitor = this.visitors.find(visitor => {
-      return visitor._id === visitorId
-    })
-    
-    setTimeout(()=>{
-      this.geoLocation = this.visitor.geoLocation.lat === 'Brak danych' || this.visitor.geoLocation.lng === 'Brak danych' ? "" : JSON.stringify(this.visitor["geoLocation"]);
+    this.visitor = this.visitors.find(visitor => visitor._id === visitorId)
+    setTimeout(()=> {
+      this.geoLocation = this.visitor.geoLocation.lat === 'Brak danych' 
+      || this.visitor.geoLocation.lng === 'Brak danych' 
+      ? "" 
+      : JSON.stringify(this.visitor["geoLocation"]);
     }, 3000);
   }
 
   getCountedChats(visitorId: string){
-    this.visitorService.getCountedChats(visitorId, localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      this.countedChats = parseInt(data.countedChats);
-    },
-    (err: HttpErrorResponse) => {
-      this.countedChats = 0;
-    });
+    this.visitorService.getCountedChats(visitorId, localStorage.getItem('agent-help-chat-token'))
+      .subscribe(
+        (data: any) => { this.countedChats = parseInt(data.countedChats); },
+        (err: HttpErrorResponse) => { this.countedChats = 0; }
+      );
   }
 
   resetVisitor() {

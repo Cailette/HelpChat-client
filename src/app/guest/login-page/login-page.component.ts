@@ -10,21 +10,20 @@ import { GuestService } from 'src/app/services/guest.service';
 
 export class LoginPageComponent implements OnInit {
   isLoginError: boolean = false;
+  constructor(
+    private guestService: GuestService, 
+    private router: Router
+  ) { }
 
-  constructor(private guestService: GuestService, private router: Router) { }
-
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   OnSubmit(email, password) {
-    this.guestService.authenticate(email, password).subscribe((data: any) => {
-      localStorage.setItem('agent-help-chat-token', data.token);
-      this.router.navigate(['/home/chats']);
-    },
-    (err: HttpErrorResponse) => {
-      this.isLoginError = true;
-    });
+    this.guestService.authenticate(email, password)
+    .subscribe(
+      (data: any) => {
+        localStorage.setItem('agent-help-chat-token', data.token);
+        this.router.navigate(['/home/chats']);
+      },
+      (err: HttpErrorResponse) => { this.isLoginError = true; });
   }
-
 }

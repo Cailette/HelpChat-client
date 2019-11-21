@@ -1,75 +1,118 @@
 <div class="sidebar-sticky">
-    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-3">
-        <div class="alert alert-danger">
-            Wystąpił błąd, spróbuj ponownie później.
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center m-3">
+        <div class="alert alert-danger text-center">
+            Wystąpił błąd, nie można wyświetlić listy czatów.
         </div>
     </div>
     
-    <h1 class="h2 p-3 mt-1">Czaty</h1>
-    <hr class="m-0">
-    <div *ngIf="isArchive && _chats.length > 0" class="px-3 py-2">
-        <button type="button" class="my-2 btn btn-sm btn-outline-secondary" (click)="showFilter()"><i class="fas fa-filter"></i> {{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}</button>
-        <div *ngIf="isFilter" class="d-flex flex-column align-items-start w-100">
-            <div *ngIf="role !== Agent"  class="form-group w-100 my-1" role="group">
-                <label for="agentSelect" class="p-0 mb-0">Konsultant: </label>
-                <select [(ngModel)]='filterChatAgent' id="agentSelect" class="w-100" (change)="onChange($event.target.value, 'filterChatAgent')">
-                    <option value="all">Wszyscy</option>
-                    <option value="{{id}}">Twoje</option>
-                    <option *ngFor="let agent of agents" value="{{agent._id}}">{{agent.firstname}} {{agent.lastname}}</option>
-                </select>
-            </div>
-            <div class="form-group w-100 my-1" role="group">
-                <label for="dateSelect" class="p-0 mb-0">Data: </label>
-                <select [(ngModel)]='filterChatDate' id="dateSelect" class="w-100" (change)="onChange($event.target.value, 'filterChatDate')">
-                    <option value="all">Wszystkie</option>
-                    <option value="today">Dzisiaj</option>
-                    <option value="yesterday">Wczoraj</option>
-                    <option value="7days">Ostatnich 7 dni</option>
-                    <option value="30days">Ostatnich 30 dni</option>
-                    <option value="lastMonth">Poprzedni miesiąc</option>
-                    <option value="currentMonth">Bieżący miesiąc</option>
-                </select>
-            </div>
-            <div class="form-group w-100 my-1" role="group">
-                <label for="rateSelect" class="p-0 mb-0">Ocena: </label>
-                <select [(ngModel)]='filterChatRating' id="rateSelect" class="w-100" (change)="onChange($event.target.value, 'filterChatRating')">
-                    <option value="all" selected>Wszystkie</option>
-                    <option value="null">Brak oceny</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <small class="form-text px-3">Liczba czatów: {{(_chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent).length ? (_chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent).length : '0' }}</small>
-    <hr class="m-0">
+    <div *ngIf="!isDataError">
+        <h1 class="h2 p-3 mt-1">Czaty</h1>
+        <hr class="m-0">
+        <div *ngIf="isArchive && _chats.length > 0" class="px-3 py-2">
+            <button (click)="showFilter()" type="button" 
+                class="my-2 btn btn-sm btn-outline-secondary">
+                <i class="fas fa-filter"></i> {{isFilter ? 'Ukryj filtry' : 'Pokaż filtry'}}
+            </button>
+            <div *ngIf="isFilter" class="d-flex flex-column align-items-start w-100">
+                <div *ngIf="role !== Agent" class="form-group w-100 my-1" role="group">
+                    <label for="agentSelect" class="p-0 mb-0">Konsultant: </label>
+                    <select id="agentSelect" class="w-100" 
+                        [(ngModel)]='filterChatAgent' 
+                        (change)="onChange($event.target.value, 'filterChatAgent')">
+                        <option value="all">Wszyscy</option>
+                        <option value="{{id}}">Twoje</option>
+                        <option *ngFor="let agent of agents" value="{{agent._id}}">
+                            {{agent.firstname}} {{agent.lastname}}
+                        </option>
+                    </select>
+                </div>
 
-    <div *ngIf="_chats !== undefined && _chats.length > 0; else chatListEmpty" class="nav flex-column nav-pills">
-        <li *ngFor="let chat of _chats | chatRatingFilter: filterChatRating | chatDateFilter: filterChatDate | chatAgentFilter: filterChatAgent" class="nav-item">
-            <div class="nav-link py-3 px-3 text-break cursor-pointer" [ngClass]="{'table-active': selected === chat._id}" (click)="switchRoom(chat._id)">
-                <div class="row">
-                    <div class="col-6">
-                        <small>Konsultant: {{ id !== chat.agent._id ? chat.agent.firstname : 'Ty'}}</small>
-                    </div>
-                    <div class="col-6 text-right small">
-                        {{chat.time}}
-                    </div>
-                    <div class="col-9">
-                        <p class="p-0 m-0 truncate">{{chat.messages[0] ? chat.messages[0].content : 'Brak wiadomości'}}</p>
-                    </div>
-                    <div class="col-3">
-                        <span *ngIf="chat.newMessageCounter > 0" class="badge badge-pill badge-danger">{{chat.newMessageCounter}}</span>
-                    </div>
+                <div class="form-group w-100 my-1" role="group">
+                    <label for="dateSelect" class="p-0 mb-0">Data: </label>
+                    <select id="dateSelect" class="w-100" 
+                        [(ngModel)]='filterChatDate' 
+                        (change)="onChange($event.target.value, 'filterChatDate')">
+                        <option value="all">Wszystkie</option>
+                        <option value="today">Dzisiaj</option>
+                        <option value="yesterday">Wczoraj</option>
+                        <option value="7days">Ostatnich 7 dni</option>
+                        <option value="30days">Ostatnich 30 dni</option>
+                        <option value="lastMonth">Poprzedni miesiąc</option>
+                        <option value="currentMonth">Bieżący miesiąc</option>
+                    </select>
+                </div>
+
+                <div class="form-group w-100 my-1" role="group">
+                    <label for="rateSelect" class="p-0 mb-0">Ocena: </label>
+                    <select id="rateSelect" class="w-100" 
+                        [(ngModel)]='filterChatRating' 
+                        (change)="onChange($event.target.value, 'filterChatRating')">
+                        <option value="all" selected>Wszystkie</option>
+                        <option value="null">Brak oceny</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
                 </div>
             </div>
-            <hr class="m-0">
-        </li>
-    </div>
+        </div>
 
-    <ng-template #chatListEmpty>
-        <p class="h5 p-3 mt-1">Brak czatów.</p>
-    </ng-template>
+        <small class="form-text px-3">Liczba czatów: 
+            {{  
+                (_chats | 
+                chatRatingFilter: filterChatRating | 
+                chatDateFilter: filterChatDate | 
+                chatAgentFilter: filterChatAgent).length ? 
+                (_chats | 
+                chatRatingFilter: filterChatRating | 
+                chatDateFilter: filterChatDate | 
+                chatAgentFilter: filterChatAgent).length : 
+                '0' 
+            }}
+        </small>
+        <hr class="m-0">
+
+        <div *ngIf="_chats !== undefined && _chats.length > 0; else chatListEmpty" 
+            class="nav flex-column nav-pills">
+            <li *ngFor="let chat of _chats | 
+                chatRatingFilter: filterChatRating | 
+                chatDateFilter: filterChatDate | 
+                chatAgentFilter: filterChatAgent" 
+                class="nav-item">
+                <div class="nav-link py-3 px-3 text-break cursor-pointer" 
+                    [ngClass]="{'table-active': selected === chat._id}" 
+                    (click)="switchRoom(chat._id)">
+                    <div class="row">
+                        <div class="col-6">
+                            <small>
+                                Konsultant: 
+                                {{ id !== chat.agent._id ? chat.agent.firstname : 'Ty'}}
+                            </small>
+                        </div>
+                        <div class="col-6 text-right small">
+                            {{chat.time}}
+                        </div>
+                        <div class="col-9">
+                            <p class="p-0 m-0 truncate">
+                                {{chat.messages[0] ? chat.messages[0].content : 'Brak wiadomości'}}
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <span *ngIf="chat.newMessageCounter > 0" 
+                                class="badge badge-pill badge-danger">
+                                {{chat.newMessageCounter}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <hr class="m-0">
+            </li>
+        </div>
+
+        <ng-template #chatListEmpty>
+            <p class="h5 p-3 mt-1">Brak czatów.</p>
+        </ng-template>
+    </div>
 </div>

@@ -24,10 +24,8 @@ import { ChartsModule } from 'ng2-charts';
 import {GuestService} from './services/guest.service';
 import {AgentService} from './services/agent.service';
 import { VisitorService } from './services/visitor.service';
-import { AgentSocketService } from './services/agent-socket.service';
 import { ChatService } from './services/chat.service';
 import { StatisticsService } from './services/statistics.service';
-import { VisitorSocketService } from './services/visitor-socket.service';
 import { WorkHoursService } from './services/work-hours.service';
 
 @NgModule({

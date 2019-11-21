@@ -11,8 +11,7 @@ export class AgentSocketService {
   readonly apiURL: string = environment.baseUrl;
   private socket = io(this.apiURL);
   
-  constructor() { 
-  }
+  constructor() { }
 
   init(token) {
     this.socket.emit('init', token, "agent");
@@ -20,6 +19,23 @@ export class AgentSocketService {
 
   disconnect(){
     this.socket.disconnect();
+  }
+ 
+  emitGetLocation(){
+    this.socket.emit("getLocation");
+  }
+ 
+  emitSwitchRoom(room: string){
+    console.log("switchRoom: " + room);
+    this.socket.emit("switchRoom", room);
+  }
+ 
+  emitSendMessage(message: string){
+    this.socket.emit("message", message);
+  }
+ 
+  emitCloseChat(){
+    this.socket.emit("closeChat");
   }
   
   onNewChat() {
@@ -33,34 +49,6 @@ export class AgentSocketService {
     });
     return observable;
   }
-
-  onDisconnectChat() {
-    const observable = new Observable(observer => {
-      this.socket.on('disconnectChat', () => {
-        observer.next();
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    });
-    return observable;
-  }
-  
-  // onNewMessage() {
-  //   const observable = new Observable(observer => {
-  //     this.socket.on('newMessage', (chat) => {
-  //       observer.next(chat);
-  //     });
-  //     return () => {
-  //       this.socket.disconnect();
-  //     };
-  //   });
-  //   return observable;
-  // }
- 
-  emitGetLocation(){
-    this.socket.emit("getLocation");
-  }
   
   onVisitorLocationChange() {
     const observable = new Observable(observer => {
@@ -72,23 +60,6 @@ export class AgentSocketService {
       };
     });
     return observable;
-  }
- 
-  // emitGetChats(){
-  //   this.socket.emit("getChats");
-  // }
- 
-  emitSwitchRoom(room: string){
-    console.log("switchRoom: " + room);
-    this.socket.emit("switchRoom", room);
-  }
- 
-  emitSendMessage(message: string){
-    this.socket.emit("message", message);
-  }
- 
-  emitCloseChat(){
-    this.socket.emit("closeChat");
   }
 
   onReceiveMessage() {

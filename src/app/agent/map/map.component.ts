@@ -9,16 +9,17 @@ declare var H: any;
 })
 
 export class MapComponent implements OnInit {
-  @ViewChild("map", {static: true}) mapElement: ElementRef;
-  map: any;
-  dataExist: boolean;
-
   appId: string = environment.hereAppID
   appCode: string = environment.hereAppCode
-  platform: any;
 
+  @ViewChild("map", {static: true}) mapElement: ElementRef;
+  map: any;
+
+  dataExist: boolean;
+  platform: any;
   _lat: number;
   _lng: number;
+
   @Input() set geoLocation(value: string) {
     if(value !== ""){
       this.dataExist = true;
@@ -26,12 +27,9 @@ export class MapComponent implements OnInit {
       this._lat = Number(geoLocation.lat);
       this._lng = Number(geoLocation.lng);
       this.moveMap();
-      // this.reverseGeocode();
-    }else {
+    } else {
       this.dataExist = false;
-      if(this.map){
-        this.moveMapDefault();
-      }
+      if(this.map) this.moveMapDefault();
     }
   }
 
@@ -46,18 +44,15 @@ export class MapComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    console.log("ngAfterViewInit")
     this.initMap();
   }
 
   moveMap() {
-    console.log("moveMap")
     this.map.setCenter({lat: this._lat, lng: this._lng});
     this.map.setZoom(10);
   }
 
   moveMapDefault(){
-    console.log("moveMapDefault")
     this.map.setCenter({lat: 0, lng: 0});
     this.map.setZoom(0);
   }

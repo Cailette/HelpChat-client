@@ -14,7 +14,9 @@ export class MailFormComponent implements OnInit {
   mailingError: boolean;
   emailPattern = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
 
-  constructor(private mailService: MailService) { }
+  constructor(
+    private mailService: MailService
+  ) { }
 
   ngOnInit() {
     this.mailing = true;
@@ -23,15 +25,14 @@ export class MailFormComponent implements OnInit {
   }
 
   submit() {
-    this.mailService.sendMail(localStorage.getItem('visitor-help-chat-token'), this.mail).subscribe((data: any) => {
-      console.log(JSON.stringify(data))
-      this.mailing = false;
-    },
-    (err: HttpErrorResponse) => {
-      console.log(JSON.stringify(err))
-      this.mailing = false;
-      this.mailingError = true;
-    });
+    this.mailService.sendMail(localStorage.getItem('visitor-help-chat-token'), this.mail)
+      .subscribe(
+        (data: any) => { this.mailing = false; },
+        (err: HttpErrorResponse) => {
+          this.mailing = false;
+          this.mailingError = true;
+        }
+      );
   }
 
   resetForm() {

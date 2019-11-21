@@ -11,13 +11,15 @@ export class GlobalRole {
 
 @Injectable()
 export class Role {
-  constructor(private jwtHelperService: JwtHelperService, private globalRole: GlobalRole) {}
+  constructor(
+    private jwtHelperService: JwtHelperService, 
+    private globalRole: GlobalRole
+  ) {}
 
   isAuthorized(): string {
    const token = localStorage.getItem('agent-help-chat-token');
     const decodeToken = this.jwtHelperService.decodeToken(token);
     if (!decodeToken) {
-      console.log('Invalid token');
       return;
     }
   

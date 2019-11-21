@@ -1,6 +1,12 @@
 <div class="margin-top">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top px-5">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <button 
+            class="navbar-toggler" 
+            type="button" 
+            data-toggle="collapse" 
+            data-target="#navbarToggler" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
@@ -9,7 +15,11 @@
             </a>
             <ul class="navbar-nav ml-auto mt-2 mt-md-0">
                 <li class="nav-item px-2">
-                    <a class="nav-link js-scroll-trigger cursor-pointer" [ngClass]="{'active': isActive === true} " (click)="SwitchActivity()"  role="button">
+                    <a 
+                        role="button"
+                        class="nav-link js-scroll-trigger cursor-pointer" 
+                        [ngClass]="{'active': isActive === true} " 
+                        (click)="SwitchActivity()"  >
                         <div *ngIf="isActive; else inNotActive">
                             Jesteś aktywny <i class="fas fa-toggle-on ml-2"></i>
                         </div>
@@ -31,33 +41,57 @@
         <div class="row">
             <nav class="col-1 col-md-3 col-lg-2 table-active p-0 side-bar-scroll position-relative">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <!-- <a class="nav-link py-3 px-4" routerLink="/home/home" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
-                        <i class="fas fa-home"></i>
-                        Strona główna
-                    </a> <hr class="m-0"> -->
-                    <a class="nav-link py-3 px-4" (click)="resetNewChatCounter()" routerLink="/home/chats" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
-                        <i class="fas fa-comment-alt"></i>
-                        Czaty <span *ngIf="newChatCounter > 0" class="badge badge-pill badge-danger">{{newChatCounter}}</span>
+                    <a class="nav-link py-3 px-4" 
+                        (click)="resetNewChatCounter()" 
+                        routerLink="/home/chats" 
+                        routerLinkActive="active" 
+                        data-toggle="pill" 
+                        aria-selected="false"
+                        role="tab" >
+                        <i class="fas fa-comment-alt"></i> Czaty 
+                        <span *ngIf="newChatCounter > 0" class="badge badge-pill badge-danger">{{newChatCounter}}</span>
                     </a> <hr class="m-0">
-                    <a class="nav-link py-3 px-4" routerLink="/home/visitors" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
-                        <i class="fas fa-address-book"></i>
-                        Odwiedzający
+                    <a class="nav-link py-3 px-4" 
+                        routerLink="/home/visitors" 
+                        routerLinkActive="active" 
+                        data-toggle="pill" 
+                        aria-selected="false"
+                        role="tab" >
+                        <i class="fas fa-address-book"></i> Odwiedzający
                     </a> <hr class="m-0">
-                    <a class="nav-link py-3 px-4" routerLink="/home/archive" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
-                        <i class="fas fa-archive"></i>
-                        Archiwum
+                    <a class="nav-link py-3 px-4" 
+                        routerLink="/home/archive" 
+                        routerLinkActive="active" 
+                        data-toggle="pill" 
+                        aria-selected="false"
+                        role="tab" >
+                        <i class="fas fa-archive"></i> Archiwum
                     </a> <hr class="m-0">
-                    <a *ngIf="role === Representative" class="nav-link py-3 px-4" routerLink="/home/consultants" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
-                        <i class="fas fa-user-friends"></i>
-                        Konsultanci
+                    <a class="nav-link py-3 px-4" 
+                        *ngIf="role === Representative" 
+                        routerLink="/home/consultants" 
+                        routerLinkActive="active" 
+                        data-toggle="pill" 
+                        aria-selected="false"
+                        role="tab" >
+                        <i class="fas fa-user-friends"></i> Konsultanci
                     </a> <hr class="m-0">
-                    <a *ngIf="role === Representative" class="nav-link py-3 px-4" routerLink="/home/statistics" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
-                        <i class="fas fa-chart-line"></i>
-                        Statystki
+                    <a class="nav-link py-3 px-4" 
+                        *ngIf="role === Representative" 
+                        routerLink="/home/statistics" 
+                        routerLinkActive="active" 
+                        data-toggle="pill" 
+                        aria-selected="false"
+                        role="tab" >
+                        <i class="fas fa-chart-line"></i> Statystki
                     </a> <hr class="m-0">
-                    <a class="nav-link py-3 px-4" routerLink="/home/account" routerLinkActive="active" data-toggle="pill" role="tab" aria-selected="false">
-                        <i class="fas fa-user"></i>
-                        Konto
+                    <a class="nav-link py-3 px-4" 
+                        routerLink="/home/account" 
+                        routerLinkActive="active" 
+                        data-toggle="pill" 
+                        aria-selected="false"
+                        role="tab" >
+                        <i class="fas fa-user"></i> Konto
                     </a> <hr class="m-0">
                 </div>
             </nav>
@@ -68,7 +102,7 @@
                         Wystąpił błąd, spróbuj ponownie później.
                     </div>
                 </div>
-                <router-outlet></router-outlet>
+                <router-outlet *ngIf="!isDataError"></router-outlet>
             </main>
         </div>
     </div>

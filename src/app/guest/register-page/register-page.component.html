@@ -12,34 +12,67 @@
             <form class="form" #registerForm="ngForm" (ngSubmit)="OnSubmit(registerForm)">
                 <div class="form-group mt-1 p-0">
                     <label for="firstname" class="text-primary">Imię*:</label>
-                    <input type="text" name="firstname" id="firstname" class="form-control validate" #firstname="ngModel" [(ngModel)]="user.firstname" required [pattern]="firstnamePattern">
-                    <label *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-warning my-1 p-1" data-error="">Imię to ciąg maksymalnie 20 znaków.</label>
+                    <input type="text" name="firstname" id="firstname" 
+                        class="form-control validate" #firstname="ngModel" 
+                        [(ngModel)]="user.firstname" required 
+                        [pattern]="firstnamePattern">
+                    <label *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" 
+                        class="alert alert-warning my-1 p-1" data-error="">
+                        Imię to ciąg maksymalnie 20 znaków.
+                    </label>
                 </div>
                 <div class="form-group mt-1 p-0">
                     <label for="lastname" class="text-primary">Nazwisko*:</label>
-                    <input type="text" name="lastname" id="lastname" class="form-control validate" #lastname="ngModel" [(ngModel)]="user.lastname" required [pattern]="lastnamePattern">
-                    <label *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="alert alert-warning my-1 p-1" data-error="">Nazwisko to ciąg maksymalnie 20 znaków.</label>
+                    <input type="text" name="lastname" id="lastname"
+                        class="form-control validate" #lastname="ngModel" 
+                        [(ngModel)]="user.lastname" required 
+                        [pattern]="lastnamePattern">
+                    <label *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" 
+                        class="alert alert-warning my-1 p-1" data-error="">
+                        Nazwisko to ciąg maksymalnie 20 znaków.
+                    </label>
                 </div>
                 <div class="form-group mt-1 p-0">
                     <label for="email" class="text-primary">Email*:</label>
-                    <input type="email" name="email" id="email" class="form-control validate" #email="ngModel" [(ngModel)]="user.email" required [pattern]="emailPattern">
-                    <label *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-warning my-1 p-1" data-error="">Email to maksymalnie 60 znaków i zachowywać format emaila.</label>
+                    <input type="email" name="email" id="email" 
+                        class="form-control validate" #email="ngModel" 
+                        [(ngModel)]="user.email" required 
+                        [pattern]="emailPattern">
+                    <label *ngIf="email.invalid && (email.dirty || email.touched)" 
+                        class="alert alert-warning my-1 p-1" data-error="">
+                        Email to maksymalnie 60 znaków i zachowywać format emaila.
+                    </label>
                 </div>
                 <div class="form-group mt-1 p-0">
                     <label for="password" class="text-primary">Hasło*:</label>
-                    <input type="password" name="password" id="password" class="form-control validate" #password="ngModel" [(ngModel)]="user.password" required [pattern]="passwordPattern">
-                    <label *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-warning my-1 p-1" data-error="">Hasło znaków musi zawierać co najmniej jedną cyfrę, jedną małą literę oraz jedną dużą literę oraz od 6 do 30.</label>
+                    <input type="password" name="password" 
+                        id="password" class="form-control validate" #password="ngModel" 
+                        [(ngModel)]="user.password" required 
+                        [pattern]="passwordPattern">
+                    <label *ngIf="password.invalid && (password.dirty || password.touched)" 
+                        class="alert alert-warning my-1 p-1" data-error="">
+                        Hasło znaków musi zawierać co najmniej jedną cyfrę, 
+                        jedną małą literę oraz jedną dużą literę oraz od 6 do 30.
+                    </label>
                 </div>
                 <div class="form-group mt-1 p-0">
                     <label for="repassword" class="text-primary">Powtórz hasło*:</label>
-                    <input type="password" name="repassword" id="repassword" class="form-control validate" #repassword="ngModel" [(ngModel)]="user.repassword" required>
-                    <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  class="alert alert-warning my-1 p-1" data-error="">Powtórzone hasło musi być identyczne jak hasło.</label>
+                    <input type="password" name="repassword" 
+                        id="repassword" class="form-control validate" 
+                        #repassword="ngModel" [(ngModel)]="user.repassword" required>
+                    <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  
+                        class="alert alert-warning my-1 p-1" data-error="">
+                        Powtórzone hasło musi być identyczne jak hasło.
+                    </label>
                 </div>
                 <div class="alert alert-info mt-3 p-2" data-error="">
                     * Wszystkie pola są wymagane.
                 </div>
                 <div class="col-16 my-3 text-center">
-                    <button [disabled]="!registerForm.valid" type="submit" class="btn btn-outline-primary">Zarejestruj się</button>
+                    <button [disabled]="!registerForm.valid" 
+                        type="submit" class="btn btn-outline-primary">
+                        Zarejestruj się
+                    </button>
                 </div>
             </form>
         </div>
@@ -50,10 +83,14 @@
             <div class="jumbotron py-3">
                 <h1 class="display-5">Twoje konto zostało poprawnie utworzone!</h1>
                 <p class="lead">
-                    By czatować z odwiedzającymi musisz umieścić okno czatu w swoim serwisie internetowym. Skopiuj poniższy skrypt i umieść go w kodzie źródłowym HTML twojej strony interentowej między znacznikami &lthead&gt.
+                    By czatować z odwiedzającymi musisz 
+                    umieścić okno czatu w swoim serwisie internetowym. 
+                    Skopiuj poniższy skrypt i umieść go w kodzie źródłowym HTML 
+                    twojej strony interentowej między znacznikami head.
                 </p>
                 <hr class="my-4">
-                    <textarea class="form-control" rows="13" disabled style="background-color: white;">
+                    <textarea class="form-control" rows="13" 
+                        disabled style="background-color: white;">
 <script type="application/javascript">
     window.__helpchat = window.__helpchat || {};
     window.__helpchat.license = "{{licenceNumber}}";

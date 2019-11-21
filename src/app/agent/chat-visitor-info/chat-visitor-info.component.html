@@ -1,29 +1,38 @@
 
 <div class="sidebar-sticky px-3 py-1 mt-3">
-    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-3">
-        <div class="alert alert-danger">
-            Wystąpił błąd, spróbuj ponownie później.
+    <div *ngIf="isDataError" class="row justify-content-center align-items-center m-2">
+        <div class="alert alert-danger text-center">
+            Wystąpił błąd, nie można wyświetlić infromacji o odzwiedzającym.
         </div>
     </div>
-    <h1 class="h2">Odzwiedzający</h1>
-    <hr>
-    <div>
+    <div *ngIf="!isDataError">
+        <h1 class="h2">Odzwiedzający</h1>
+        <hr>
         <ul class="nav flex-column">
-            <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Identyfikator">
+            <li class="nav-item py-1" data-toggle="tooltip" 
+                data-placement="top" title="Identyfikator">
                 <i class="fas fa-passport"></i>  {{_visitor._id}}
             </li>
             <li class="nav-item py-1">
-                <i class="fas fa-comments"></i><strong> Liczba czatów:</strong> {{countedChats}}<br>
+                <i class="fas fa-comments"></i>
+                <strong> Liczba czatów:</strong> {{countedChats}}<br>
             </li>
             <li class="nav-item py-1">
-                <i class="fas fa-clock"></i><strong> Ostatnio widziany:</strong> {{lastVisit}}<br>
+                <i class="fas fa-clock"></i>
+                <strong> Ostatnio widziany:</strong> {{lastVisit}}<br>
             </li>
             <div *ngIf="!isArchive">
                 <li class="nav-item py-1">
-                    <i class="fas fa-external-link-square-alt"></i> <strong> Obecnie przegląda:</strong> <a class="nav-link text-break m-0 p-0" href="{{_location}}" target="_blank">{{_location}}</a>
+                    <i class="fas fa-external-link-square-alt"></i> 
+                    <strong> Obecnie przegląda:</strong> 
+                    <a class="nav-link text-break m-0 p-0" 
+                        href="{{_location}}" target="_blank">
+                        {{_location}}
+                    </a>
                 </li>
             </div>
-            <li class="nav-item py-1 w-100" data-toggle="tooltip" data-placement="top" title="Geolokalizacja">
+            <li class="nav-item py-1 w-100" data-toggle="tooltip" 
+                data-placement="top" title="Geolokalizacja">
                 <div class="w-100">
                     <map geoLocation="{{geoLocation}}"></map>
                 </div>
@@ -32,7 +41,7 @@
                 <strong>System operacyjny: </strong>{{_visitor.operatingSoftware}}<br>
             </li>
             <li class="nav-item py-1">
-                <strong>Przeglądarka:</strong> {{_visitor.browserSoftware}}<br>
+                <strong>Przeglądarka: </strong>{{_visitor.browserSoftware}}<br>
             </li>
         </ul>
     </div>

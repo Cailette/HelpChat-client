@@ -9,94 +9,80 @@ import * as moment from 'moment';
   selector: 'app-chats',
   templateUrl: './chats.component.html'
 })
+
 export class ChatsComponent implements OnInit {
-  chats: any = [];
   isDataError: boolean;
-  chat: any;
-  // messages: any;
-  // visitor: any;
-  location: any = "";
   isChat: boolean;
   visitorDisconnect: boolean;
+
+  location: any;
+  chats: any = [];
+  chat: any;
 
   private onVisitorLocationChangeSubscribtion: any;
   private onReceiveMessageSubscribtion: any;
   private onVisitorDisconnectSubscribtion: any;
   private onChatListUpdateSubscribtion: any;
 
-  constructor(private chatService: ChatService, private agentSocketService: AgentSocketService) { }
+  constructor(
+    private chatService: ChatService, 
+    private agentSocketService: AgentSocketService
+  ) { }
 
   ngOnInit() {
     this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
-    console.log("...subscribe ")
-    this.onVisitorLocationChangeSubscribtion = this.agentSocketService.onVisitorLocationChange().subscribe(data => {
-      console.log("...visitorLocation " + data)
-      this.location = data;
-    });
 
-    this.onReceiveMessageSubscribtion = this.agentSocketService.onReceiveMessage().subscribe(message => {
-      console.log("onReceiveMessage ")
-        message["time"] = moment(new Date(message["date"])).format('HH:mm');
-        let chatReceiveMessageId = message["chat"];
-        let oldChats = this.chats;
-        oldChats.map(ch => {
-          if(ch._id === chatReceiveMessageId) {
-            if(!(ch.messages.find(m => m._id === message["_id"]))) {
-              ch.messages.unshift(message);
-              if(ch._id !== this.chat._id) {
-                ch.newMessageCounter = ch.newMessageCounter + 1;
-              }
-            }
-          }
-        })
-        this.chats = oldChats;
-    });
+    this.onVisitorLocationChangeSubscribtion = this.agentSocketService.onVisitorLocationChange()
+      .subscribe(data => { this.location = data; });
 
-    this.onVisitorDisconnectSubscribtion = this.agentSocketService.onVisitorDisconnect().subscribe(chatId => {
-      this.chats = this.chats.filter(ch => {
-          return ch._id !== chatId;
-      });
-      if(chatId === this.chat._id) {
-        this.agentSocketService.emitSwitchRoom(this.chat.agent._id);
-        this.isChat = false;
-        this.visitorDisconnect = true;
-      }
-    });
+    this.onReceiveMessageSubscribtion = this.agentSocketService.onReceiveMessage()
+      .subscribe(message => { this.messageReceived(message) });
+
+    this.onVisitorDisconnectSubscribtion = this.agentSocketService.onVisitorDisconnect()
+      .subscribe(chatId => { this.visitorCloseChat(chatId) });
     
-    this.onChatListUpdateSubscribtion = this.agentSocketService.onChatListUpdate().subscribe((chat) => {
-      console.log("onChatListUpdate ")
-      chat["newMessageCounter"] = 0;
-      this.chats = [...this.chats, chat];
-    });
+    this.onChatListUpdateSubscribtion = this.agentSocketService.onChatListUpdate()
+      .subscribe((chat) => { chat["newMessageCounter"] = 0;  this.chats = [...this.chats, chat]; });
 
-    this.visitorDisconnect = false;
-    this.chats = [];
     this.isChat = false;
     this.isDataError = false;
+    this.visitorDisconnect = false;
+    this.location = "";
     this.chat = "";
+    this.chats = [];
     this.getChats();
   }
 
   getChats(){
-    this.chatService.getChats(localStorage.getItem('agent-help-chat-token')).subscribe((data: any) => {
-      data.chats.map(c => {
-        c.newMessageCounter = 0;
-      })
-      this.chats = data.chats;  
-    },
-    (err: HttpErrorResponse) => {
-      this.isDataError = true;
-    });
+    this.chatService.getChats(localStorage.getItem('agent-help-chat-token'))
+    .subscribe(
+      (data: any) => {
+        if(!localStorage.getItem("last-agent-view-messages")){
+          data.chats.map(c => {
+            c.newMessageCounter = c.messages.length;
+          })
+        } else {
+          let lastDate = new Date(localStorage.getItem("last-agent-view-messages"));
+          data.chats.map(c => {
+            c.newMessageCounter = [...c.messages.filter(m => { 
+              return new Date(m.date).getTime() > lastDate.getTime()
+            })].length;
+          })
+        }
+        this.chats = data.chats;  
+      },
+      (err: HttpErrorResponse) => { this.isDataError = true; }
+    );
   }
 
   onSwitchRoom(chatId: string){
     this.visitorDisconnect = false;
-    console.log("CHAT " + chatId)
     this.chat = this.chats.find(ch => {
       return ch._id === chatId
     })
     this.chat.newMessageCounter = 0;
     this.isChat = true;
+
     this.agentSocketService.emitSwitchRoom(this.chat._id);
     this.agentSocketService.emitGetLocation();
   }
@@ -113,12 +99,40 @@ export class ChatsComponent implements OnInit {
     this.chat = "";
     this.agentSocketService.emitCloseChat();
   }
+
+  messageReceived(message) { 
+    message["time"] = moment(new Date(message["date"])).format('HH:mm');
+    let chatReceiveMessageId = message["chat"];
+    let oldChats = this.chats;
+
+    oldChats.map(ch => {
+      if(ch._id === chatReceiveMessageId) {
+        if(!(ch.messages.find(m => m._id === message["_id"]))) {
+          ch.messages.unshift(message);
+          if(ch._id !== this.chat._id) 
+          ch.newMessageCounter = ch.newMessageCounter + 1;
+        }
+      }
+    })
+
+    this.chats = oldChats;
+  }
+
+  visitorCloseChat(chatId){
+    this.chats = this.chats.filter(ch => {
+        return ch._id !== chatId;
+    });
+
+    if(chatId === this.chat._id) {
+      this.agentSocketService.emitSwitchRoom(this.chat.agent._id);
+      this.visitorDisconnect = true;
+      this.isChat = false;
+    }
+  }
   
   ngOnDestroy() {
-    if(this.chat){
-      this.agentSocketService.emitSwitchRoom(this.chat.agent._id);
-    }
-    console.log("...unsubscribe ")
+    localStorage.setItem("last-agent-view-messages", (new Date()).toString());
+    if(this.chat) this.agentSocketService.emitSwitchRoom(this.chat.agent._id);
     this.onVisitorLocationChangeSubscribtion.unsubscribe();
     this.onReceiveMessageSubscribtion.unsubscribe();
     this.onVisitorDisconnectSubscribtion.unsubscribe();

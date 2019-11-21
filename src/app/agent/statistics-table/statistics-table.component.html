@@ -2,26 +2,40 @@
   <table  class="table table-sm">
     <thead  class="thead-light">
       <tr *ngIf="_colName === null" class="table-head">
-        <th style="min-width: 100px;" *ngFor="let head of _heads">{{head}}</th>
+        <th style="min-width: 100px;" 
+          *ngFor="let head of _heads">
+            {{head}}
+          </th>
       </tr>
       <tr *ngIf="_colName !== null" class="table-head">
-        <th style="min-width: 100px;" *ngFor="let col of _colName">{{col}}</th>
+        <th style="min-width: 100px;" 
+          *ngFor="let col of _colName">
+            {{col}}
+          </th>
       </tr>
     </thead>
     <tbody>
       <ng-container *ngIf="_colName === null">
         <tr *ngFor="let data of _datas">
-          <td *ngFor="let head of _heads"> {{data[head] !== null ? data[head] : 0 }}</td>
+          <td *ngFor="let head of _heads"> 
+            {{data[head] !== null ? data[head] : 0 }}
+          </td>
         </tr>
       </ng-container>
       <ng-container *ngIf="_colName !== null">
         <tr *ngFor="let data of _datas">
-          <td [ngClass]="{'table-danger': data.inTime === false}" *ngFor="let head of _heads"> {{data[head] !== null ? data[head] : "Brak" }}</td>
+          <td [ngClass]="{'table-danger': data.inTime === false}" 
+            *ngFor="let head of _heads"> 
+            {{data[head] !== null ? data[head] : "Brak" }}
+          </td>
         </tr>
       </ng-container>
       <ng-container *ngIf="_datas.length === 0">
         <tr>
-          <td [attr.colspan]="_colName.length" class="table-info">Brak danych</td>
+          <td [attr.colspan]="_colName.length" 
+            class="table-info"
+            >Brak danych
+          </td>
         </tr>
       </ng-container>
     </tbody>

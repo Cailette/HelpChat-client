@@ -5,7 +5,7 @@
         </div>
     </div>
 
-    <div class="">
+    <div class="!isDataError">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-3 pb-2 border-bottom">
             <h1 class="h2">Odwiedzający</h1>
         </div>
@@ -27,12 +27,28 @@
                     </tr> 
                     <ng-container *ngIf="visitors.length > 0">
                         <tr *ngFor="let visitor of visitors">
-                            <td class="align-middle px-3">{{visitor._id}}</td>
-                            <td class="align-middle px-3">{{(visitor.agent !== null && visitor.agent !== undefined) ? visitor.agent.firstname + " " + visitor.agent.lastname : "-"}}</td>
-                            <td class="align-middle px-3">{{visitor.countChats}}</td>
-                            <td class="align-middle px-3">{{visitor.time}}</td>
+                            <td class="align-middle px-3">
+                                {{visitor._id}}
+                            </td>
+                            <td class="align-middle px-3">
+                                {{
+                                    (visitor.agent !== null && visitor.agent !== undefined) 
+                                    ? visitor.agent.firstname + " " + visitor.agent.lastname 
+                                    : "-"
+                                }}
+                            </td>
+                            <td class="align-middle px-3">
+                                {{visitor.countChats}}
+                            </td>
+                            <td class="align-middle px-3">
+                                {{visitor.time}}
+                            </td>
                             <td class="align-middle text-right px-3">
-                                <button (click)="viewVisitor(visitor._id);" class="btn btn-outline-primary" data-toggle="modal" data-target="#visitorInfo" >Więcej informacji</button>
+                                <button (click)="viewVisitor(visitor._id);" 
+                                    class="btn btn-outline-primary" 
+                                    data-toggle="modal" data-target="#visitorInfo">
+                                    Więcej informacji
+                                </button>
                             </td>
                         </tr>
                     </ng-container>
@@ -41,7 +57,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="visitorInfo" tabindex="-1" role="dialog" aria-labelledby="visitorInfo" aria-hidden="true">
+    <div class="modal fade" id="visitorInfo" tabindex="-1" role="dialog" 
+        aria-labelledby="visitorInfo" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -49,30 +66,41 @@
                 </div>
                 <div class="modal-body">
                     <ul class="nav flex-column">
-                        <li class="nav-item py-1" data-toggle="tooltip" data-placement="top" title="Identyfikator">
-                            <i class="fas fa-passport"></i>  {{visitor._id}}
+                        <li class="nav-item py-1" title="Identyfikator" 
+                            data-toggle="tooltip" data-placement="top">
+                            <i class="fas fa-passport"></i> {{visitor._id}}
                         </li>
                         <li class="nav-item py-1">
-                            <i class="fas fa-comments"></i><strong> Liczba czatów:</strong> {{visitor.countChats}}<br>
+                            <i class="fas fa-comments"></i>
+                            <strong> Liczba czatów:</strong> 
+                            {{visitor.countChats}}<br>
                         </li>
                         <li class="nav-item py-1">
-                            <i class="fas fa-clock"></i><strong> Ostatnio widziany:</strong> {{visitor.time}}<br>
+                            <i class="fas fa-clock"></i>
+                            <strong> Ostatnio widziany:</strong> 
+                            {{visitor.time}}<br>
                         </li>
-                        <li class="nav-item py-1 w-100" data-toggle="tooltip" data-placement="top" title="Geolokalizacja">
+                        <li class="nav-item py-1 w-100" title="Geolokalizacja" 
+                            data-toggle="tooltip" data-placement="top">
                             <div class="w-100">
                                 <map geoLocation="{{geoLocation}}"></map>
                             </div>
                         </li>
                         <li class="nav-item py-1">
-                            <strong>System operacyjny: </strong>{{visitor.operatingSoftware}}<br>
+                            <strong>System operacyjny: </strong>
+                            {{visitor.operatingSoftware}}<br>
                         </li>
                         <li class="nav-item py-1">
-                            <strong>Przeglądarka:</strong> {{visitor.browserSoftware}}<br>
+                            <strong>Przeglądarka: </strong>
+                            {{visitor.browserSoftware}}<br>
                         </li>
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary text-white ml-4" data-dismiss="modal">Zamknij</button>
+                    <button type="button" data-dismiss="modal" 
+                        class="btn btn-primary text-white ml-4">
+                        Zamknij
+                    </button>
                 </div>
             </div>
         </div>

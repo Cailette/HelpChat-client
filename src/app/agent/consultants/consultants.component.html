@@ -1,113 +1,150 @@
 <div class="side-bar-scroll">
-    <div *ngIf="isDataError" class="row justify-content-center align-items-center mt-5">
+    <div *ngIf="isDataError" 
+        class="row justify-content-center align-items-center mt-5">
         <div class="alert alert-danger">
             Wystąpił błąd, spróbuj ponownie później.
         </div>
     </div>
     
-    <div *ngIf="isAddedSuccess || isEditedSuccess" class="row justify-content-center align-items-center mt-5">
-        <div class="alert alert-success">
-            {{ isAddedSuccess? "Dodano konsultanta." : "Zapisano zmiany"}}
+    <div *ngIf="!isDataError">
+        <div *ngIf="isAddedSuccess || isEditedSuccess" 
+            class="row justify-content-center align-items-center mt-3">
+            <div class="alert alert-success">
+                {{ isAddedSuccess? "Dodano konsultanta." : "Zapisano zmiany"}}
+            </div>
         </div>
-    </div>
 
-    <div *ngIf="!isAdding && !isEditing">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-3 border-bottom">
-            <h1 class="h2">Konsultanci</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group mr-2">
-                <button type="button" class="btn btn-outline-secondary" (click)="newAgent()">Dodaj</button>
-                <input *ngIf="isSearch" type="search" [(ngModel)]="searchAgent" name="searchAgent">
-                <button type="button" class="btn btn-outline-secondary" (click)="showSearch()">Szukaj</button>
-                <div *ngIf="isFilter" class="d-flex align-items-center ml-2">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio3" [(ngModel)]="filterAgent" value="all" checked>
-                        <label class="form-check-label" for="filterRadio3">
-                            Wszyscy
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio1" [(ngModel)]="filterAgent" value="true">
-                        <label class="form-check-label" for="filterRadio1">
-                            Aktywni
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="filterRadio" id="filterRadio2" [(ngModel)]="filterAgent" value="false">
-                        <label class="form-check-label" for="filterRadio2">
-                            Niektywni
-                        </label>
+        <div *ngIf="!isAdding && !isEditing">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center p-3 border-bottom">
+                <h1 class="h2">Konsultanci</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <button (click)="newAgent()" 
+                            type="button" class="btn btn-outline-secondary">
+                            Dodaj
+                        </button>
+
+                        <input *ngIf="isSearch" type="search" [(ngModel)]="searchAgent" name="searchAgent">
+                        <button (click)="showSearch()" 
+                            type="button" class="btn btn-outline-secondary">
+                            Szukaj
+                        </button>
+
+                        <div *ngIf="isFilter" class="d-flex align-items-center ml-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" 
+                                    name="filterRadio" id="filterRadio3" 
+                                    [(ngModel)]="filterAgent" value="all" checked>
+                                <label class="form-check-label" for="filterRadio3">
+                                    Wszyscy
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" 
+                                    name="filterRadio" id="filterRadio1" 
+                                    [(ngModel)]="filterAgent" value="true">
+                                <label class="form-check-label" for="filterRadio1">
+                                    Aktywni
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" 
+                                    name="filterRadio" id="filterRadio2" 
+                                    [(ngModel)]="filterAgent" value="false">
+                                <label class="form-check-label" for="filterRadio2">
+                                    Niektywni
+                                </label>
+                            </div>
+                        </div>
+                        <button (click)="showFilter()" 
+                            type="button" class="btn btn-outline-secondary">
+                            Filturj
+                        </button>
                     </div>
                 </div>
-                <button type="button" class="btn btn-outline-secondary" (click)="showFilter()">Filturj</button>
             </div>
+
+            <div  class="table-responsive">
+                <table class="table table-sm border-bottom">
+                    <thead class="thead-light">
+                        <tr>
+                            <th class="p-3">Imie i nazwisko</th>
+                            <th class="p-3">Email</th>
+                            <th class="p-3">Status</th>
+                            <th class="p-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="agents.length == 1">
+                            <td colspan="4">Brak konsultantów.</td>
+                        </tr> 
+                        <tr *ngFor="let agent of agents | agentSearch: searchAgent | agentFilter: filterAgent">
+                            <ng-container *ngIf="agent.representative !== null" >
+                                <td class="px-3 align-middle">{{agent.firstname}} {{agent.lastname}}</td>
+                                <td class="px-3 align-middle">{{agent.email}}</td>
+                                <td class="px-3 align-middle">{{agent.isActive ? "Aktywny" : "Nieaktywny"}}</td>
+                                <td class="text-right px-3 align-middle">
+                                    <button [routerLink]="['/home/workingHours/', agent._id, agent.firstname, agent.lastname]" 
+                                        class="btn btn-sm btn-outline-info ml-2" role="button">
+                                        <i class="fas fa-calendar-week"></i> Godziny pracy
+                                    </button>
+                                    <button (click)="editSelectedAgent(agent._id);" 
+                                        class="btn btn-sm btn-outline-primary ml-2">
+                                        <i class="fas fa-edit"></i> Edytuj
+                                    </button>
+                                    <button (click)="deleteSelectedAgent(agent._id);" 
+                                        class="btn btn-sm btn-outline-danger ml-2" data-toggle="modal" data-target="#deleteAgent">
+                                        <i class="fas fa-trash-alt"></i> Usuń
+                                    </button>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div  class="table-responsive">
-            <table class="table table-sm border-bottom">
-                <thead class="thead-light">
-                    <tr>
-                        <th class="p-3">Imie i nazwisko</th>
-                        <th class="p-3">Email</th>
-                        <th class="p-3">Status</th>
-                        <th class="p-3"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngIf="agents.length == 1">
-                        <td colspan="4">Brak konsultantów</td>
-                    </tr> 
-                    <tr *ngFor="let agent of agents | agentSearch: searchAgent | agentFilter: filterAgent">
-                        <ng-container *ngIf="agent.representative !== null" >
-                            <td class="px-3 align-middle">{{agent.firstname}} {{agent.lastname}}</td>
-                            <td class="px-3 align-middle">{{agent.email}}</td>
-                            <td class="px-3 align-middle">{{agent.isActive ? "Aktywny" : "Nieaktywny"}}</td>
-                            <td class="text-right px-3 align-middle">
-                                <button class="btn btn-sm btn-outline-info ml-2" [routerLink]="['/home/workingHours/', agent._id, agent.firstname, agent.lastname]" routerLink="/home/workingHours" role="button"><i class="fas fa-calendar-week"></i> Godziny pracy</button>
-                                <button (click)="editSelectedAgent(agent._id);" class="btn btn-sm btn-outline-primary ml-2"><i class="fas fa-edit"></i> Edytuj</button>
-                                <button (click)="deleteSelectedAgent(agent._id);" class="btn btn-sm btn-outline-danger ml-2" data-toggle="modal" data-target="#deleteAgent"><i class="fas fa-trash-alt"></i> Usuń</button>
-                            </td>
-                        </ng-container>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div  class="row d-flex justify-content-center p-5">
-        <div class="col-md-10 col-ml-8">
-            <app-information-form
-                *ngIf="isAdding || isEditing"   
-                [user]="user"
-                [isAdding]="isAdding"
-                [isEmailError]="isEmailError"
-                (closeClick)="onCloseClick($event)" 
-                (formSubmit)="onFormSubmit($event)" 
-                (getWorkHours)="onGetWorkHours($event)"
-                (dataError)="onDataError($event)" >
-            </app-information-form>
-        </div>
-    </div>
-    
-    <div class="modal fade" id="deleteAgent" role="dialog" aria-labelledby="deleteAgent" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title">Usuń konsultanta</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-            <p>Czy na pewno chcesz usunąć konsultanta?</p>
-            <p>Spowoduje to utratę informacji o jego czatach w archiwum oraz zostanie pominięty w statystykach.</p>
-            </div>
-            <div class="modal-footer">
-            <button (click)="delete();"  type="button" class="btn btn-danger"  data-dismiss="modal">Usuń</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+        <div  class="row d-flex justify-content-center p-5">
+            <div class="col-md-10 col-ml-8">
+                <app-information-form
+                    *ngIf="isAdding || isEditing"   
+                    [user]="user"
+                    [isAdding]="isAdding"
+                    [isEmailError]="isEmailError"
+                    (closeClick)="onCloseClick($event)" 
+                    (formSubmit)="onFormSubmit($event)" 
+                    (getWorkHours)="onGetWorkHours($event)"
+                    (dataError)="onDataError($event)" >
+                </app-information-form>
             </div>
         </div>
+        
+        <div class="modal fade" id="deleteAgent" role="dialog" 
+            aria-labelledby="deleteAgent" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Usuń konsultanta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <p>Czy na pewno chcesz usunąć konsultanta?</p>
+                    <p>Spowoduje to utratę informacji o jego czatach w archiwum oraz zostanie pominięty w statystykach.</p>
+                    </div>
+                    <div class="modal-footer">
+                    <button (click)="delete();"  type="button" 
+                        class="btn btn-danger"  data-dismiss="modal">
+                        Usuń
+                    </button>
+                    <button type="button" 
+                        class="btn btn-secondary" data-dismiss="modal">
+                        Zamknij
+                    </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

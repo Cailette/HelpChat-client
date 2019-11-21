@@ -46,11 +46,21 @@
     </div>
 </div>
 
-<div [ngStyle]="{'pointer-events': agentDisconnect ? 'none' : '', 'opacity': agentDisconnect ? '0.4' : ''}" class="row px-3 justify-content-center align-items-center chat-input">
+<div class="row px-3 justify-content-center align-items-center chat-input"
+    [ngStyle]="{'pointer-events': 
+                    agentDisconnect ? 'none' : '', 
+                'opacity': 
+                    agentDisconnect ? '0.4' : ''}" >
     <div class="input-group mx-3">
-        <input type="text" class="form-control" (keydown.enter)="sendMessage()" [(ngModel)]="message" name="message" placeholder="Wpisz wiadomość..." autocomplete="off">
+        <input type="text" class="form-control" 
+            (keydown.enter)="sendMessage()" 
+            [(ngModel)]="message" name="message" 
+            placeholder="Wpisz wiadomość..." autocomplete="off">
         <div class="input-group-append">
-            <button class="btn btn-outline-primary" type="button" (click)="sendMessage()">Wyślij</button>
+            <button class="btn btn-outline-primary" type="button" 
+                (click)="sendMessage()">
+                Wyślij
+            </button>
         </div>
     </div>
 </div>

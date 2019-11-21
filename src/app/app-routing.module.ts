@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GuestComponent } from './guest/guest.component';
-import { MainPageComponent } from './guest/main-page/main-page.component';
 import { LoginPageComponent } from './guest/login-page/login-page.component';
 import { RegisterPageComponent } from './guest/register-page/register-page.component';
 import { AgentComponent } from './agent/agent.component';
-import { HomeComponent } from './agent/home/home.component';
 import { ChatsComponent } from './agent/chats/chats.component';
 import { VisitorsComponent } from './agent/visitors/visitors.component';
 import { ConsultantsComponent } from './agent/consultants/consultants.component';
@@ -72,12 +70,10 @@ const routes: Routes = [
 export class AppRoutingModule { }
 export const routingComponents = 
   [ 
-    GuestComponent, 
-    MainPageComponent, 
+    GuestComponent,  
     LoginPageComponent,
     RegisterPageComponent,
     AgentComponent,
-    HomeComponent,
     ChatsComponent,
     VisitorsComponent,
     ConsultantsComponent,

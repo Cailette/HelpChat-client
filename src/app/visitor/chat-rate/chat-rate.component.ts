@@ -12,24 +12,23 @@ export class ChatRateComponent implements OnInit {
   chatId: string;
   rating: boolean;
 
-  constructor(private router: ActivatedRoute, private chatService: ChatService) { }
+  constructor(
+    private router: ActivatedRoute, 
+    private chatService: ChatService
+  ) { }
 
   ngOnInit() {
     this.rating = true;
-    this.router.params.subscribe(params => {
-      this.chatId = params['chatId'];
-      console.log(this.chatId);
-    });
+    this.router.params
+      .subscribe(params => { this.chatId = params['chatId']; });
   }
 
   rate(rating: number){
-    this.chatService.rateChat(localStorage.getItem('visitor-help-chat-token'), this.chatId, rating).subscribe((data: any) => {
-      console.log(JSON.stringify(data.message));
-    },
-    (err: HttpErrorResponse) => {
-      console.log(JSON.stringify(err));
-    });
-    console.log(rating)
-    this.rating = false;
+    this.chatService.rateChat(
+      localStorage.getItem('visitor-help-chat-token'), this.chatId, rating)
+      .subscribe(
+        (data: any) => { this.rating = false; },
+        (err: HttpErrorResponse) => { console.log(JSON.stringify(err)); }
+      );
   }
 }
