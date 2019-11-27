@@ -18,7 +18,7 @@ export class StatisticsChartComponent implements OnInit {
         ticks: {
           beginAtZero: true,
           stepSize: 1,
-          suggestedMax: 10
+          suggestedMax: 7
         } 
       }] 
     },

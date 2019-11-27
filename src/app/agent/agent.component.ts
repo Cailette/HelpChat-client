@@ -33,9 +33,11 @@ export class AgentComponent implements OnInit {
     this.authorization.isAuthorized();
     this.role = this.globalRole.role;
     this.Representative = this.globalRole.Representative;
+    this.openApp();
   }
 
   ngOnInit() {
+
     this.agentSocketService.init(localStorage.getItem('agent-help-chat-token'));
 
     this.onNewChatSubscribtion = this.agentSocketService.onNewChat()
@@ -61,14 +63,15 @@ export class AgentComponent implements OnInit {
         (data: any) => { this.isActive = data.user.isActive; },
         (err: HttpErrorResponse) => { this.isDataError = true; }
       );
-
-    this.openApp();
   }
 
   openApp(){
-    !localStorage.getItem("openapp") 
-      ? localStorage.setItem("openapp", "1") 
-      : (parseInt(localStorage.getItem("openapp")) + 1) + "";
+    if(!localStorage.getItem("openapp")){
+      localStorage.setItem("openapp", "1");
+    } else {
+      localStorage.setItem("openapp", 
+        (parseInt(localStorage.getItem("openapp")) + 1) + ""); 
+    }
   }
 
   Logout() {
@@ -106,7 +109,7 @@ export class AgentComponent implements OnInit {
     this.onDisconnectChatSubscribtion.unsubscribe();
   }
   
-  @HostListener('window:pagehide', ['$event'])
+  @HostListener('window:beforeunload', ['$event'])
     onClose($event) {
       if(parseInt(localStorage.getItem("openapp")) > 1){
         localStorage.setItem("openapp", (parseInt(localStorage.getItem("openapp")) - 1) + "");

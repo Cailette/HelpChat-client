@@ -24,6 +24,7 @@ export class ChatRateComponent implements OnInit {
   }
 
   rate(rating: number){
+    console.log(rating)
     this.chatService.rateChat(
       localStorage.getItem('visitor-help-chat-token'), this.chatId, rating)
       .subscribe(

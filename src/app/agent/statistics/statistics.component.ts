@@ -53,7 +53,9 @@ export class StatisticsComponent implements OnInit {
       case 'today':
         var date = new Date();
         var today = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-        return JSON.stringify(today)
+        date.setDate(date.getDate() + 1);
+        var tommorow = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        return JSON.stringify({from: today, to: tommorow})
       case 'yesterday':
         var date = new Date();
         var today = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -105,11 +107,11 @@ export class StatisticsComponent implements OnInit {
         .subscribe(
           (data: any) => {
             let head = data.statistics.map(s => s.time);
-            let bars = data.statistics.map(s => s.data ? s.data : 0);
+            let bars = data.statistics.map(s => s.data ? selected === "satisfaction" ? s.data.toFixed(2) : s.data : 0);
             let colName = null;
             let cells = [];
             cells[0] = [];
-            data.statistics.forEach((s => cells[0][s.time] = s.data));
+            data.statistics.forEach((s => cells[0][s.time] = s.data ? selected === "satisfaction" ? s.data.toFixed(2) : s.data : 0));
             this.statistics = {head: head, colName: colName, data: cells, bars: bars}
           },
           (err: HttpErrorResponse) => { this.isDataError = true; }
