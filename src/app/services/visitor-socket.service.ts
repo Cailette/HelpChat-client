@@ -27,8 +27,8 @@ export class VisitorSocketService {
   //     });
   // }
 
-  disconnect(){
-      this.socket.disconnect();
+  disconnect(chatClose){
+      this.socket.disconnect(chatClose);
   }
 
   onSwitchRoom() {
@@ -41,6 +41,22 @@ export class VisitorSocketService {
       };
     });
     return observable;
+  }
+
+  onPing() {
+    const observable = new Observable(observer => {
+      this.socket.on('pingVisitor', () => {
+        observer.next();
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+    return observable;
+  }
+  
+  emitPing() {
+    this.socket.emit('pingServer');
   }
   
   emitConnectWithAgent(agentId) {

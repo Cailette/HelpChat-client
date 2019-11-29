@@ -48,12 +48,7 @@ import { WorkHoursService } from './services/work-hours.service';
       apiKey: 'AIzaSyB01NDAC6qvJ1pCyKEiNNlTWVdK_xp5u8E'
     }),
     JwtModule.forRoot({
-      config: {
-        // ...
-        tokenGetter: () => {
-          return localStorage.getItem("access_token");
-        }
-      }
+      config: { }
     }),
     ChartsModule
   ],

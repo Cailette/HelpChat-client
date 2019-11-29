@@ -20,7 +20,7 @@ export class VisitorComponent implements OnInit {
   agent: any;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private agentService: AgentService,
     private visitorService: VisitorService,
     private chatService: ChatService
@@ -56,7 +56,7 @@ export class VisitorComponent implements OnInit {
     if (localStorage.getItem('visitor-help-chat-token') !== null) {
       this.visitorService.updateVisitor(localStorage.getItem('visitor-help-chat-token'), true)
         .subscribe(
-          (data: any) => { },
+          (data: any) => { this.checkIfChatExist(); },
           (err: HttpErrorResponse) => { console.log(JSON.stringify(err)); }); 
     } else {
       window.parent.postMessage("getVisitorInfo", "*");
@@ -70,24 +70,28 @@ export class VisitorComponent implements OnInit {
     this.agentService.getRandomWorkingAgent(localStorage.getItem('visitor-help-chat-token'))
       .subscribe(
         (data: any) => {
-          this.agentIsFound(data);
-          localStorage.setItem("openchat", "1") // set true, it's open
+          this.agentIsFound(data.user);
+          localStorage.setItem("openchat", "1") 
           window.parent.postMessage("show", "*");
           this.router.navigate(['/chat/content', this.agent._id]);
         },
         (err: HttpErrorResponse) => {
           this.agentNotFound();
-            localStorage.setItem("openmail", "1") // set true, it's open
-            window.parent.postMessage("show", "*");
-            this.router.navigate(['/chat/mail']);
+          localStorage.setItem("openmail", "1")
+          window.parent.postMessage("show", "*");
+          this.router.navigate(['/chat/mail']);
         }
       );
+  }
+
+  checkIfChatExist(){
+    this.getAgent();
   }
 
   agentIsFound(data){
     this.isClose = false;
     this.isAgent = true;
-    this.agent = data.user;
+    this.agent = data;
   }
 
   agentNotFound(){
@@ -100,23 +104,37 @@ export class VisitorComponent implements OnInit {
       this.openPage(); // open chat means open page
     }
 
+    this.getAgent();
+  }
+
+  getAgent(){
     this.chatService.getAgent(localStorage.getItem('visitor-help-chat-token'))
       .subscribe(
-        (data: any) => { this.agent = data.user; },
+        (data: any) => { 
+          this.agent = data.user;
+          if(this.agent !== null){
+            this.isClose = false;
+            this.isAgent = true;
+            window.parent.postMessage("show", "*");
+            this.router.navigate(['/chat/content', 'nextChat'])
+          }
+        },
         (err: HttpErrorResponse) => { console.log(JSON.stringify(err)); }
       ); 
-
-    this.isClose = false;
-    this.isAgent = true;
-    window.parent.postMessage("show", "*");
-    this.router.navigate(['/chat/content', 'nextChat']); // chat is open so I open conwersation
   }
 
   closeChat() {
     if (!this.isRating) {
-      this.isRating = true;
-      this.router.navigate(['/chat']);
+      this.chatService.disactiveChat(localStorage.getItem('visitor-help-chat-token'),false)
+      .subscribe(
+        (data: any) => {
+          this.isRating = true;
+          this.router.navigate(['/chat']);
+        },
+        (err: HttpErrorResponse) => { console.log(JSON.stringify(err)); }
+      ); 
     } else {
+      this.agent = null
       this.isClose = true;
       this.isRating = false;
       localStorage.removeItem("openchat"); // false as I close chat

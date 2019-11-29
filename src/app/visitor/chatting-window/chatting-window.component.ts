@@ -22,6 +22,7 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
   private onNextChatSubscribtion: any;
   private onReceiveMessage: any;
   private onAgentDisconnect: any;
+  private onPing: any;
 
   constructor(
     private router: Router, 
@@ -56,6 +57,10 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
       this.visitorSocketService.onAgentDisconnect()
         .subscribe(() => {  this.agentDisconnect = true; });
 
+    this.onPing = 
+      this.visitorSocketService.onPing()
+        .subscribe(() => { this.visitorSocketService.emitPing(); });
+  
     this.activatedRouter.params
       .subscribe(params => { this.agentId = params['agentId']; });
 
@@ -70,16 +75,17 @@ export class ChattingWindowComponent implements OnInit, OnDestroy, AfterViewInit
   }
   
   ngOnDestroy() {
+    this.visitorSocketService.disconnect(false);
     localStorage.setItem("disconnect", "1"); 
     localStorage.removeItem("openchat");
     this.router.navigate(['/chat/rating', this.chat._id]);
-    this.visitorSocketService.disconnect();
     this.onConnectionWithAgentSubscribtion.unsubscribe();
     this.onErrorSubscribtion.unsubscribe();
     this.onGetLocationSubscribtion.unsubscribe();
     this.onNextChatSubscribtion.unsubscribe();
     this.onReceiveMessage.unsubscribe();
     this.onAgentDisconnect.unsubscribe();
+    this.onPing.unsubscribe();
   }
 
   sendMessage(){

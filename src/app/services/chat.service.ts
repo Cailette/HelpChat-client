@@ -19,6 +19,19 @@ export class ChatService {
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
     return this.http.get(this.apiURL + '/chats/' + chatId, {headers: reqHeader});
   }
+
+  disactiveChat(token: string, pagehide: boolean){
+    if(pagehide){
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("PUT", this.apiURL + '/chats/disactiveChat', false);
+      xmlhttp.setRequestHeader("Content-type", "application/json");
+      xmlhttp.setRequestHeader("x-access-token", token);
+      xmlhttp.send();
+    } else {
+      var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);
+      return this.http.put(this.apiURL + '/chats/disactiveChat', {}, {headers: reqHeader});
+    }
+  }
   
   getArchiveChats(token: string){
     var reqHeader = new HttpHeaders({'Content-Type': 'application/json'}).set('x-access-token', token);

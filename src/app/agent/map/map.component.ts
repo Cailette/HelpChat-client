@@ -9,14 +9,21 @@ declare var H: any;
 })
 
 export class MapComponent implements OnInit {
+  city: string;
+  country: string;
+
   appId: string = environment.hereAppID
   appCode: string = environment.hereAppCode
+
+  appGeoCoderId: string = environment.hereGeoCoderAppID
+  appGeoCoderCode: string = environment.hereGeoCoderAppCode
 
   @ViewChild("map", {static: true}) mapElement: ElementRef;
   map: any;
 
   dataExist: boolean;
   platform: any;
+  platformGeoCoder: any;
   _lat: number;
   _lng: number;
 
@@ -36,10 +43,16 @@ export class MapComponent implements OnInit {
   public constructor() { }
 
   public ngOnInit() {
+    this.city = "Brak informacji o mieście";
+    this.country = "kraju";
     this.dataExist = true;
     this.platform = new H.service.Platform({
       "app_id": this.appId,
       "app_code": this.appCode
+    });
+    this.platformGeoCoder = new H.service.Platform({
+      "app_id": this.appGeoCoderId,
+      "app_code": this.appGeoCoderCode
     });
   }
 
@@ -50,6 +63,7 @@ export class MapComponent implements OnInit {
   moveMap() {
     this.map.setCenter({lat: this._lat, lng: this._lng});
     this.map.setZoom(10);
+    this.reverseGeocode();
   }
 
   moveMapDefault(){
@@ -70,19 +84,23 @@ export class MapComponent implements OnInit {
   }
 
   reverseGeocode() {
-    let geocoder = this.platform.getGeocodingService()
+    let geocoder = this.platformGeoCoder.getGeocodingService()
     let parameters = {
-      prox: '41.8842,-87.6388,250',
+      prox: `${this._lat},${this._lng},250`,
       mode: 'retrieveAddresses',
       maxresults: '1',
       gen: '9'
     };
 
     geocoder.reverseGeocode(parameters,
-      function (result) {
-        console.log(result);
-      }, function (error) {
-        console.log(error);
-    });
+      (result) => {
+        this.city = result.Response.View[0].Result[0].Location.Address.City;
+        this.country = result.Response.View[0].Result[0].Location.Address.Country;
+      }, 
+      (error) => {
+        this.city = "Brak informacji o mieście";
+        this.country = "kraju";
+      }
+    );
   }
 }
