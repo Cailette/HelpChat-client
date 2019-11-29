@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://help-chat-server.herokuapp.com',
   hereAppID: 'aqct56QCGkpYWche9lfI',
   hereAppCode: 'kQG1PFauLtM5UnUOaDLO-A',
   hereGeoCoderAppID: 'jHRyi0QXWF4STRQ1dMje',
