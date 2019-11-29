@@ -10,7 +10,7 @@ import { GuestService } from 'src/app/services/guest.service';
 })
 
 export class RegisterPageComponent implements OnInit {
-  user: User;
+  user: any;
   firstnamePattern = /^(?=.*[a-z]).{2,20}$/;
   lastnamePattern = /^(?=.*[a-z]).{2,20}$/;
   emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
@@ -44,7 +44,8 @@ export class RegisterPageComponent implements OnInit {
       firstname: '',
       lastname: '',
       email:	'',
-      password:	''
+      password:	'',
+      repassword:	''
     }
   }
 }

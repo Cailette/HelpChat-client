@@ -25,9 +25,9 @@
                 </label>
                 <input type="text" name="firstname" 
                     id="firstname" class="form-control validate" 
-                    #firstname="ngModel" [attr.required]="isAdding" 
+                    #firstnameTemplate="ngModel" [attr.required]="isAdding" 
                     [(ngModel)]="user.firstname" [pattern]="firstnamePattern">
-                <label *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" 
+                <label *ngIf="firstnameTemplate.invalid && (firstnameTemplate.dirty || firstnameTemplate.touched)" 
                     class="alert alert-warning mt-2 p-2">
                     Imię to ciąg maksymalnie 20 znaków.
                 </label>
@@ -39,9 +39,9 @@
                 </label>
                 <input type="text" name="lastname" 
                     id="lastname" class="form-control validate" 
-                    #lastname="ngModel" [attr.required]="isAdding" 
+                    #lastnameTemplate="ngModel" [attr.required]="isAdding" 
                     [(ngModel)]="user.lastname" [pattern]="lastnamePattern">
-                <label *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" 
+                <label *ngIf="lastnameTemplate.invalid && (lastnameTemplate.dirty || lastnameTemplate.touched)" 
                     class="alert alert-warning mt-2 p-2">
                     Nazwisko to ciąg maksymalnie 20 znaków.
                 </label>
@@ -53,9 +53,9 @@
                 </label>
                 <input type="email" name="email" 
                     id="email" class="form-control validate" 
-                    #email="ngModel" [attr.required]="isAdding" 
+                    #emailTemplate="ngModel" [attr.required]="isAdding" 
                     [(ngModel)]="user.email" [pattern]="emailPattern">
-                <label *ngIf="email.invalid && (email.dirty || email.touched)" 
+                <label *ngIf="emailTemplate.invalid && (emailTemplate.dirty || emailTemplate.touched)" 
                     class="alert alert-warning mt-2 p-2">
                     Email to maksymalnie 60 znaków i zachowywać format emaila.
                 </label>
@@ -67,9 +67,9 @@
                 </label>
                 <input type="password" name="password" 
                     id="password" class="form-control validate" 
-                    #password="ngModel" [attr.required]="isAdding" 
+                    #passwordTemplate="ngModel" [attr.required]="isAdding" 
                     [(ngModel)]="user.password" [pattern]="passwordPattern">
-                <label *ngIf="password.invalid && (password.dirty || password.touched)" 
+                <label *ngIf="passwordTemplate.invalid && (passwordTemplate.dirty || passwordTemplate.touched)" 
                     class="alert alert-warning mt-2 p-2">
                     Hasło znaków musi zawierać co najmniej jedną cyfrę, 
                     jedną małą literę oraz jedną dużą literę oraz od 6 do 30.
@@ -82,9 +82,10 @@
                 </label>
                 <input type="password" name="repassword" 
                     id="repassword" class="form-control validate" 
-                    #repassword="ngModel" [attr.required]="isAdding" 
+                    #repasswordTemplate ="ngModel" [attr.required]="isAdding" 
                     [(ngModel)]="user.repassword">
-                <label *ngIf="password.value !== repassword.value && (repassword.dirty || repassword.touched)"  
+                <label *ngIf="passwordTemplate.value !== repasswordTemplate.value 
+                    && (repasswordTemplate.dirty || repasswordTemplate.touched)"  
                     class="alert alert-warning mt-2 p-2">
                     Powtórzone hasło musi być identyczne jak hasło.
                 </label>

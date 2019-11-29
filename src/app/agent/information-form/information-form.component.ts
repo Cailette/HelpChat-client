@@ -8,7 +8,7 @@ import { Agent } from 'src/app/models/agent.model';
 })
 
 export class InformationFormComponent implements OnInit {
-  @Input() user: Agent;
+  @Input() user: any;
   @Input() isAdding: boolean;
   @Input() isEmailError: boolean;
   @Output() closeClick = new EventEmitter<boolean>();

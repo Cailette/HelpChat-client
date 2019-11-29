@@ -35,15 +35,15 @@ export class AccountComponent implements OnInit {
       );
   }
   
-  onEditInformationClick(){
+  onEditInformationClick($event){
     this.isEditing = true;
   }
 
-  onCloseClick() {
+  onCloseClick($event) {
     this.isEditing = false;
   }
 
-  onDataError(){
+  onDataError($event){
     this.isDataError = true;
   }
 

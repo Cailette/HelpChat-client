@@ -42,7 +42,7 @@ export class ArchiveComponent implements OnInit {
     this.agent = this.chat.agent;
   }
 
-  onDeleteChat(){
+  onDeleteChat($event){
     this.resetViewData();
   }
 }

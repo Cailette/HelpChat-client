@@ -91,7 +91,7 @@ export class ChatsComponent implements OnInit {
     this.agentSocketService.emitSendMessage(message);
   }
 
-  onCloseThisChat(){
+  onCloseThisChat(event){
     this.chats = this.chats.filter(ch => {
       return ch._id !== this.chat._id;
     });

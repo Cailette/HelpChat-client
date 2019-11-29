@@ -13,7 +13,7 @@ export class InformationComponent implements OnInit {
   role: string;
   Representative: string;
 
-  @Input() user: Agent;
+  @Input() user: any;
   @Output() editInformationClick = new EventEmitter<boolean>();
   @Output() dataError = new EventEmitter<boolean>();
   
@@ -28,7 +28,7 @@ export class InformationComponent implements OnInit {
 
   ngOnInit() { }
 
-  onDataError() {
+  onDataError($event) {
     this.dataError.emit();
     console.log("this.dataError.emit();")
   }

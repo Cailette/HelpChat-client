@@ -12,7 +12,6 @@ import {Location} from '@angular/common';
 })
 export class WorkingHoursFromComponent implements OnInit {
   @ViewChild(WorkingHoursTabComponent, {static: false}) childWorkingHoursTab: WorkingHoursTabComponent;
-  @Output() getWorkHours = new EventEmitter<boolean>();
   @Output() dataError = new EventEmitter<boolean>();
   agentId: string;
   agentFirstname: string;
@@ -51,7 +50,7 @@ export class WorkingHoursFromComponent implements OnInit {
       );
   }
   
-  onDataError(){
+  onDataError($event){
     this.isDataError = true;
   }
 

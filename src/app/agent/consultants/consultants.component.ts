@@ -22,6 +22,8 @@ export class ConsultantsComponent implements OnInit {
   user: Agent;
   agents: any;
   deleteAgent: string;
+  searchAgent: any;
+  filterAgent: any;
 
   constructor(private agentService: AgentService) { }
 
@@ -40,12 +42,12 @@ export class ConsultantsComponent implements OnInit {
     this.resetUser();
   }
 
-  onCloseClick() {
+  onCloseClick($event) {
     this.isEditing = false;
     this.isAdding = false;
   }
 
-  onDataError() {
+  onDataError($event) {
     this.isDataError = true;
   }
 

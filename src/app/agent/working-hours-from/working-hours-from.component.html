@@ -23,7 +23,7 @@
                         <td>
                             <div class="form-group">
                                 <select class="form-control validate w-100" id="dayOfWeek" 
-                                    #dayOfWeek="ngModel" [(ngModel)]="workDay.dayOfWeek" 
+                                    #dayOfWeekTemplate="ngModel" [(ngModel)]="workDay.dayOfWeek" 
                                     name="dayOfWeek" required>
                                     <option *ngFor="let day of days" 
                                         [value]="day.number">
@@ -37,7 +37,7 @@
                                 <label for="hourFrom" class="text-primary mr-2">Od:</label>
                                 <input type="number" name="hourFrom" 
                                     id="hourFrom" class="form-control validate" 
-                                    #hourFrom="ngModel" [(ngModel)]="workDay.hourFrom" 
+                                    #hourFromTemplate="ngModel" [(ngModel)]="workDay.hourFrom" 
                                     min="1" max="24" required>
                             </div>
                         </td>
@@ -46,14 +46,14 @@
                                 <label for="hourTo" class="text-primary mr-2">Do:</label>
                                 <input type="number" name="hourTo" 
                                     id="hourTo" class="form-control validate" 
-                                    #hourTo="ngModel" [(ngModel)]="workDay.hourTo" 
+                                    #hourToTemplate="ngModel" [(ngModel)]="workDay.hourTo" 
                                     min="1" max="24" required>
                             </div>
                         </td>
                         <td class="text-right">
                             <button type="submit" 
                                 [disabled]="workDay.hourFrom == '' || workDay.hourTo == '' 
-                                || workDay.dayOfWeek == '' || hourTo.value <= hourFrom.value" 
+                                || workDay.dayOfWeek == '' || hourToTemplate.value <= hourFromTemplate.value" 
                                 class="btn btn-primary">
                                 Dodaj
                             </button>
@@ -63,15 +63,15 @@
             </table>
             
             <div class="row justify-content-center mt-1" 
-                *ngIf="dayOfWeek.invalid && (dayOfWeek.dirty 
-                    || dayOfWeek.touched) && workDay.dayOfWeek == ''">
+                *ngIf="dayOfWeekTemplate.invalid && (dayOfWeekTemplate.dirty 
+                    || dayOfWeekTemplate.touched) && workDay.dayOfWeek == ''">
                 <div class="alert alert-warning text-center mx-3">
                     Dzień tygodnia jest wymagany.
                 </div>
             </div>
             <div class="row justify-content-center mt-1" 
-            *ngIf="((hourTo.dirty || hourTo.touched) || (hourFrom.dirty
-                || hourFrom.touched)) && workDay.hourTo <= workDay.hourFrom">
+            *ngIf="((hourToTemplate.dirty || hourToTemplate.touched) || (hourFromTemplate.dirty
+                || hourFromTemplate.touched)) && workDay.hourTo <= workDay.hourFrom">
                 <div class="alert alert-warning text-center mx-3">
                     Wartości zakresu godzin muszą mieścić się w przedziale 
                     od 0 do 24 oraz ‘godziny od’ muszą być mniejsze od ‘godziny do’.”
