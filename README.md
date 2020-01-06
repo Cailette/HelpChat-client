@@ -47,22 +47,13 @@ Functionality
 <p align="center">
     <img src="./img/14.png" width="500" >
 </p>
-<p align="center">
-    <img src="./img/15.png" width="500" >
-</p>
-2.	Activity status switching by the agent in order to declare readiness to provide help or finish work.
+2.	Activity status switching by the agent in order to declare readiness to provide help or finish work. <br>
 3.	Agent account management by the owner - adding, removing and editing accounts. Searching for a agent based on the name, surname or email by the owner.
-<p align="center">
-    <img src="./img/21.png" width="500" >
-</p>
 <p align="center">
     <img src="./img/22.png" width="500" >
 </p>
 <p align="center">
     <img src="./img/23.png" width="500" >
-</p>
-<p align="center">
-    <img src="./img/24.png" width="500" >
 </p>
 <p align="center">
     <img src="./img/25.png" width="500" >
@@ -82,17 +73,17 @@ Functionality
 </p>
 5.	Chat evaluation after disconnect with the agent by the visitor.
 <p align="center">
-    <img src="./img/18.png" width="250" >
+    <img src="./img/18.png" width="200" >
 </p>
 6.	Chatting - visitor with agent.
 <p align="center">
-    <img src="./img/16.png" width="250" >
-    <img src="./img/17.png" width="250" >
+    <img src="./img/16.png" width="200" >
+    <img src="./img/17.png" width="200" >
 </p>
 7.	Connection with the agent after clicking on the chat widget on the website by the visitor.
 <p align="center">
-    <img src="./img/6.png" width="250" >
-    <img src="./img/7.png" width="250" >
+    <img src="./img/6.png" width="200" >
+    <img src="./img/7.png" width="200" >
 </p>
 8.	Displaying real-time list of the visitors on website by the agent and the owner.
 <p align="center">
@@ -101,14 +92,11 @@ Functionality
 <p align="center">
     <img src="./img/20.png" width="500" >
 </p>
-9.	Informing about the number of new chats by the system.
-<p align="center">
-    <img src="./img/19.png" width="500" >
-</p>
+9.	Informing about the number of new chats by the system. <br>
 10.	Informing about the number of new messages by the system.
 <p align="center">
-    <img src="./img/11.png" width="250" >
-    <img src="./img/12.png" width="250" >
+    <img src="./img/11.png" width="200" >
+    <img src="./img/12.png" width="200" >
 </p>
 11.	Logging in to the account as agent or owner by the user.
 <p align="center">
@@ -117,8 +105,8 @@ Functionality
 <p align="center">
     <img src="./img/2.png" width="300" >
 </p>
-12.	Logging out of the system by the user.
-13.	Registration in the system by the guest. After registration, the guest becomes the owner of a group of related accounts.
+12.	Logging out of the system by the user. <br>
+13.	Registration in the system by the guest. After registration, the guest becomes the owner of a group of related accounts and has a chat widget script displayed.
 <p align="center">
     <img src="./img/3.png" width="500" >
 </p>
@@ -130,12 +118,12 @@ Functionality
 </p>
 14.	Sending an email to a randomly selected agent, when there are no active agents.
 <p align="center">
-    <img src="./img/8.png" width="250" >
-    <img src="./img/9.png" width="250" >
+    <img src="./img/8.png" width="200" >
+    <img src="./img/9.png" width="200" >
 </p>
 15.	View account information by the user. (The first is the owner account, the second is the account and the agent interface.)
 <p align="center">
-    <img src="./img/38.png" width="500" >
+    <img src="./img/38.png" width="300" >
 </p>
 <p align="center">
     <img src="./img/39.png" width="500" >
@@ -145,16 +133,10 @@ Functionality
     <img src="./img/32.png" width="500" >
 </p>
 <p align="center">
-    <img src="./img/33.png" width="500" >
-</p>
-<p align="center">
     <img src="./img/34.png" width="500" >
 </p>
 <p align="center">
     <img src="./img/35.png" width="500" >
-</p>
-<p align="center">
-    <img src="./img/36.png" width="500" >
 </p>
 <p align="center">
     <img src="./img/37.png" width="500" >
@@ -162,7 +144,5 @@ Functionality
 17.	Working hours management by the owner - adding and removing the working hours of the selected agent on a selected day of the week.
 <p align="center">
     <img src="./img/27.png" width="300" >
-</p>
-<p align="center">
     <img src="./img/28.png" width="300" >
 </p>
